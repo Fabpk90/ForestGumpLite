@@ -32,6 +32,17 @@ Actor::Actor(const char* path, int health)
     }
 }
 
+Actor::~Actor()
+{
+    delete tex;
+    delete sprite;
+}
+
+void Actor::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    target.draw(*sprite);
+}
+
 bool Actor::takeDamage(int amount)
 {
     if(amount >= health)
