@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/fab/Documents/C++/Project/src/actors/actor.cpp
+actor.h
+/home/fab/Documents/C++/Project/src/actors/actor.h
+
+/home/fab/Documents/C++/Project/src/actors/actor.h
+SFML/Graphics/Rect.hpp
+-
+SFML/Graphics/RenderTarget.hpp
+-
+SFML/Graphics/RenderStates.hpp
+-
+SFML/Graphics/Sprite.hpp
+-
+SFML/Graphics/Texture.hpp
+-
+
+/home/fab/Documents/C++/Project/src/main.cpp
+SFML/Graphics.hpp
+-
+actors/actor.h
+/home/fab/Documents/C++/Project/src/actors/actor.h
+
