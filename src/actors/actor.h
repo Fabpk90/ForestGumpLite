@@ -21,7 +21,7 @@ public:
     virtual ~Actor();
 
     int getHealth() { return health; }
-    bool takeDamage(int amount);
+    virtual bool takeDamage(int amount);
 
     virtual void onDie() = 0;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

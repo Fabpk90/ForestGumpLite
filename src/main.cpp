@@ -4,7 +4,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 400), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(600, 400), "ForestGumpLite");
     //Actor actor("res/tree.png", 10);
 
     while (window.isOpen())
