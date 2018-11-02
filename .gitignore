@@ -1,4 +1,7 @@
 *.ha
+*.o
 .vscode/
 .idea/
 cmake-build-debug/ForestGumpLite
+cmake-build-debug/CMakeCache.txt
+cmake-build-debug/CMakeFiles/
