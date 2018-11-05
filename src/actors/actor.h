@@ -9,7 +9,7 @@
 
 class Actor : public sf::Drawable
 {
-private:
+protected:
     sf::Texture* tex;
     sf::Sprite* sprite;
     int health;
