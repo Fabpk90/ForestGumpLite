@@ -3782,60 +3782,6 @@
 					"name": "Obstacle",
 					"ownedElements": [
 						{
-							"_type": "UMLGeneralization",
-							"_id": "AAAAAAFm7YAbNecDCbo=",
-							"_parent": {
-								"$ref": "AAAAAAFm7X+oIubZbHs="
-							},
-							"source": {
-								"$ref": "AAAAAAFm7X+oIubZbHs="
-							},
-							"target": {
-								"$ref": "AAAAAAFm7X+oIubZbHs="
-							}
-						},
-						{
-							"_type": "UMLAssociation",
-							"_id": "AAAAAAFm7YDo5+c1OLU=",
-							"_parent": {
-								"$ref": "AAAAAAFm7X+oIubZbHs="
-							},
-							"end1": {
-								"_type": "UMLAssociationEnd",
-								"_id": "AAAAAAFm7YDo6Oc2pH4=",
-								"_parent": {
-									"$ref": "AAAAAAFm7YDo5+c1OLU="
-								},
-								"reference": {
-									"$ref": "AAAAAAFm7X+oIubZbHs="
-								}
-							},
-							"end2": {
-								"_type": "UMLAssociationEnd",
-								"_id": "AAAAAAFm7YDo6ec3a3U=",
-								"_parent": {
-									"$ref": "AAAAAAFm7YDo5+c1OLU="
-								},
-								"reference": {
-									"$ref": "AAAAAAFm1U3FdF/dSx8="
-								},
-								"aggregation": "shared"
-							}
-						},
-						{
-							"_type": "UMLDependency",
-							"_id": "AAAAAAFm7YGdXueue9Q=",
-							"_parent": {
-								"$ref": "AAAAAAFm7X+oIubZbHs="
-							},
-							"source": {
-								"$ref": "AAAAAAFm7X+oIubZbHs="
-							},
-							"target": {
-								"$ref": "AAAAAAFm1U3FdF/dSx8="
-							}
-						},
-						{
 							"_type": "UMLAssociation",
 							"_id": "AAAAAAFm7YKurOfHwcg=",
 							"_parent": {
