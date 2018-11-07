@@ -15,12 +15,15 @@ protected:
     int health;
 
 public:
-    Actor(const char* path);
     Actor(const char* path, int health);
 
     virtual ~Actor();
 
     int getHealth() { return health; }
+
+    const sf::Vector2f& getPosition();
+    void setPosition(sf::Vector2f position);
+
     virtual bool takeDamage(int amount);
 
     virtual void onDie() = 0;

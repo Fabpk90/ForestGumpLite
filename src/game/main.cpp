@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-#include "actors/actor.h"
+#include "../actors/actor.h"
 
 int main()
 {

@@ -84,13 +84,43 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/fab/Documents/C++/Project/src/actors/actor.cpp">
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/actors/actor.cpp">
 			<Option target="ForestGumpLite"/>
 		</Unit>
-		<Unit filename="/home/fab/Documents/C++/Project/src/actors/actor.h">
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/actors/actor.h">
 			<Option target="ForestGumpLite"/>
 		</Unit>
-		<Unit filename="/home/fab/Documents/C++/Project/src/main.cpp">
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/actors/obstacle.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/actors/obstacle.h">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/actors/player.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/actors/player.h">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/gameManager.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/gameManager.h">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/main.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/map/mapManager.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/map/mapManager.h">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/util/serializer.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/util/serializer.h">
 			<Option target="ForestGumpLite"/>
 		</Unit>
 		<Unit filename="/home/fab/Documents/C++/Project/CMakeLists.txt">

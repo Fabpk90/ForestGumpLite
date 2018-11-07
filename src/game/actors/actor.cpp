@@ -59,3 +59,13 @@ bool Actor::takeDamage(int amount)
         return false;
     }
 }
+
+const sf::Vector2f& Actor::getPosition()
+{
+    return sprite->getPosition();
+}
+
+void Actor::setPosition(sf::Vector2f v)
+{
+    sprite->setPosition(v.x, v.y);
+}

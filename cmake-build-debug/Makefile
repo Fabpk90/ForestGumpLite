@@ -123,59 +123,194 @@ ForestGumpLite/fast:
 	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/build
 .PHONY : ForestGumpLite/fast
 
-src/actors/actor.o: src/actors/actor.cpp.o
+src/game/actors/actor.o: src/game/actors/actor.cpp.o
 
-.PHONY : src/actors/actor.o
-
-# target to build an object file
-src/actors/actor.cpp.o:
-	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/actors/actor.cpp.o
-.PHONY : src/actors/actor.cpp.o
-
-src/actors/actor.i: src/actors/actor.cpp.i
-
-.PHONY : src/actors/actor.i
-
-# target to preprocess a source file
-src/actors/actor.cpp.i:
-	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/actors/actor.cpp.i
-.PHONY : src/actors/actor.cpp.i
-
-src/actors/actor.s: src/actors/actor.cpp.s
-
-.PHONY : src/actors/actor.s
-
-# target to generate assembly for a file
-src/actors/actor.cpp.s:
-	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/actors/actor.cpp.s
-.PHONY : src/actors/actor.cpp.s
-
-src/main.o: src/main.cpp.o
-
-.PHONY : src/main.o
+.PHONY : src/game/actors/actor.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/game/actors/actor.cpp.o:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/actor.cpp.o
+.PHONY : src/game/actors/actor.cpp.o
 
-src/main.i: src/main.cpp.i
+src/game/actors/actor.i: src/game/actors/actor.cpp.i
 
-.PHONY : src/main.i
+.PHONY : src/game/actors/actor.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/game/actors/actor.cpp.i:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/actor.cpp.i
+.PHONY : src/game/actors/actor.cpp.i
 
-src/main.s: src/main.cpp.s
+src/game/actors/actor.s: src/game/actors/actor.cpp.s
 
-.PHONY : src/main.s
+.PHONY : src/game/actors/actor.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/game/actors/actor.cpp.s:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/actor.cpp.s
+.PHONY : src/game/actors/actor.cpp.s
+
+src/game/actors/obstacle.o: src/game/actors/obstacle.cpp.o
+
+.PHONY : src/game/actors/obstacle.o
+
+# target to build an object file
+src/game/actors/obstacle.cpp.o:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/obstacle.cpp.o
+.PHONY : src/game/actors/obstacle.cpp.o
+
+src/game/actors/obstacle.i: src/game/actors/obstacle.cpp.i
+
+.PHONY : src/game/actors/obstacle.i
+
+# target to preprocess a source file
+src/game/actors/obstacle.cpp.i:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/obstacle.cpp.i
+.PHONY : src/game/actors/obstacle.cpp.i
+
+src/game/actors/obstacle.s: src/game/actors/obstacle.cpp.s
+
+.PHONY : src/game/actors/obstacle.s
+
+# target to generate assembly for a file
+src/game/actors/obstacle.cpp.s:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/obstacle.cpp.s
+.PHONY : src/game/actors/obstacle.cpp.s
+
+src/game/actors/player.o: src/game/actors/player.cpp.o
+
+.PHONY : src/game/actors/player.o
+
+# target to build an object file
+src/game/actors/player.cpp.o:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/player.cpp.o
+.PHONY : src/game/actors/player.cpp.o
+
+src/game/actors/player.i: src/game/actors/player.cpp.i
+
+.PHONY : src/game/actors/player.i
+
+# target to preprocess a source file
+src/game/actors/player.cpp.i:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/player.cpp.i
+.PHONY : src/game/actors/player.cpp.i
+
+src/game/actors/player.s: src/game/actors/player.cpp.s
+
+.PHONY : src/game/actors/player.s
+
+# target to generate assembly for a file
+src/game/actors/player.cpp.s:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/actors/player.cpp.s
+.PHONY : src/game/actors/player.cpp.s
+
+src/game/gameManager.o: src/game/gameManager.cpp.o
+
+.PHONY : src/game/gameManager.o
+
+# target to build an object file
+src/game/gameManager.cpp.o:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/gameManager.cpp.o
+.PHONY : src/game/gameManager.cpp.o
+
+src/game/gameManager.i: src/game/gameManager.cpp.i
+
+.PHONY : src/game/gameManager.i
+
+# target to preprocess a source file
+src/game/gameManager.cpp.i:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/gameManager.cpp.i
+.PHONY : src/game/gameManager.cpp.i
+
+src/game/gameManager.s: src/game/gameManager.cpp.s
+
+.PHONY : src/game/gameManager.s
+
+# target to generate assembly for a file
+src/game/gameManager.cpp.s:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/gameManager.cpp.s
+.PHONY : src/game/gameManager.cpp.s
+
+src/game/main.o: src/game/main.cpp.o
+
+.PHONY : src/game/main.o
+
+# target to build an object file
+src/game/main.cpp.o:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/main.cpp.o
+.PHONY : src/game/main.cpp.o
+
+src/game/main.i: src/game/main.cpp.i
+
+.PHONY : src/game/main.i
+
+# target to preprocess a source file
+src/game/main.cpp.i:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/main.cpp.i
+.PHONY : src/game/main.cpp.i
+
+src/game/main.s: src/game/main.cpp.s
+
+.PHONY : src/game/main.s
+
+# target to generate assembly for a file
+src/game/main.cpp.s:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/main.cpp.s
+.PHONY : src/game/main.cpp.s
+
+src/game/map/mapManager.o: src/game/map/mapManager.cpp.o
+
+.PHONY : src/game/map/mapManager.o
+
+# target to build an object file
+src/game/map/mapManager.cpp.o:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/map/mapManager.cpp.o
+.PHONY : src/game/map/mapManager.cpp.o
+
+src/game/map/mapManager.i: src/game/map/mapManager.cpp.i
+
+.PHONY : src/game/map/mapManager.i
+
+# target to preprocess a source file
+src/game/map/mapManager.cpp.i:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/map/mapManager.cpp.i
+.PHONY : src/game/map/mapManager.cpp.i
+
+src/game/map/mapManager.s: src/game/map/mapManager.cpp.s
+
+.PHONY : src/game/map/mapManager.s
+
+# target to generate assembly for a file
+src/game/map/mapManager.cpp.s:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/game/map/mapManager.cpp.s
+.PHONY : src/game/map/mapManager.cpp.s
+
+src/util/serializer.o: src/util/serializer.cpp.o
+
+.PHONY : src/util/serializer.o
+
+# target to build an object file
+src/util/serializer.cpp.o:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/util/serializer.cpp.o
+.PHONY : src/util/serializer.cpp.o
+
+src/util/serializer.i: src/util/serializer.cpp.i
+
+.PHONY : src/util/serializer.i
+
+# target to preprocess a source file
+src/util/serializer.cpp.i:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/util/serializer.cpp.i
+.PHONY : src/util/serializer.cpp.i
+
+src/util/serializer.s: src/util/serializer.cpp.s
+
+.PHONY : src/util/serializer.s
+
+# target to generate assembly for a file
+src/util/serializer.cpp.s:
+	$(MAKE) -f CMakeFiles/ForestGumpLite.dir/build.make CMakeFiles/ForestGumpLite.dir/src/util/serializer.cpp.s
+.PHONY : src/util/serializer.cpp.s
 
 # Help Target
 help:
@@ -186,12 +321,27 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... ForestGumpLite"
-	@echo "... src/actors/actor.o"
-	@echo "... src/actors/actor.i"
-	@echo "... src/actors/actor.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... src/game/actors/actor.o"
+	@echo "... src/game/actors/actor.i"
+	@echo "... src/game/actors/actor.s"
+	@echo "... src/game/actors/obstacle.o"
+	@echo "... src/game/actors/obstacle.i"
+	@echo "... src/game/actors/obstacle.s"
+	@echo "... src/game/actors/player.o"
+	@echo "... src/game/actors/player.i"
+	@echo "... src/game/actors/player.s"
+	@echo "... src/game/gameManager.o"
+	@echo "... src/game/gameManager.i"
+	@echo "... src/game/gameManager.s"
+	@echo "... src/game/main.o"
+	@echo "... src/game/main.i"
+	@echo "... src/game/main.s"
+	@echo "... src/game/map/mapManager.o"
+	@echo "... src/game/map/mapManager.i"
+	@echo "... src/game/map/mapManager.s"
+	@echo "... src/util/serializer.o"
+	@echo "... src/util/serializer.i"
+	@echo "... src/util/serializer.s"
 .PHONY : help
 
 
