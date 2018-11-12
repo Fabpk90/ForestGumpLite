@@ -3,3 +3,16 @@
 //
 
 #include "mapManager.h"
+
+MapManager::MapManager(const char* path)
+{
+    if(loadFromFile(path))
+    {
+        //TODO ho
+    }
+}
+
+bool MapManager::loadFromFile(const char *path)
+{
+    return false;
+}

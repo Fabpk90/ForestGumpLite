@@ -1,11 +1,13 @@
 #include <SFML/Graphics.hpp>
 
-#include "../actors/actor.h"
+#include "actors/obstacle.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(640, 480), "ForestGumpLite");
     //Actor actor("res/tree.png", 10);
+
+    Obstacle ob("", 4, 10, 10);
 
     while (window.isOpen())
     {

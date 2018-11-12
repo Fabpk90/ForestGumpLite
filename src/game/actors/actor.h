@@ -23,6 +23,7 @@ public:
 
     const sf::Vector2f& getPosition();
     void setPosition(sf::Vector2f position);
+    void setPosition(float x, float y);
 
     virtual bool takeDamage(int amount);
 

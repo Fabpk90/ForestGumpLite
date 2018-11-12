@@ -4,7 +4,12 @@
 
 #include "obstacle.h"
 
-Obstacle::Obstacle(const char *path, int health, sf::Vector2f position) : Actor(path, health)
+Obstacle::Obstacle(const char *path, int health, float x, float y) : Actor(path, health)
 {
-    sprite->setPosition(position.x, position.y);
+    sprite->setPosition(x, y);
+}
+
+void Obstacle::onDie()
+{
+
 }

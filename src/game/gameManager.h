@@ -10,7 +10,7 @@
 class GameManager
 {
 private:
-    MapManager mapManager;
+    MapManager* mapManager;
 
 public:
     GameManager();

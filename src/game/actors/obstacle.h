@@ -10,11 +10,9 @@
 
 class Obstacle : public Actor
 {
-private:
-
 
 public:
-    Obstacle(const char* path, int health, sf::Vector2f position);
+    Obstacle(const char* path, int health, float x, float y);
     void onDie();
 };
 

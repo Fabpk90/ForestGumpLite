@@ -16,7 +16,9 @@ private:
     vector<Actor*> map;
 
 public:
-    MapManager();
+    MapManager(const char *path);
+
+    bool loadFromFile(const char *path);
 
     //TODO: loader de map
 };

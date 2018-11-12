@@ -53,3 +53,8 @@ void Actor::setPosition(sf::Vector2f v)
 {
     sprite->setPosition(v.x, v.y);
 }
+
+void Actor::setPosition(float x, float y)
+{
+    sprite->setPosition(x, y);
+}
