@@ -13,7 +13,7 @@ using namespace std;
 class MapManager
 {
 private:
-    vector<Actor*> map;
+    vector<Actor*> actorList;
 
 public:
     MapManager(const char *path);

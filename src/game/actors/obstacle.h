@@ -12,7 +12,7 @@ class Obstacle : public Actor
 {
 
 public:
-    Obstacle(const char* path, int health, float x, float y);
+    Obstacle(const char* path, int health, int x, int y);
     void onDie();
 };
 

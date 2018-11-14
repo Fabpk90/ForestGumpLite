@@ -5,16 +5,27 @@
 #ifndef FORESTGUMPLITE_GAMEMANAGER_H
 #define FORESTGUMPLITE_GAMEMANAGER_H
 
-#include "map/mapManager.h"
+#include <SFML/Graphics.hpp>
+
+#include "scenes/scene.h"
 
 class GameManager
 {
 private:
-    MapManager* mapManager;
+    Scene* scene;
+    sf::Window* window;
 
 public:
-    GameManager();
+    GameManager(sf::Window* window);
+    ~GameManager();
+
+
     static GameManager* Instance;
+
+    void setScene(Scene* scene, bool isToBeDeleted = false);
+    void renderScene();
+
+    sf::Window& getWindow() { return *window; }
 };
 
 

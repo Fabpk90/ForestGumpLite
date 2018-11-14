@@ -117,6 +117,24 @@
 		<Unit filename="/home/fab/Documents/C++/Project/src/game/map/mapManager.h">
 			<Option target="ForestGumpLite"/>
 		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/scenes/scene.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/scenes/scene.h">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/scenes/sceneGame.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/scenes/sceneGame.h">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/scenes/sceneMainMenu.cpp">
+			<Option target="ForestGumpLite"/>
+		</Unit>
+		<Unit filename="/home/fab/Documents/C++/Project/src/game/scenes/sceneMainMenu.h">
+			<Option target="ForestGumpLite"/>
+		</Unit>
 		<Unit filename="/home/fab/Documents/C++/Project/src/util/serializer.cpp">
 			<Option target="ForestGumpLite"/>
 		</Unit>
