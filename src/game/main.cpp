@@ -6,8 +6,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "ForestGumpLite");
-    GameManager gm(&window);
+    GameManager gm;
     //Actor actor("res/tree.png", 10);
 
     //TODO: c'est un peu chiant de devoir faire ça pour la première scène
@@ -15,17 +14,9 @@ int main()
 
     gm.setScene(&menu);
 
-    while (window.isOpen())
+    while (gm.getWindow().isOpen())
     {
-
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            window.close();
-
-        //gm.renderScene();
-
-        //partie en commun de toutes les scenes
-        window.clear();
-        window.display();
+        gm.renderScene();
     }
 
     return 0;

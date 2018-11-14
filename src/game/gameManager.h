@@ -13,19 +13,19 @@ class GameManager
 {
 private:
     Scene* scene;
-    sf::Window* window;
+    sf::RenderWindow* window;
 
 public:
-    GameManager(sf::Window* window);
+    GameManager();
     ~GameManager();
 
 
     static GameManager* Instance;
 
-    void setScene(Scene* scene, bool isToBeDeleted = false);
+    void setScene(Scene* scene, bool isOldToBeDeleted = false);
     void renderScene();
 
-    sf::Window& getWindow() { return *window; }
+    sf::RenderWindow& getWindow() { return *window; }
 };
 
 

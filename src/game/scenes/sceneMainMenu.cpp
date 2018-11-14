@@ -8,7 +8,7 @@
 
 void SceneMainMenu::update()
 {
-    sf::Window& window = GameManager::Instance->getWindow();
+    sf::RenderWindow& window = GameManager::Instance->getWindow();
 
     sf::Event event;
     while (window.pollEvent(event))
@@ -16,6 +16,11 @@ void SceneMainMenu::update()
         if (event.type == sf::Event::Closed)
             window.close();
     }
+
+
+
+   // window.clear();
+   // window.display();
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();

@@ -6,18 +6,18 @@
 
 GameManager* GameManager::Instance = nullptr;
 
-GameManager::GameManager(sf::Window* window)
+GameManager::GameManager()
 {
     if(GameManager::Instance == nullptr)
     {
         GameManager::Instance = this;
-        this->window = window;
+        this->window = new sf::RenderWindow(sf::VideoMode(640, 480), "ForestGumpLite");
     }
 }
 
-void GameManager::setScene(Scene *scene, bool isToBeDeleted)
+void GameManager::setScene(Scene *scene, bool isOldToBeDeleted)
 {
-    if(isToBeDeleted)
+    if(isOldToBeDeleted)
         delete scene;
 
     this->scene = scene;
@@ -31,4 +31,5 @@ void GameManager::renderScene()
 GameManager::~GameManager()
 {
     delete scene;
+    delete window;
 }
