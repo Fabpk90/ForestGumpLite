@@ -5,12 +5,14 @@
 #ifndef FORESTGUMPLITE_MAPMANAGER_H
 #define FORESTGUMPLITE_MAPMANAGER_H
 
+#include <SFML/Graphics.hpp>
+
 #include <vector>
 #include "../actors/actor.h"
 
 using namespace std;
 
-class MapManager
+class MapManager : public sf::Drawable
 {
 private:
     vector<Actor*> actorList;
@@ -20,7 +22,7 @@ public:
 
     bool loadFromFile(const char *path);
 
-    //TODO: loader de map
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 
 

@@ -8,11 +8,19 @@ MapManager::MapManager(const char* path)
 {
     if(loadFromFile(path))
     {
-        //TODO ho
+
     }
 }
 
 bool MapManager::loadFromFile(const char *path)
 {
     return false;
+}
+
+void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    for(auto actor : actorList)
+    {
+        actor->draw(target, states);
+    }
 }

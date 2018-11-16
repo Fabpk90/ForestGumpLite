@@ -5,11 +5,21 @@
 #ifndef FORESTGUMPLITE_PLAYER_H
 #define FORESTGUMPLITE_PLAYER_H
 
+#include <SFML/Graphics.hpp>
+
 #include "actor.h"
 
-class Player : Actor
+class Player : public Actor
 {
+public:
+    ~Player();
 
+    Player(const char* path, int health);
+
+    bool takeDamage(int amount) override;
+
+    void onDie() override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 
 

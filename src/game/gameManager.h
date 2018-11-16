@@ -19,7 +19,6 @@ public:
     GameManager();
     ~GameManager();
 
-
     static GameManager* Instance;
 
     void setScene(Scene* scene, bool isOldToBeDeleted = false);
