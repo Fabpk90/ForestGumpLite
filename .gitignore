@@ -8,4 +8,7 @@ cmake-build-debug/CMakeFiles/
 cmake-build-debug/Makefile
 cmake-build-debug/ForestGumpLite.cbp
 cmake-build-debug/cmake_install.cmake
-
+*.dll
+*.exe
+*.pdb
+*.ilk
