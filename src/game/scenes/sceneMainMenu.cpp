@@ -18,12 +18,13 @@ void SceneMainMenu::update()
     }
 
 
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        window.close();
 
     window.clear();
     window.display();
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        window.close();
+
 }
 
 SceneMainMenu::SceneMainMenu()
