@@ -17,6 +17,8 @@ class MapManager : public sf::Drawable
 private:
     vector<Actor*> actorList;
 
+    vector<sf::Sprite*> groundList;
+    sf::Texture groundTex;
     //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
 
 public:

@@ -12,6 +12,24 @@ MapManager::MapManager(const char* path)
 {
     if(loadFromFile(path))
     {
+        //loads ground
+        if(groundTex.loadFromFile("res/texture/ground.png"))
+        {
+            for (int y = 0; y < SCREEN_SIZE_HEIGHT / PIXEL_SIZE; ++y)
+            {
+                for (int x = 0; x < SCREEN_SIZE_WIDTH / PIXEL_SIZE; ++x)
+                {
+                    sf::Sprite* sprite = new sf::Sprite(groundTex);
+                    sprite->setPosition(y * PIXEL_SIZE, x * PIXEL_SIZE); // because sfml start at the top left corner
+
+                    groundList.push_back(sprite);
+                }
+            }
+        }
+        else
+        {
+            std::cout << "error loading ground texture";
+        }
 
     }
 }
@@ -65,6 +83,11 @@ bool MapManager::loadFromFile(const char *path)
 
 void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+    for(auto ground : groundList)
+    {
+        target.draw(*ground);
+    }
+
     for(auto actor : actorList)
     {
         actor->draw(target, states);
@@ -73,6 +96,11 @@ void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 MapManager::~MapManager()
 {
+    for(auto ground : groundList)
+    {
+        delete ground;
+    }
+
     for(auto actor : actorList)
     {
         delete actor;
