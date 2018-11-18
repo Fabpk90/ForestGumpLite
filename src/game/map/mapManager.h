@@ -17,7 +17,10 @@ class MapManager : public sf::Drawable
 private:
     vector<Actor*> actorList;
 
+    //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
+
 public:
+    ~MapManager() override;
     MapManager(const char *path);
 
     bool loadFromFile(const char *path);

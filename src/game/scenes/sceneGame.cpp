@@ -27,5 +27,8 @@ void SceneGame::update()
         window.close();
 
     window.clear();
+
+    window.draw(mapManager);
+
     window.display();
 }

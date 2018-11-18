@@ -1,0 +1,23 @@
+//
+// Created by fab on 18/11/2018.
+//
+
+#ifndef FORESTGUMPLITE_CONSTANTS_H
+#define FORESTGUMPLITE_CONSTANTS_H
+
+/*  Screen constants  */
+
+#define PIXEL_SIZE 32
+
+#define SCREEN_SIZE_WIDTH 480
+#define SCREEN_SIZE_HEIGHT 640
+
+#define PIXEL_COUNT_HEIGHT SCREEN_SIZE_HEIGHT / PIXEL_SIZE
+#define PIXEL_COUNT_WIDTH SCREEN_SIZE_WIDTH / PIXEL_SIZE
+
+
+
+/* Map constants  */
+
+
+#endif //FORESTGUMPLITE_CONSTANTS_H
