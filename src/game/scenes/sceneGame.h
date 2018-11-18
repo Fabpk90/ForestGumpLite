@@ -13,8 +13,11 @@ class SceneGame : public Scene
 {
 private:
     MapManager mapManager;
-    Player p1;
-    Player p2;
+
+    //Players are pointer because in the mapManager they are in the array of pointers
+    //all elements of this array get deleted, thus them being pointers
+    Player* p1;
+    Player* p2;
 
 public:
 

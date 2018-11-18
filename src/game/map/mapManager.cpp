@@ -5,6 +5,9 @@
 #include <fstream>
 #include <iostream>
 
+#include <ctime>
+#include <cstdlib>
+
 #include "mapManager.h"
 #include "../actors/obstacle.h"
 
@@ -15,9 +18,9 @@ MapManager::MapManager(const char* path)
         //loads ground
         if(groundTex.loadFromFile("res/texture/ground.png"))
         {
-            for (int y = 0; y < SCREEN_SIZE_HEIGHT / PIXEL_SIZE; ++y)
+            for (int y = 0; y < PIXEL_COUNT_HEIGHT; ++y)
             {
-                for (int x = 0; x < SCREEN_SIZE_WIDTH / PIXEL_SIZE; ++x)
+                for (int x = 0; x < PIXEL_COUNT_WIDTH; ++x)
                 {
                     sf::Sprite* sprite = new sf::Sprite(groundTex);
                     sprite->setPosition(y * PIXEL_SIZE, x * PIXEL_SIZE); // because sfml start at the top left corner
@@ -105,4 +108,50 @@ MapManager::~MapManager()
     {
         delete actor;
     }
+}
+
+sf::Vector2f MapManager::getFreePosition()
+{
+    std::srand(std::time(nullptr));
+    int x = std::rand() % (PIXEL_COUNT_WIDTH + 1);
+    int y = std::rand() % (PIXEL_COUNT_HEIGHT + 1);
+
+    sf::Vector2f pos(x * PIXEL_SIZE, y * PIXEL_SIZE);
+
+
+    while(!getIsPositionFree(pos))
+    {
+        x = std::rand() % (PIXEL_COUNT_WIDTH + 1);
+        y = std::rand() % (PIXEL_COUNT_HEIGHT + 1);
+
+        pos.x = x * PIXEL_SIZE;
+        pos.y = y * PIXEL_SIZE;
+    }
+
+    return pos;
+}
+
+
+bool MapManager::addActor(Actor *actor)
+{
+    if(getIsPositionFree(actor->getPosition()))
+    {
+        actorList.push_back(actor);
+        return true;
+    }
+
+    return false;
+}
+
+bool MapManager::getIsPositionFree(sf::Vector2f pos)
+{
+    for(Actor* obj : actorList)
+    {
+        if(obj->getPosition() == pos)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
