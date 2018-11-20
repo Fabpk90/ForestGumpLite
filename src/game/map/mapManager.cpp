@@ -18,7 +18,7 @@ MapManager::MapManager(const char* path)
         //loads ground
         if(groundTex.loadFromFile("res/texture/ground.png"))
         {
-            for (int y = 0; y < PIXEL_COUNT_HEIGHT; ++y)
+            /*for (int y = 0; y < PIXEL_COUNT_HEIGHT; ++y)
             {
                 for (int x = 0; x < PIXEL_COUNT_WIDTH; ++x)
                 {
@@ -27,7 +27,7 @@ MapManager::MapManager(const char* path)
 
                     groundList.push_back(sprite);
                 }
-            }
+            }*/
         }
         else
         {
@@ -86,10 +86,10 @@ bool MapManager::loadFromFile(const char *path)
 
 void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    for(auto ground : groundList)
+   /* for(auto ground : groundList)
     {
         target.draw(*ground);
-    }
+    }*/
 
     for(auto actor : actorList)
     {

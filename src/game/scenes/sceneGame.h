@@ -19,6 +19,8 @@ private:
     Player* p1;
     Player* p2;
 
+    sf::Color clearColor;
+
 public:
 
     SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath);

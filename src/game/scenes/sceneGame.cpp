@@ -17,6 +17,10 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
 
     p2->setPosition(mapManager.getFreePosition());
     mapManager.addActor(p2);
+
+    clearColor.r = 0;
+    clearColor.g = 255;
+    clearColor.b = 128;
 }
 
 void SceneGame::update()
@@ -33,9 +37,7 @@ void SceneGame::update()
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
 
-    window.clear();
-
+    window.clear(clearColor);
     window.draw(mapManager);
-
     window.display();
 }

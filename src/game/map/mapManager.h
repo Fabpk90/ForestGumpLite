@@ -27,11 +27,16 @@ public:
     ~MapManager() override;
     MapManager(const char *path);
 
+    /// Loads the map into the manager
+    /// \param path The path to the map leve
+    /// \return Whether or not the map has been successfully loaded
     bool loadFromFile(const char *path);
 
     sf::Vector2f getFreePosition();
 
-    //Adds an actor, return whether or not it has been added (free pos available)
+    /// Adds an actor in the map
+    /// \param actor
+    /// \return whether or not it has been added ( if free pos available)
     bool addActor(Actor* actor);
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
