@@ -36,6 +36,22 @@ void SceneGame::update()
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    {
+        sf::Vector2f size(32, 32);
+        sf::Vector2f mousePos(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+
+        sf::FloatRect rect(mousePos, size);
+
+
+        for (auto actor = mapManager.getActorList().begin(); actor != mapManager.getActorList().end(); ++actor)
+        {
+            if (rect.intersects((*actor)->getGlobalBounds()))
+            {
+                mapManager.getActorList().erase(actor++);
+            }
+        }
+    }
 
     window.clear(clearColor);
     window.draw(mapManager);

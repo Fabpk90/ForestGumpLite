@@ -1,3 +1,4 @@
+#include <SFML/Graphics/RectangleShape.hpp>
 #include "actor.h"
 
 Actor::Actor(const char* path, int health)
@@ -24,6 +25,11 @@ Actor::~Actor()
 
 void Actor::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    sf::Vector2f v(32, 32);
+    sf::RectangleShape rec(v);
+    rec.setPosition(sprite->getPosition());
+
+    target.draw(rec);
     target.draw(*sprite);
 }
 

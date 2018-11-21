@@ -25,6 +25,8 @@ public:
     void setPosition(sf::Vector2f position);
     void setPosition(float x, float y);
 
+    sf::FloatRect getGlobalBounds() { return sprite->getGlobalBounds(); }
+
     virtual bool takeDamage(int amount);
 
     virtual void onDie() = 0;

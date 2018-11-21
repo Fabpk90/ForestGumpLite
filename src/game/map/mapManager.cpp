@@ -13,9 +13,9 @@
 
 MapManager::MapManager(const char* path)
 {
-    if(loadMapFromFile(path))
+    if(!loadMapFromFile(path))
     {
-
+        std::cerr << "Unable to load the map from " << path;
     }
 }
 
@@ -81,11 +81,6 @@ void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 MapManager::~MapManager()
 {
-    for(auto ground : groundList)
-    {
-        delete ground;
-    }
-
     for(auto actor : actorList)
     {
         delete actor;

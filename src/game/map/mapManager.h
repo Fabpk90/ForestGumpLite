@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <vector>
+#include <list>
 #include "../actors/actor.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ using namespace std;
 class MapManager : public sf::Drawable
 {
 private:
-    vector<Actor*> actorList;
+    list<Actor*> actorList;
 
     //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
 
@@ -36,6 +36,8 @@ public:
     /// \param actor
     /// \return whether or not it has been added ( if free pos available)
     bool addActor(Actor* actor);
+
+    list<Actor*>& getActorList() { return actorList; }
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
