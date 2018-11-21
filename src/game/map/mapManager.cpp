@@ -36,19 +36,11 @@ bool MapManager::loadMapFromFile(const char *path)
 
             switch(tileValue)
             {
-                case 1: //TREE
+                case TILE_TREE:
                     actorList.push_back(new Obstacle("res/texture/tree.png", 10, x * PIXEL_SIZE, y * PIXEL_SIZE));
                 break;
 
-                case 2: //ROCK
-
-                break;
-
-                case 3: //PLAYER1
-
-                break;
-
-                case 4: //PLAYER 2
+                case TILE_ROCK:
 
                 break;
             }
