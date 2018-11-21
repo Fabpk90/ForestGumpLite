@@ -13,31 +13,13 @@
 
 MapManager::MapManager(const char* path)
 {
-    if(loadFromFile(path))
+    if(loadMapFromFile(path))
     {
-        //loads ground
-        if(groundTex.loadFromFile("res/texture/ground.png"))
-        {
-            /*for (int y = 0; y < PIXEL_COUNT_HEIGHT; ++y)
-            {
-                for (int x = 0; x < PIXEL_COUNT_WIDTH; ++x)
-                {
-                    sf::Sprite* sprite = new sf::Sprite(groundTex);
-                    sprite->setPosition(y * PIXEL_SIZE, x * PIXEL_SIZE); // because sfml start at the top left corner
-
-                    groundList.push_back(sprite);
-                }
-            }*/
-        }
-        else
-        {
-            std::cout << "error loading ground texture";
-        }
 
     }
 }
 
-bool MapManager::loadFromFile(const char *path)
+bool MapManager::loadMapFromFile(const char *path)
 {
     std::ifstream file(path);
     int tileValue = 0;

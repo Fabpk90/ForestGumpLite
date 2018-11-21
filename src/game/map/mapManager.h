@@ -17,8 +17,6 @@ class MapManager : public sf::Drawable
 private:
     vector<Actor*> actorList;
 
-    vector<sf::Sprite*> groundList;
-    sf::Texture groundTex;
     //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
 
     bool getIsPositionFree(sf::Vector2f pos);
@@ -30,7 +28,7 @@ public:
     /// Loads the map into the manager
     /// \param path The path to the map leve
     /// \return Whether or not the map has been successfully loaded
-    bool loadFromFile(const char *path);
+    bool loadMapFromFile(const char *path);
 
     sf::Vector2f getFreePosition();
 
