@@ -43,14 +43,18 @@ void SceneGame::update()
 
         sf::FloatRect rect(mousePos, size);
 
+        auto actor = mapManager.getActorList().begin();
 
-        for (auto actor = mapManager.getActorList().begin(); actor != mapManager.getActorList().end(); ++actor)
+        while(actor != mapManager.getActorList().end())
         {
             if (rect.intersects((*actor)->getGlobalBounds()))
             {
-                mapManager.getActorList().erase(actor++);
+                actor = mapManager.getActorList().erase(actor);
             }
+            else
+                ++actor;
         }
+
     }
 
     window.clear(clearColor);
