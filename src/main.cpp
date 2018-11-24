@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
 
-#include "actors/obstacle.h"
-#include "gameManager.h"
-#include "scenes/sceneMainMenu.h"
-#include "scenes/sceneGame.h"
+#include "game/actors/obstacle.h"
+#include "game/gameManager.h"
+#include "game/scenes/sceneMainMenu.h"
+#include "game/scenes/sceneGame.h"
 
 int main()
 {

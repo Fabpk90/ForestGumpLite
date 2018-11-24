@@ -11,7 +11,6 @@ Player::~Player()
 
 Player::Player(const char *path, int health) : Actor(path, health)
 {
-
 }
 
 bool Player::takeDamage(int amount)

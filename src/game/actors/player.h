@@ -12,7 +12,7 @@
 class Player : public Actor
 {
 public:
-    ~Player();
+    ~Player() override;
 
     Player(const char* path, int health);
 
