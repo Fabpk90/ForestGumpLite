@@ -49,6 +49,7 @@ void SceneGame::update()
         {
             if (rect.intersects((*actor)->getGlobalBounds()))
             {
+                delete *actor;
                 actor = mapManager.getActorList().erase(actor);
             }
             else

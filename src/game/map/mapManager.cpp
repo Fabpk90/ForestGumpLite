@@ -60,11 +60,6 @@ bool MapManager::loadMapFromFile(const char *path)
 
 void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-   /* for(auto ground : groundList)
-    {
-        target.draw(*ground);
-    }*/
-
     for(auto actor : actorList)
     {
         actor->draw(target, states);
