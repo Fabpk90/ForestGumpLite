@@ -31,3 +31,8 @@ SceneMainMenu::SceneMainMenu()
 {
     printf("ha");
 }
+
+SceneMainMenu::~SceneMainMenu()
+{
+
+}

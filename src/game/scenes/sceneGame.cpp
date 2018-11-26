@@ -62,3 +62,8 @@ void SceneGame::update()
     window.draw(mapManager);
     window.display();
 }
+
+SceneGame::~SceneGame()
+{
+
+}

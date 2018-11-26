@@ -16,6 +16,7 @@ protected:
 
 public:
     Actor(const char* path, int health);
+    Actor(const Actor& act);
 
     virtual ~Actor();
 

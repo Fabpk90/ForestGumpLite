@@ -64,3 +64,9 @@ void Actor::setPosition(float x, float y)
 {
     sprite->setPosition(x, y);
 }
+
+Actor::Actor(const Actor &act)
+{
+    tex = act.tex;
+    sprite = act.sprite;
+}

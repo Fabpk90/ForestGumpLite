@@ -10,7 +10,7 @@ class Scene
 {
 public:
 
-    virtual ~Scene();
+    virtual ~Scene() = default;
 
     virtual void update() = 0;
 };

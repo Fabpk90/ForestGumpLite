@@ -11,6 +11,8 @@ class SceneMainMenu : public Scene
 {
 public:
 
+    ~SceneMainMenu() override;
+
     SceneMainMenu();
 
     void update() override;

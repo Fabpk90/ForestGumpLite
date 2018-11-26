@@ -23,6 +23,8 @@ private:
 
 public:
 
+    ~SceneGame() override;
+
     SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath);
 
     void update() override;
