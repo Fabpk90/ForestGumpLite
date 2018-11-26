@@ -11,15 +11,22 @@
 
 class Player : public Actor
 {
+private:
+    int powerMax;
+    bool isPlayer1;
+
 public:
     ~Player() override;
 
-    Player(const char* path, int health);
+    Player(const char* path, int health, bool isPlayer1);
 
     bool takeDamage(int amount) override;
 
     void onDie() override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    void setPower(int amount) { powerMax = amount; }
+    int getPower() { return powerMax; }
 };
 
 

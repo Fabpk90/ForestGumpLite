@@ -25,6 +25,8 @@ public:
     void renderScene();
 
     sf::RenderWindow& getWindow() { return *window; }
+
+    void setWinner(bool isWinnerPlayer1);
 };
 
 
