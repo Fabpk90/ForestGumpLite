@@ -23,6 +23,11 @@ private:
 
     bool isPlayer1Turn;
 
+    //used  for storing the line points, sent to the graphic card every frame to be drawn
+    sf::VertexArray lineVertexPoints;
+
+    void loadLines();
+
 public:
 
     ~SceneGame() override;
@@ -30,8 +35,6 @@ public:
     SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath);
 
     void update() override;
-
-    void drawPixels();
 };
 
 

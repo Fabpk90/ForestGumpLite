@@ -127,7 +127,7 @@ bool MapManager::collisionCheck(sf::FloatRect rect)
 
     while(actor != actorList.end())
     {
-        if (rect.intersects((*actor)->getSprite().getGlobalBounds()))
+        if (rect.intersects((*actor)->getGlobalBounds()))
         {
             didCollide = true;
             delete *actor;
