@@ -119,3 +119,23 @@ bool MapManager::getIsPositionFree(sf::Vector2f pos)
 
     return true;
 }
+
+bool MapManager::collisionCheck(sf::FloatRect rect)
+{
+    bool didCollide = false;
+    auto actor = actorList.begin();
+
+    while(actor != actorList.end())
+    {
+        if (rect.intersects((*actor)->getSprite().getGlobalBounds()))
+        {
+            didCollide = true;
+            delete *actor;
+            actor = actorList.erase(actor);
+        }
+        else
+            ++actor;
+    }
+
+    return didCollide;
+}

@@ -40,6 +40,11 @@ public:
     list<Actor*>& getActorList() { return actorList; }
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    /// Checks whether or not a collision has happend, if so destroys the actor collided
+    /// \param rect the "ray" casted to check the collision
+    /// \return true if something has been hit, false otherwise
+    bool collisionCheck(sf::FloatRect rect);
 };
 
 

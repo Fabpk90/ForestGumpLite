@@ -27,15 +27,9 @@ void SceneGame::update()
 {
     sf::RenderWindow& window = GameManager::Instance->getWindow();
 
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-            window.close();
-    }
-
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
+    
     if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
     {
         sf::Vector2f size(32, 32);
@@ -43,27 +37,29 @@ void SceneGame::update()
 
         sf::FloatRect rect(mousePos, size);
 
-        auto actor = mapManager.getActorList().begin();
-
-        while(actor != mapManager.getActorList().end())
-        {
-            if (rect.intersects((*actor)->getGlobalBounds()))
-            {
-                delete *actor;
-                actor = mapManager.getActorList().erase(actor);
-            }
-            else
-                ++actor;
-        }
-
+       mapManager.collisionCheck(rect);
     }
 
+    //draw stuff on the screen
     window.clear(clearColor);
     window.draw(mapManager);
     window.display();
+
+    //check for closing window
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            window.close();
+    }
 }
 
 SceneGame::~SceneGame()
 {
 
+}
+
+void SceneGame::drawPixels() 
+{
+    sf::RenderWindow& window = GameManager::Instance->getWindow();
 }

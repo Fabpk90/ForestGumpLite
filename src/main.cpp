@@ -9,7 +9,7 @@ int main()
 {
     GameManager gm;
 
-    gm.setScene(new SceneGame("res/map/map1.level", "res/texture/tree.png", "res/texture/tree.png"));
+    gm.setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png"));
 
     while (gm.getWindow().isOpen())
     {
