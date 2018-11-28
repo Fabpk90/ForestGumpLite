@@ -19,12 +19,11 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
     p2->setPosition(mapManager.getFreePosition());
     mapManager.addActor(p2);
 
+    mapManager.setDrawLines(true);
+
     clearColor.r = 0;
     clearColor.g = 255;
     clearColor.b = 128;
-
-    loadLines();
-
 }
 
 void SceneGame::update()
@@ -48,7 +47,6 @@ void SceneGame::update()
     window.clear(clearColor);
 
     window.draw(mapManager);
-    window.draw(lineVertexPoints);
 
     window.display();
 
@@ -63,43 +61,5 @@ void SceneGame::update()
 
 SceneGame::~SceneGame()
 {
-
-}
-
-
-void SceneGame::loadLines()
-{
-    sf::RenderWindow& window = GameManager::Instance->getWindow();
-
-    lineVertexPoints.setPrimitiveType(sf::PrimitiveType::Lines);
-
-    sf::Vertex vertex;
-
-    float sizeY = window.getSize().y / PIXEL_SIZE;
-    float sizeX = window.getSize().x / PIXEL_SIZE;
-
-    for (int i = 0; i < sizeY; ++i)
-    {
-        //first point of the line
-        vertex.position = sf::Vector2f(0, i * PIXEL_SIZE);
-        lineVertexPoints.append(vertex);
-
-        //second point
-        vertex.position = sf::Vector2f(window.getSize().x, i * PIXEL_SIZE);
-        lineVertexPoints.append(vertex);
-
-    }
-
-    for (int i = 0; i < sizeX; ++i)
-    {
-        //first point of the line
-        vertex.position = sf::Vector2f(i * PIXEL_SIZE, 0);
-        lineVertexPoints.append(vertex);
-
-        //second point
-        vertex.position = sf::Vector2f(i * PIXEL_SIZE, window.getSize().y);
-        lineVertexPoints.append(vertex);
-
-    }
 
 }

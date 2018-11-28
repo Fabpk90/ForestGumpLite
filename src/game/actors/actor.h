@@ -23,7 +23,9 @@ public:
     int getHealth() { return health; }
 
     const sf::Vector2f& getPosition();
+
     void setPosition(sf::Vector2f position);
+
     void setPosition(float x, float y);
 
     sf::FloatRect getGlobalBounds() { return sprite->getGlobalBounds(); }

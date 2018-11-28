@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <list>
-#include "../actors/actor.h"
+#include "../game/actors/actor.h"
 
 using namespace std;
 
@@ -17,13 +17,22 @@ class MapManager : public sf::Drawable
 private:
     list<Actor*> actorList;
 
+    //used  for storing the line points, sent to the graphic card every frame to be drawn
+    sf::VertexArray lineVertexPoints;
+
     //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
 
     bool getIsPositionFree(sf::Vector2f pos);
 
+    void loadLines();
+
+    bool drawLines;
+
 public:
     ~MapManager() override;
+
     MapManager(const char *path);
+    MapManager();
 
     /// Loads the map into the manager
     /// \param path The path to the map leve
@@ -45,6 +54,9 @@ public:
     /// \param rect the "ray" casted to check the collision
     /// \return true if something has been hit, false otherwise
     bool collisionCheck(sf::FloatRect rect);
+
+
+    void setDrawLines(bool drawLines) { this->drawLines = drawLines; }
 };
 
 

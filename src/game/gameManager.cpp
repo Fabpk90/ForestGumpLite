@@ -12,7 +12,7 @@ GameManager::GameManager()
     if(GameManager::Instance == nullptr)
     {
         GameManager::Instance = this;
-        this->window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE_HEIGHT, SCREEN_SIZE_WIDTH), "ForestGumpLite");
+        this->window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT), "ForestGumpLite");
         scene = nullptr;
     }
 }
