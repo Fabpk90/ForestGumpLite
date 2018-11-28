@@ -13,6 +13,7 @@ Player::~Player()
 
 Player::Player(const char *path, int health, bool isPlayer1) : Actor(path, health)
 {
+
     this->isPlayer1 = isPlayer1;
     isAiming = false;
 
@@ -33,9 +34,8 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     Actor::draw(target, states);
 
-    //TODO: find a way to update the vertex array pos
-
-    target.draw(aimingLineVertexArray);
+    if(isAiming)
+        target.draw(aimingLineVertexArray);
 }
 
 void Player::setOrientation(int amount)
@@ -51,14 +51,17 @@ void Player::setIsAiming(bool aiming)
 
 void Player::loadAimingLine()
 {
-    sf::Vertex v1, v2;
+    aimingLineVertexArray = sf::VertexArray(sf::Lines, 2);
 
-    aimingLineVertexArray.setPrimitiveType(sf::PrimitiveType::Lines);
+    aimingLineVertexArray[0].position = sprite->getPosition();
+    aimingLineVertexArray[0].color = sf::Color::Red;
 
-    v1.position = sprite->getPosition();
+    aimingLineVertexArray[1].position = sprite->getPosition() * .5f;
+    aimingLineVertexArray[1].color = sf::Color::Red;
+}
 
-    v2.position = v1.position;
-
-    aimingLineVertexArray.append(v1);
-    aimingLineVertexArray.append(v2);
+void Player::updateAimingLine(sf::Vector2i position)
+{
+    aimingLineVertexArray[0].position = sprite->getPosition();
+    aimingLineVertexArray[1].position = sf::Vector2f(position);
 }

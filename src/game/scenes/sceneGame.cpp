@@ -20,6 +20,8 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
     mapManager.addActor(p2);
 
     mapManager.setDrawLines(true);
+
+    isRightMouseButtonPressed = false;
 }
 
 void SceneGame::update()
@@ -40,15 +42,43 @@ void SceneGame::update()
     }
     else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
     {
-        if(isPlayer1Turn)
-            p1->setIsAiming(true);
+        if(!isRightMouseButtonPressed)
+        {
+            if(isPlayer1Turn)
+            {
+                p1->setIsAiming(true);
+                p1->updateAimingLine(sf::Mouse::getPosition(window));
+            }
+            else
+            {
+                p2->setIsAiming(true);
+                p2->updateAimingLine(sf::Mouse::getPosition(window));
+            }
+
+
+            isRightMouseButtonPressed = true;
+        }
         else
-            p2->setIsAiming(true);
+        {
+            if(isPlayer1Turn)
+                p1->updateAimingLine(sf::Mouse::getPosition(window));
+            else
+                p2->updateAimingLine(sf::Mouse::getPosition(window));
+        }
+
     }
     else
     {
-        p1->setIsAiming(false);
-        p2->setIsAiming(false);
+       isRightMouseButtonPressed = false;
+
+        if(isPlayer1Turn)
+        {
+            p1->setIsAiming(false);
+        }
+        else
+        {
+            p2->setIsAiming(false);
+        }
     }
 
     //draw stuff on the screen

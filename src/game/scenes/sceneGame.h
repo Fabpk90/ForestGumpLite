@@ -21,6 +21,8 @@ private:
 
     bool isPlayer1Turn;
 
+    bool isRightMouseButtonPressed;
+
 public:
 
     ~SceneGame() override;
