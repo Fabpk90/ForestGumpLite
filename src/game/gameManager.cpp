@@ -12,8 +12,13 @@ GameManager::GameManager()
     if(GameManager::Instance == nullptr)
     {
         GameManager::Instance = this;
-        window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE_HEIGHT, SCREEN_SIZE_WIDTH), "ForestGumpLite");
+        window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT), "ForestGumpLite");
         window->setKeyRepeatEnabled(false);
+
+        clearColor.r = 0;
+        clearColor.g = 255;
+        clearColor.b = 128;
+
         scene = nullptr;
     }
 }

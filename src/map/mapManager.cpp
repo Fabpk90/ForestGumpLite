@@ -1,7 +1,7 @@
 //
 // Created by fab on 07/11/18.
 //
-#include "../../util/constants.h"
+#include "../util/constants.h"
 #include <fstream>
 #include <iostream>
 
@@ -9,10 +9,24 @@
 #include <cstdlib>
 
 #include "mapManager.h"
-#include "../actors/obstacle.h"
+#include "../game/actors/obstacle.h"
+#include "../game/gameManager.h"
 
-MapManager::MapManager(const char* path)
+
+
+MapManager::MapManager() : drawLines(false)
 {
+    loadLines();
+
+    std::srand(std::time(nullptr));
+}
+
+MapManager::MapManager(const char* path) : drawLines(false)
+{
+    std::srand(std::time(nullptr));
+
+    loadLines();
+
     if(!loadMapFromFile(path))
     {
         std::cerr << "Unable to load the map from " << path;
@@ -64,6 +78,9 @@ void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
         actor->draw(target, states);
     }
+
+    if(drawLines)
+        target.draw(lineVertexPoints);
 }
 
 MapManager::~MapManager()
@@ -76,17 +93,16 @@ MapManager::~MapManager()
 
 sf::Vector2f MapManager::getFreePosition()
 {
-    std::srand(std::time(nullptr));
-    int x = std::rand() % (PIXEL_COUNT_WIDTH + 1);
-    int y = std::rand() % (PIXEL_COUNT_HEIGHT + 1);
+    int x = std::rand() % (PIXEL_COUNT_WIDTH);
+    int y = std::rand() % (PIXEL_COUNT_HEIGHT);
 
     sf::Vector2f pos(x * PIXEL_SIZE, y * PIXEL_SIZE);
 
 
     while(!getIsPositionFree(pos))
     {
-        x = std::rand() % (PIXEL_COUNT_WIDTH + 1);
-        y = std::rand() % (PIXEL_COUNT_HEIGHT + 1);
+        x = std::rand() % (PIXEL_COUNT_WIDTH);
+        y = std::rand() % (PIXEL_COUNT_HEIGHT);
 
         pos.x = x * PIXEL_SIZE;
         pos.y = y * PIXEL_SIZE;
@@ -138,4 +154,41 @@ bool MapManager::collisionCheck(sf::FloatRect rect)
     }
 
     return didCollide;
+}
+
+void MapManager::loadLines()
+{
+    sf::RenderWindow& window = GameManager::Instance->getWindow();
+
+    lineVertexPoints.setPrimitiveType(sf::PrimitiveType::Lines);
+
+    sf::Vertex vertex;
+
+    float sizeY = window.getSize().y / PIXEL_SIZE;
+    float sizeX = window.getSize().x / PIXEL_SIZE;
+
+    for (int i = 0; i < sizeY; ++i)
+    {
+        //first point of the line
+        vertex.position = sf::Vector2f(0, i * PIXEL_SIZE);
+        lineVertexPoints.append(vertex);
+
+        //second point
+        vertex.position = sf::Vector2f(window.getSize().x, i * PIXEL_SIZE);
+        lineVertexPoints.append(vertex);
+
+    }
+
+    for (int i = 0; i < sizeX; ++i)
+    {
+        //first point of the line
+        vertex.position = sf::Vector2f(i * PIXEL_SIZE, 0);
+        lineVertexPoints.append(vertex);
+
+        //second point
+        vertex.position = sf::Vector2f(i * PIXEL_SIZE, window.getSize().y);
+        lineVertexPoints.append(vertex);
+
+    }
+
 }

@@ -6,8 +6,8 @@
 #define FORESTGUMPLITE_SCENEGAME_H
 
 #include "scene.h"
-#include "../map/mapManager.h"
 #include "../actors/player.h"
+#include "../../map/mapManager.h"
 
 class SceneGame : public Scene
 {
@@ -19,14 +19,7 @@ private:
     Player* p1;
     Player* p2;
 
-    sf::Color clearColor;
-
     bool isPlayer1Turn;
-
-    //used  for storing the line points, sent to the graphic card every frame to be drawn
-    sf::VertexArray lineVertexPoints;
-
-    void loadLines();
 
 public:
 

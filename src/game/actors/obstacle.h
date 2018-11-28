@@ -5,7 +5,7 @@
 #ifndef FORESTGUMPLITE_OBSTACLE_H
 #define FORESTGUMPLITE_OBSTACLE_H
 
-#include "../map/mapManager.h"
+#include "../../map/mapManager.h"
 #include "actor.h"
 
 class Obstacle : public Actor
