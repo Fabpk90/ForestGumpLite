@@ -20,10 +20,6 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
     mapManager.addActor(p2);
 
     mapManager.setDrawLines(true);
-
-    clearColor.r = 0;
-    clearColor.g = 255;
-    clearColor.b = 128;
 }
 
 void SceneGame::update()
@@ -44,7 +40,7 @@ void SceneGame::update()
     }
 
     //draw stuff on the screen
-    window.clear(clearColor);
+    window.clear(GameManager::Instance->getClearColor());
 
     window.draw(mapManager);
 

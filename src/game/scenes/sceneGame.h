@@ -19,8 +19,6 @@ private:
     Player* p1;
     Player* p2;
 
-    sf::Color clearColor;
-
     bool isPlayer1Turn;
 
 public:

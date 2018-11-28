@@ -9,18 +9,18 @@
 #include "../game/scenes/scene.h"
 #include "../map/mapManager.h"
 
-class Editor  : public Scene {
+class Editor  : public Scene{
 
 private:
     MapManager mapManager;
 
 
 public:
-    Editor() = default;
+    Editor();
 
     ~Editor() override;
 
-    void update();
+    void update() override;
 
 };
 

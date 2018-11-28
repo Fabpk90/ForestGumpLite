@@ -15,6 +15,8 @@ private:
     Scene* scene;
     sf::RenderWindow* window;
 
+    sf::Color clearColor;
+
 public:
     GameManager();
     ~GameManager();
@@ -27,6 +29,8 @@ public:
     sf::RenderWindow& getWindow() { return *window; }
 
     void setWinner(bool isWinnerPlayer1);
+
+    sf::Color& getClearColor() { return clearColor; }
 };
 
 

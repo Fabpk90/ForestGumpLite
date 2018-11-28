@@ -13,6 +13,10 @@ GameManager::GameManager()
     {
         GameManager::Instance = this;
         this->window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE_WIDTH, SCREEN_SIZE_HEIGHT), "ForestGumpLite");
+
+        clearColor.r = 0;
+        clearColor.g = 255;
+        clearColor.b = 128;
         scene = nullptr;
     }
 }
