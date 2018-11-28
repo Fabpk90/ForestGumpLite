@@ -15,6 +15,13 @@ private:
     int powerMax;
     bool isPlayer1;
 
+    int orientation;
+
+    //For drawing the aiming line
+    sf::VertexArray aimingLineVertexArray;
+
+    bool isAiming;
+
 public:
     ~Player() override;
 
@@ -25,8 +32,18 @@ public:
     void onDie() override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    //loads the lines in the vertex array, the position is by default the position of the player
+    void loadAimingLine();
+
     void setPower(int amount) { powerMax = amount; }
     int getPower() { return powerMax; }
+
+    void setOrientation(int amount);
+    int getOrientation() { return orientation; }
+
+    void setIsAiming(bool aiming);
+    bool getIsAiming() { return  isAiming; }
+
 };
 
 

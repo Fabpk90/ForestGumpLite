@@ -12,7 +12,8 @@ GameManager::GameManager()
     if(GameManager::Instance == nullptr)
     {
         GameManager::Instance = this;
-        this->window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE_HEIGHT, SCREEN_SIZE_WIDTH), "ForestGumpLite");
+        window = new sf::RenderWindow(sf::VideoMode(SCREEN_SIZE_HEIGHT, SCREEN_SIZE_WIDTH), "ForestGumpLite");
+        window->setKeyRepeatEnabled(false);
         scene = nullptr;
     }
 }

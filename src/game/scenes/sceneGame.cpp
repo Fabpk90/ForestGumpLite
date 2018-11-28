@@ -41,7 +41,19 @@ void SceneGame::update()
 
         sf::FloatRect rect(mousePos, size);
 
-       mapManager.collisionCheck(rect);
+        mapManager.collisionCheck(rect);
+    }
+    else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+    {
+        if(isPlayer1Turn)
+            p1->setIsAiming(true);
+        else
+            p2->setIsAiming(true);
+    }
+    else
+    {
+        p1->setIsAiming(false);
+        p2->setIsAiming(false);
     }
 
     //draw stuff on the screen
@@ -62,9 +74,7 @@ void SceneGame::update()
 }
 
 SceneGame::~SceneGame()
-{
-
-}
+= default;
 
 
 void SceneGame::loadLines()
