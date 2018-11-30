@@ -27,7 +27,7 @@ bool Player::takeDamage(int amount)
 
 void Player::onDie()
 {
-    GameManager::Instance->setWinner(isPlayer1);
+    GameManager::Instance->setWinner(!isPlayer1);
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const

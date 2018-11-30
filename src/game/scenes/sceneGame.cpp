@@ -58,11 +58,11 @@ void SceneGame::update()
 
                 if(isPlayer1Turn)
                 {
-                    p1->toggleAiming();
+                    p1->setIsAiming(false);
                 }
                 else
                 {
-                    p2->toggleAiming();
+                    p2->setIsAiming(false);
                 }
             }
             else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
@@ -90,7 +90,7 @@ void SceneGame::update()
                 p2->updateAimingLine(sf::Mouse::getPosition(window));
             }
         }
-        if (event.type == sf::Event::Closed)
+        else if (event.type == sf::Event::Closed)
             window.close();
     }
 }
