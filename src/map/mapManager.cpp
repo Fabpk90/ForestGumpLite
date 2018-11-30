@@ -7,6 +7,7 @@
 
 #include <ctime>
 #include <cstdlib>
+#include <cassert>
 
 #include "mapManager.h"
 #include "../game/actors/obstacle.h"
@@ -36,30 +37,32 @@ MapManager::MapManager(const char* path) : drawLines(false)
 bool MapManager::loadMapFromFile(const char *path)
 {
     std::ifstream file(path);
-    int tileValue = 0;
-    int x = 0, y = 0;
+    int tileValue = 0, tilePosNrmx, tilePosNrmy;
 
     if(file.is_open())
     {
         while(file >> tileValue)
         {
-            if(x == PIXEL_COUNT_WIDTH)
-            {
-                y++; x = 0;
-            }
+            if(!file.eof())
+                file >> tilePosNrmx;
+            else
+                assert(false);
+
+            if(!file.eof())
+                file >> tilePosNrmy;
+            else
+                assert(false);
 
             switch(tileValue)
             {
                 case TILE_TREE:
-                    actorList.push_back(new Obstacle("res/texture/tree.png", 10, x * PIXEL_SIZE, y * PIXEL_SIZE));
+                    actorList.push_back(new Obstacle("res/texture/tree.png", 10, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
                 break;
 
                 case TILE_ROCK:
 
                 break;
             }
-
-            x++;
         }
 
         file.close();

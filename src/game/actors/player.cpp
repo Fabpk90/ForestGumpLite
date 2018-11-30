@@ -62,6 +62,11 @@ void Player::loadAimingLine()
 
 void Player::updateAimingLine(sf::Vector2i position)
 {
-    aimingLineVertexArray[0].position = sprite->getPosition();
+    sf::Vector2f centeredPos = sprite->getPosition();
+
+    centeredPos.x += sprite->getTexture()->getSize().x >> 1;
+    centeredPos.y += sprite->getTexture()->getSize().y >> 1;
+
+    aimingLineVertexArray[0].position = centeredPos;
     aimingLineVertexArray[1].position = sf::Vector2f(position);
 }
