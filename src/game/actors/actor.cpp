@@ -1,4 +1,5 @@
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <iostream>
 #include "actor.h"
 #include "../../util/constants.h"
 

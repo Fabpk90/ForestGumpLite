@@ -31,55 +31,8 @@ void SceneGame::update()
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
 
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-    {
-        sf::Vector2f size(32, 32);
-        sf::Vector2f mousePos(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-
-        sf::FloatRect rect(mousePos, size);
-
-        mapManager.collisionCheck(rect);
-    }
-    else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
-    {
-        if(!isRightMouseButtonPressed)
-        {
-            if(isPlayer1Turn)
-            {
-                p1->setIsAiming(true);
-                p1->updateAimingLine(sf::Mouse::getPosition(window));
-            }
-            else
-            {
-                p2->setIsAiming(true);
-                p2->updateAimingLine(sf::Mouse::getPosition(window));
-            }
 
 
-            isRightMouseButtonPressed = true;
-        }
-        else
-        {
-            if(isPlayer1Turn)
-                p1->updateAimingLine(sf::Mouse::getPosition(window));
-            else
-                p2->updateAimingLine(sf::Mouse::getPosition(window));
-        }
-
-    }
-    else
-    {
-       isRightMouseButtonPressed = false;
-
-        if(isPlayer1Turn)
-        {
-            p1->setIsAiming(false);
-        }
-        else
-        {
-            p2->setIsAiming(false);
-        }
-    }
 
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
@@ -92,6 +45,51 @@ void SceneGame::update()
     sf::Event event;
     while (window.pollEvent(event))
     {
+        if (event.type == sf::Event::MouseButtonPressed)
+        {
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                sf::Vector2f size(32, 32);
+                sf::Vector2f mousePos(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+
+                sf::FloatRect rect(mousePos, size);
+
+                mapManager.collisionCheck(rect);
+
+                if(isPlayer1Turn)
+                {
+                    p1->toggleAiming();
+                }
+                else
+                {
+                    p2->toggleAiming();
+                }
+            }
+            else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+            {
+                if(isPlayer1Turn)
+                {
+                    p1->toggleAiming();
+                    p1->updateAimingLine(sf::Mouse::getPosition(window));
+                }
+                else
+                {
+                    p2->toggleAiming();
+                    p2->updateAimingLine(sf::Mouse::getPosition(window));
+                }
+            }
+        }
+        else if(event.type == sf::Event::MouseMoved)
+        {
+            if(isPlayer1Turn)
+            {
+                p1->updateAimingLine(sf::Mouse::getPosition(window));
+            }
+            else
+            {
+                p2->updateAimingLine(sf::Mouse::getPosition(window));
+            }
+        }
         if (event.type == sf::Event::Closed)
             window.close();
     }

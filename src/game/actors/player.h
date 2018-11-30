@@ -44,6 +44,7 @@ public:
     int getOrientation() { return orientation; }
 
     void setIsAiming(bool aiming);
+    void toggleAiming() { isAiming = !isAiming; }
     bool getIsAiming() { return  isAiming; }
 
 };

@@ -56,7 +56,7 @@ bool MapManager::loadMapFromFile(const char *path)
             switch(tileValue)
             {
                 case TILE_TREE:
-                    actorList.push_back(new Obstacle("res/texture/tree.png", 10, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    actorList.push_back(new Obstacle("res/texture/tree.png", 2, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
                 break;
 
                 case TILE_ROCK:
@@ -149,8 +149,15 @@ bool MapManager::collisionCheck(sf::FloatRect rect)
         if (rect.intersects((*actor)->getGlobalBounds()))
         {
             didCollide = true;
-            delete *actor;
-            actor = actorList.erase(actor);
+
+            if((*actor)->takeDamage(1))
+            {
+                delete *actor;
+                actor = actorList.erase(actor);
+            }
+            else
+                ++actor;
+
         }
         else
             ++actor;
