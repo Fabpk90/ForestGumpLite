@@ -9,6 +9,7 @@
 
 #include <list>
 #include "../game/actors/actor.h"
+#include "../game/actors/player.h"
 
 using namespace std;
 
@@ -53,7 +54,7 @@ public:
     /// Checks whether or not a collision has happend, if so destroys the actor collided
     /// \param rect the "ray" casted to check the collision
     /// \return true if something has been hit, false otherwise
-    bool collisionCheck(sf::FloatRect rect);
+    bool collisionCheck(sf::FloatRect rect, Player& playerAiming);
 
 
     void setDrawLines(bool drawLines) { this->drawLines = drawLines; }

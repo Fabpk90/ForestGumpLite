@@ -47,6 +47,8 @@ public:
     void toggleAiming() { isAiming = !isAiming; }
     bool getIsAiming() { return  isAiming; }
 
+    bool isPlayerOne() { return isPlayer1; }
+
 
     sf::FloatRect getAimRect();
 };

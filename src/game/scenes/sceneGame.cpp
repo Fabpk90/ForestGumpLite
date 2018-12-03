@@ -41,7 +41,7 @@ void SceneGame::update()
         {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming())
             {
-                mapManager.collisionCheck(playerPlaying->getAimRect());
+                mapManager.collisionCheck(playerPlaying->getAimRect(), *playerPlaying);
 
                 playerPlaying->setIsAiming(false);
             }

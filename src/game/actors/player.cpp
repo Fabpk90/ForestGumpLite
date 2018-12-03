@@ -73,5 +73,6 @@ void Player::updateAimingLine(sf::Vector2i position)
 
 sf::FloatRect Player::getAimRect()
 {
+    //std::oout << aimingLineVertexArray.getBounds().
     return aimingLineVertexArray.getBounds();
 }

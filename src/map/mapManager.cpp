@@ -139,33 +139,6 @@ bool MapManager::getIsPositionFree(sf::Vector2f pos)
     return true;
 }
 
-bool MapManager::collisionCheck(sf::FloatRect rect)
-{
-    bool didCollide = false;
-    auto actor = actorList.begin();
-
-    while(actor != actorList.end())
-    {
-        if (rect.intersects((*actor)->getGlobalBounds()))
-        {
-            didCollide = true;
-
-            if((*actor)->takeDamage(1))
-            {
-                delete *actor;
-                actor = actorList.erase(actor);
-            }
-            else
-                ++actor;
-
-        }
-        else
-            ++actor;
-    }
-
-    return didCollide;
-}
-
 void MapManager::loadLines()
 {
     sf::RenderWindow& window = GameManager::Instance->getWindow();
@@ -201,4 +174,36 @@ void MapManager::loadLines()
 
     }
 
+}
+
+bool MapManager::collisionCheck(sf::FloatRect rect, Player &playerAiming) {
+    bool didCollide = false;
+    auto actor = actorList.begin();
+
+    while(actor != actorList.end())
+    {
+        if (rect.intersects((*actor)->getGlobalBounds()))
+        {
+            auto player = dynamic_cast<Player*>(*actor);
+
+            if(!player || player->isPlayerOne() != playerAiming.isPlayerOne())
+            {
+                didCollide = true;
+
+                if((*actor)->takeDamage(1))
+                {
+                    delete *actor;
+                    actor = actorList.erase(actor);
+                }
+                else
+                    ++actor;
+            }
+            else
+                ++actor;
+        }
+        else
+            ++actor;
+    }
+
+    return didCollide;
 }
