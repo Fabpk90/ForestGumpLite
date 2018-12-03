@@ -19,6 +19,8 @@ private:
     Player* p1;
     Player* p2;
 
+    Player* playerPlaying;
+
     bool isPlayer1Turn;
 
     bool isRightMouseButtonPressed;

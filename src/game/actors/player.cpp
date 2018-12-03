@@ -70,3 +70,8 @@ void Player::updateAimingLine(sf::Vector2i position)
     aimingLineVertexArray[0].position = centeredPos;
     aimingLineVertexArray[1].position = sf::Vector2f(position);
 }
+
+sf::FloatRect Player::getAimRect()
+{
+    return aimingLineVertexArray.getBounds();
+}
