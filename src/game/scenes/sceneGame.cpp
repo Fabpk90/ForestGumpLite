@@ -10,16 +10,16 @@
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath)
 : mapManager(mapPath)
 {
-    p1 = new Player(player1ImgPath, 10, true);
-    p2 = new Player(player2ImgPath, 10, false);
+    p1 = new Player(player1ImgPath, 1, true);
+   // p2 = new Player(player2ImgPath, 1, false);
 
     playerPlaying = p1;
 
     p1->setPosition(mapManager.getFreePosition());
     mapManager.addActor(p1);
 
-    p2->setPosition(mapManager.getFreePosition());
-    mapManager.addActor(p2);
+   // p2->setPosition(mapManager.getFreePosition());
+   // mapManager.addActor(p2);
 
     mapManager.setDrawLines(true);
 
