@@ -92,8 +92,8 @@ sf::FloatRect Player::getAimRect()
    //             , aimingLineVertexArray[1].position.x, aimingLineVertexArray[1].position.y) / (VectorHelper::getLength(x0, y0) * VectorHelper::getLength(x1 , y1));
 
 
-    cosangle = VectorHelper::getDotProduct(aimingLineVertexArray[0].position.x, aimingLineVertexArray[0].position.y
-                , aimingLineVertexArray[1].position.x, aimingLineVertexArray[1].position.y) / (VectorHelper::getLength(x0, y0) * VectorHelper::getLength(x1 , y1));
+    cosangle = VectorHelper::getDotProduct(aimingLineVertexArray[0].position.y, aimingLineVertexArray[0].position.x
+                , aimingLineVertexArray[1].position.y, aimingLineVertexArray[1].position.x) / (VectorHelper::getLength(y0, x0) * VectorHelper::getLength(y1 , x1));
 
     float angle = atan2(aimingLineVertexArray[0].position.y, aimingLineVertexArray[0].position.x)
             - atan2(aimingLineVertexArray[1].position.y, aimingLineVertexArray[1].position.x);
@@ -102,7 +102,8 @@ sf::FloatRect Player::getAimRect()
 
     rect.setPosition(sprite->getPosition());
 
-    rect.setSize(sf::Vector2f(1.0f, aimingLineVertexArray[1].position.y));
+    rect.setSize(sf::Vector2f(1.0f, VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
+            (aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).y)));
 
     rect.setRotation(acos(cosangle)* 180.0f / PI);
 
