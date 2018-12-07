@@ -14,6 +14,7 @@ class VectorHelper {
 public:
     static float getLength(float x, float y);
     static float getDotProduct(float x0, float y0, float x1, float y1);
+    static sf::Vector2f normalize(sf::Vector2f v);
 };
 
 

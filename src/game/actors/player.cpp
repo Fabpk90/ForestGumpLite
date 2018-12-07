@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cmath>
 #include "player.h"
 #include "../gameManager.h"
 #include "../../util/VectorHelper.h"
@@ -80,11 +81,17 @@ sf::FloatRect Player::getAimRect()
 {
     sf::Transform tr;
 
-    float x0 = aimingLineVertexArray[0].position.x * aimingLineVertexArray[0].position.x;
-    float y0 = aimingLineVertexArray[0].position.y * aimingLineVertexArray[0].position.y;
 
-    float x1 = aimingLineVertexArray[1].position.x * aimingLineVertexArray[1].position.x;
-    float y1 = aimingLineVertexArray[1].position.y * aimingLineVertexArray[1].position.y;
+    sf::Vector2f normV1 = VectorHelper::normalize(sprite->getPosition());
+    sf::Vector2f normV2 = VectorHelper::normalize(aimingLineVertexArray[1].position);
+
+    float x0 = normV1.x;
+    float y0 = normV1.y;
+
+    float x1 = normV2.x;
+    float y1 = normV2.y;
+
+    std::cout << normV1.x << "  " << normV1.y << std::endl;
 
     float cosangle;
 
@@ -92,13 +99,13 @@ sf::FloatRect Player::getAimRect()
    //             , aimingLineVertexArray[1].position.x, aimingLineVertexArray[1].position.y) / (VectorHelper::getLength(x0, y0) * VectorHelper::getLength(x1 , y1));
 
 
-    cosangle = VectorHelper::getDotProduct(aimingLineVertexArray[0].position.y, aimingLineVertexArray[0].position.x
-                , aimingLineVertexArray[1].position.y, aimingLineVertexArray[1].position.x) / (VectorHelper::getLength(y0, x0) * VectorHelper::getLength(y1 , x1));
+    cosangle = VectorHelper::getDotProduct(normV1.x, normV1.y
+                , normV2.x, normV2.y) / (VectorHelper::getLength(x0, y0) * VectorHelper::getLength(x1 , y1));
 
-    float angle = atan2(aimingLineVertexArray[0].position.y, aimingLineVertexArray[0].position.x)
-            - atan2(aimingLineVertexArray[1].position.y, aimingLineVertexArray[1].position.x);
+   // std::cout << sprite->getPosition().x << "  " << sprite->getPosition().y << std::endl;
+   // std::cout << aimingLineVertexArray[1].position.y << " " << aimingLineVertexArray[1].position.x << std::endl;
 
-    std::cout  << angle * 180.0f / PI  << " " << cosangle<< "  " << acos(cosangle) * 180.0f / PI << std::endl;
+    std::cout << cosangle<< "  " << acos(cosangle) * 180.0f / PI << std::endl;
 
     rect.setPosition(sprite->getPosition());
 
