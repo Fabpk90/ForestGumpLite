@@ -6,6 +6,7 @@
 #include "player.h"
 #include "../gameManager.h"
 #include "../../util/VectorHelper.h"
+#include "../../util/constants.h"
 
 Player::~Player()
 {
@@ -80,35 +81,27 @@ sf::FloatRect Player::getAimRect()
 {
     sf::Transform tr;
 
-    float x0 = aimingLineVertexArray[0].position.x * aimingLineVertexArray[0].position.x;
-    float y0 = aimingLineVertexArray[0].position.y * aimingLineVertexArray[0].position.y;
+    //this vector represents the translated aim vector, the center of the cartesian model being the player pos
+    sf::Vector2f translatedPosition = aimingLineVertexArray[1].position;
 
-    float x1 = aimingLineVertexArray[1].position.x * aimingLineVertexArray[1].position.x;
-    float y1 = aimingLineVertexArray[1].position.y * aimingLineVertexArray[1].position.y;
+    //translating with the player pos
+    translatedPosition.x -= aimingLineVertexArray[0].position.x;
+    translatedPosition.y -= aimingLineVertexArray[0].position.y;
 
-    float cosangle;
-
-   // cosangle = VectorHelper::getDotProduct(aimingLineVertexArray[0].position.x, aimingLineVertexArray[0].position.y
-   //             , aimingLineVertexArray[1].position.x, aimingLineVertexArray[1].position.y) / (VectorHelper::getLength(x0, y0) * VectorHelper::getLength(x1 , y1));
+    float angle = atan2(translatedPosition.y, translatedPosition.x)
+            - atan2(0, 0);
 
 
-    cosangle = VectorHelper::getDotProduct(aimingLineVertexArray[0].position.y, aimingLineVertexArray[0].position.x
-                , aimingLineVertexArray[1].position.y, aimingLineVertexArray[1].position.x) / (VectorHelper::getLength(y0, x0) * VectorHelper::getLength(y1 , x1));
+    if (angle < 0) angle += 2 * PI;
 
-    float angle = atan2(aimingLineVertexArray[0].position.y, aimingLineVertexArray[0].position.x)
-            - atan2(aimingLineVertexArray[1].position.y, aimingLineVertexArray[1].position.x);
+    std::cout << angle * 180.0f / PI  << std::endl;
 
-    std::cout  << angle * 180.0f / PI  << " " << cosangle<< "  " << acos(cosangle) * 180.0f / PI << std::endl;
-
-    rect.setPosition(sprite->getPosition());
+    rect.setPosition(aimingLineVertexArray[0].position);
 
     rect.setSize(sf::Vector2f(1.0f, VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
             (aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).y)));
 
-    rect.setRotation(acos(cosangle)* 180.0f / PI);
-
-    //tr.rotate(acos(cosangle) * 180.0f / PI, aimingLineVertexArray[0].position);
+    rect.setRotation((angle * 180.0f / PI) - 90);
 
     return rect.getGlobalBounds();
-    //return tr.transformRect(aimingLineVertexArray.getBounds());
 }

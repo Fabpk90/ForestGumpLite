@@ -8,7 +8,7 @@
 
 #include <SFML/System.hpp>
 
-#define PI 3.14159265
+
 
 class VectorHelper {
 public:
