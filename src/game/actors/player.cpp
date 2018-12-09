@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cmath>
 #include "player.h"
 #include "../gameManager.h"
 #include "../../util/VectorHelper.h"
@@ -88,6 +89,7 @@ sf::FloatRect Player::getAimRect()
     translatedPosition.x -= aimingLineVertexArray[0].position.x;
     translatedPosition.y -= aimingLineVertexArray[0].position.y;
 
+
     float angle = atan2(translatedPosition.y, translatedPosition.x)
             - atan2(0, 0);
 
@@ -97,6 +99,7 @@ sf::FloatRect Player::getAimRect()
     std::cout << angle * 180.0f / PI  << std::endl;
 
     rect.setPosition(aimingLineVertexArray[0].position);
+
 
     rect.setSize(sf::Vector2f(1.0f, VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
             (aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).y)));
