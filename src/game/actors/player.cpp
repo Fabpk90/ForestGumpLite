@@ -7,7 +7,7 @@
 #include "player.h"
 #include "../gameManager.h"
 #include "../../util/VectorHelper.h"
-#include "../../util/constants.h"
+#include "../../util/Constants.h"
 
 Player::~Player()
 {
@@ -19,8 +19,6 @@ Player::Player(const char *path, int health, bool isPlayer1) : Actor(path, healt
 
     this->isPlayer1 = isPlayer1;
     isAiming = false;
-
-    rect.setSize(sf::Vector2f(10.0f, 10.0f));
 
     loadAimingLine();
 }
@@ -38,8 +36,6 @@ void Player::onDie()
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     Actor::draw(target, states);
-
-    target.draw(rect);
 
     if(isAiming)
         target.draw(aimingLineVertexArray);
@@ -78,9 +74,10 @@ void Player::updateAimingLine(sf::Vector2i position)
     aimingLineVertexArray[1].position = sf::Vector2f(position);
 }
 
-sf::FloatRect Player::getAimRect()
+sf::RectangleShape Player::getAimRectangle()
 {
-    sf::Transform tr;
+    //used to represent the ray
+    sf::RectangleShape rect;
 
     //this vector represents the translated aim vector, the center of the cartesian model being the player pos
     sf::Vector2f translatedPosition = aimingLineVertexArray[1].position;
@@ -90,21 +87,17 @@ sf::FloatRect Player::getAimRect()
     translatedPosition.y -= aimingLineVertexArray[0].position.y;
 
 
-    float angle = atan2(translatedPosition.y, translatedPosition.x)
-            - atan2(0, 0);
-
+    float angle = VectorHelper::angleBetween(translatedPosition, sf::Vector2f(0.0f, 0.0f));
 
     if (angle < 0) angle += 2 * PI;
-
-    std::cout << angle * 180.0f / PI  << std::endl;
 
     rect.setPosition(aimingLineVertexArray[0].position);
 
 
-    rect.setSize(sf::Vector2f(1.0f, VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
+    rect.setSize(sf::Vector2f(2.0f, VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
             (aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).y)));
 
     rect.setRotation((angle * 180.0f / PI) - 90);
 
-    return rect.getGlobalBounds();
+    return rect;
 }

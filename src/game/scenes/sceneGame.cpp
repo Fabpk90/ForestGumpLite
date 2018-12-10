@@ -5,7 +5,7 @@
 #include <iostream>
 #include "../gameManager.h"
 #include "sceneGame.h"
-#include "../../util/constants.h"
+#include "../../util/Constants.h"
 
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath)
 : mapManager(mapPath)
@@ -41,7 +41,7 @@ void SceneGame::update()
         {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming())
             {
-                mapManager.collisionCheck(playerPlaying->getAimRect(), *playerPlaying);
+                mapManager.collisionCheck(*playerPlaying);
 
                 playerPlaying->setIsAiming(false);
             }

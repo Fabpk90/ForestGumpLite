@@ -29,6 +29,7 @@ public:
     void setPosition(float x, float y);
 
     sf::FloatRect getGlobalBounds() { return sprite->getGlobalBounds(); }
+    sf::Sprite& getSprite() { return  *sprite; }
 
     virtual bool takeDamage(int amount);
 

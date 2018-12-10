@@ -17,9 +17,15 @@ float VectorHelper::getDotProduct(float x0, float y0, float x1, float y1) {
 sf::Vector2f VectorHelper::normalize(sf::Vector2f v)
 {
     float length = getLength(v.x, v.y);
-
-    v.x /= length;
-    v.y /= length;
+    if(length != 0)
+    {
+        v.x /= length;
+        v.y /= length;
+    }
 
     return v;
+}
+
+float VectorHelper::angleBetween(sf::Vector2f v1, sf::Vector2f v2) {
+    return atan2(v1.y, v1.x) - atan2(v2.y, v2.x);;
 }

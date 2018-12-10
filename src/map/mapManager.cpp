@@ -1,7 +1,7 @@
 //
 // Created by fab on 07/11/18.
 //
-#include "../util/constants.h"
+#include "../util/Constants.h"
 #include <fstream>
 #include <iostream>
 
@@ -12,7 +12,7 @@
 #include "mapManager.h"
 #include "../game/actors/obstacle.h"
 #include "../game/gameManager.h"
-
+#include "../util/Collision.h"
 
 
 MapManager::MapManager() : drawLines(false)
@@ -176,13 +176,15 @@ void MapManager::loadLines()
 
 }
 
-bool MapManager::collisionCheck(sf::FloatRect rect, Player &playerAiming) {
+bool MapManager::collisionCheck(Player &playerAiming) {
     bool didCollide = false;
     auto actor = actorList.begin();
 
+    auto aimingRect =  playerAiming.getAimRectangle();
+
     while(actor != actorList.end())
     {
-        if (rect.intersects((*actor)->getGlobalBounds()))
+        if (Collision::BoundingBoxTest((*actor)->getSprite(), aimingRect))
         {
             auto player = dynamic_cast<Player*>(*actor);
 

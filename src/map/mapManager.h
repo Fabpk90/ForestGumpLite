@@ -52,9 +52,9 @@ public:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     /// Checks whether or not a collision has happend, if so destroys the actor collided
-    /// \param rect the "ray" casted to check the collision
+    /// \param playerAiming the player casting the ray to be check for collision
     /// \return true if something has been hit, false otherwise
-    bool collisionCheck(sf::FloatRect rect, Player& playerAiming);
+    bool collisionCheck(Player& playerAiming);
 
 
     void setDrawLines(bool drawLines) { this->drawLines = drawLines; }

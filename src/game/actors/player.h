@@ -20,8 +20,6 @@ private:
     //For drawing the aiming line
     sf::VertexArray aimingLineVertexArray;
 
-    sf::RectangleShape rect;
-
     bool isAiming;
 
     //loads the lines in the vertex array, the position is by default the position of the player
@@ -52,7 +50,7 @@ public:
     bool isPlayerOne() { return isPlayer1; }
 
 
-    sf::FloatRect getAimRect();
+    sf::RectangleShape getAimRectangle();
 };
 
 

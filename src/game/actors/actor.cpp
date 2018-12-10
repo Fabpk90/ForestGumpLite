@@ -1,7 +1,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
 #include "actor.h"
-#include "../../util/constants.h"
+#include "../../util/Constants.h"
 
 Actor::Actor(const char* path, int health)
 {
