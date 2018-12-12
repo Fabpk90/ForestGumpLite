@@ -11,20 +11,19 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
 : mapManager(mapPath)
 {
     p1 = new Player(player1ImgPath, 1, true);
-   // p2 = new Player(player2ImgPath, 1, false);
+    p2 = new Player(player2ImgPath, 1, false);
 
     playerPlaying = p1;
 
     p1->setPosition(mapManager.getFreePosition());
+    p1->setOrientation(Player::DOWN);
     mapManager.addActor(p1);
 
-   // p2->setPosition(mapManager.getFreePosition());
-   // mapManager.addActor(p2);
+    p2->setPosition(mapManager.getFreePosition());
+    p2->setOrientation(Player::DOWN);
+    mapManager.addActor(p2);
 
     mapManager.setDrawLines(true);
-
-    isRightMouseButtonPressed = false;
-
 
     isPlayer1Turn = true;
 }
@@ -44,6 +43,9 @@ void SceneGame::update()
                 mapManager.collisionCheck(*playerPlaying);
 
                 playerPlaying->setIsAiming(false);
+
+                changePlayerTurn();
+
             }
             else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
             {
@@ -64,12 +66,18 @@ void SceneGame::update()
 
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
-
     window.draw(mapManager);
-
     window.display();
+}
 
+void SceneGame::changePlayerTurn()
+{
+    if(isPlayer1Turn)
+        playerPlaying = p2;
+    else
+        playerPlaying = p1;
 
+    isPlayer1Turn = !isPlayer1Turn;
 }
 
 SceneGame::~SceneGame() = default;

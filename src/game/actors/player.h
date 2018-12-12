@@ -12,6 +12,7 @@
 class Player : public Actor
 {
 private:
+    //the power of the weapon
     int powerMax;
     bool isPlayer1;
 
@@ -21,11 +22,20 @@ private:
     sf::VertexArray aimingLineVertexArray;
 
     bool isAiming;
+    float aimAngle;
 
     //loads the lines in the vertex array, the position is by default the position of the player
     void loadAimingLine();
 
 public:
+    enum EDirection
+    {
+        RIGHT = 0,
+        DOWN,
+        LEFT,
+        UP
+    };
+
     ~Player() override;
 
     Player(const char* path, int health, bool isPlayer1);
@@ -40,7 +50,7 @@ public:
     void setPower(int amount) { powerMax = amount; }
     int getPower() { return powerMax; }
 
-    void setOrientation(int amount);
+    void setOrientation(EDirection direction);
     int getOrientation() { return orientation; }
 
     void setIsAiming(bool aiming);
@@ -48,6 +58,8 @@ public:
     bool getIsAiming() { return  isAiming; }
 
     bool isPlayerOne() { return isPlayer1; }
+
+
 
 
     sf::RectangleShape getAimRectangle();

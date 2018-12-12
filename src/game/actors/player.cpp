@@ -9,14 +9,10 @@
 #include "../../util/VectorHelper.h"
 #include "../../util/Constants.h"
 
-Player::~Player()
-{
-
-}
+Player::~Player() = default;
 
 Player::Player(const char *path, int health, bool isPlayer1) : Actor(path, health)
 {
-
     this->isPlayer1 = isPlayer1;
     isAiming = false;
 
@@ -41,10 +37,10 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
         target.draw(aimingLineVertexArray);
 }
 
-void Player::setOrientation(int amount)
+void Player::setOrientation(EDirection direction)
 {
     //TODO: maybe change this to not include a modulo op
-    orientation = amount % 361;
+    orientation = direction * 45;
 }
 
 void Player::setIsAiming(bool aiming)
@@ -72,12 +68,6 @@ void Player::updateAimingLine(sf::Vector2i position)
 
     aimingLineVertexArray[0].position = centeredPos;
     aimingLineVertexArray[1].position = sf::Vector2f(position);
-}
-
-sf::RectangleShape Player::getAimRectangle()
-{
-    //used to represent the ray
-    sf::RectangleShape rect;
 
     //this vector represents the translated aim vector, the center of the cartesian model being the player pos
     sf::Vector2f translatedPosition = aimingLineVertexArray[1].position;
@@ -86,18 +76,28 @@ sf::RectangleShape Player::getAimRectangle()
     translatedPosition.x -= aimingLineVertexArray[0].position.x;
     translatedPosition.y -= aimingLineVertexArray[0].position.y;
 
-
     float angle = VectorHelper::angleBetween(translatedPosition, sf::Vector2f(0.0f, 0.0f));
+    if(angle < 0) angle += 2 * PI;
 
-    if (angle < 0) angle += 2 * PI;
+    angle = (angle * 180.0f / PI);
+
+    //if correct angle, set it to the actual angle
+    //TODO: Test the angle
+    aimAngle = angle;
+}
+
+sf::RectangleShape Player::getAimRectangle()
+{
+    //used to represent the ray
+    sf::RectangleShape rect;
 
     rect.setPosition(aimingLineVertexArray[0].position);
 
+    rect.setSize(sf::Vector2f(2.0f,
+            VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
+                           (aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).y)));
 
-    rect.setSize(sf::Vector2f(2.0f, VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
-            (aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).y)));
-
-    rect.setRotation((angle * 180.0f / PI) - 90);
+    rect.setRotation(aimAngle - 90);
 
     return rect;
 }

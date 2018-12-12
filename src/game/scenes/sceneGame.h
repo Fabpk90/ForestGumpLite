@@ -23,7 +23,7 @@ private:
 
     bool isPlayer1Turn;
 
-    bool isRightMouseButtonPressed;
+    void changePlayerTurn();
 
 public:
 
