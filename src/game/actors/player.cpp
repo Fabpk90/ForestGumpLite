@@ -15,6 +15,7 @@ Player::Player(const char *path, int health, bool isPlayer1) : Actor(path, healt
 {
     this->isPlayer1 = isPlayer1;
     isAiming = false;
+    isAimingCorrect = false;
 
     loadAimingLine();
 }
@@ -40,7 +41,18 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 void Player::setOrientation(EDirection direction)
 {
     //TODO: maybe change this to not include a modulo op
-    orientation = direction * 45;
+    orientation = direction * 90;
+
+    if(orientation == 0)
+    {
+        aimAngleMin = 3 * 90;
+        aimAngleMax = 1 * 90;
+    }
+    else
+    {
+        aimAngleMin = orientation - 90;
+        aimAngleMax = orientation + 90;
+    }
 }
 
 void Player::setIsAiming(bool aiming)
@@ -55,24 +67,16 @@ void Player::loadAimingLine()
     aimingLineVertexArray[0].position = sprite->getPosition();
     aimingLineVertexArray[0].color = sf::Color::Red;
 
-    aimingLineVertexArray[1].position = sprite->getPosition() * .5f;
+    aimingLineVertexArray[1].position = sprite->getPosition() * 1.5f;
     aimingLineVertexArray[1].color = sf::Color::Red;
 }
 
 void Player::updateAimingLine(sf::Vector2i position)
 {
-    sf::Vector2f centeredPos = sprite->getPosition();
-
-    centeredPos.x += sprite->getTexture()->getSize().x >> 1;
-    centeredPos.y += sprite->getTexture()->getSize().y >> 1;
-
-    aimingLineVertexArray[0].position = centeredPos;
-    aimingLineVertexArray[1].position = sf::Vector2f(position);
-
     //this vector represents the translated aim vector, the center of the cartesian model being the player pos
-    sf::Vector2f translatedPosition = aimingLineVertexArray[1].position;
+    sf::Vector2f translatedPosition = sf::Vector2f(position);
 
-    //translating with the player pos
+    //translating with the player pos, normalizing the pos to calculate the angle
     translatedPosition.x -= aimingLineVertexArray[0].position.x;
     translatedPosition.y -= aimingLineVertexArray[0].position.y;
 
@@ -83,7 +87,38 @@ void Player::updateAimingLine(sf::Vector2i position)
 
     //if correct angle, set it to the actual angle
     //TODO: Test the angle
-    aimAngle = angle;
+
+    std::cout << angle << "   " << aimAngleMin << "  "<< aimAngleMax <<  std::endl;
+
+    //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
+    if(orientation == 0)
+    {
+        if(angle > aimAngleMin || angle < aimAngleMax)
+        {
+            isAimingCorrect = true;
+
+            aimingLineVertexArray[1].position = sf::Vector2f(position);
+            aimAngle = angle;
+        }
+        else
+            isAimingCorrect = false;
+
+    }
+    else
+    {
+        if(angle > aimAngleMin && angle < aimAngleMax)
+        {
+            isAimingCorrect = true;
+
+            aimingLineVertexArray[1].position = sf::Vector2f(position);
+            aimAngle = angle;
+        }
+        else
+            isAimingCorrect = false;
+    }
+
+
+
 }
 
 sf::RectangleShape Player::getAimRectangle()
@@ -100,4 +135,19 @@ sf::RectangleShape Player::getAimRectangle()
     rect.setRotation(aimAngle - 90);
 
     return rect;
+}
+
+void Player::setPosition(sf::Vector2f position)
+{
+    Actor::setPosition(position);
+
+    std::cout << "ha";
+
+    //centering the pos to the center of the player sprite
+    position.x += sprite->getTexture()->getSize().x >> 1;
+    position.y += sprite->getTexture()->getSize().y >> 1;
+
+    aimingLineVertexArray[0].position = position;
+
+    aimingLineVertexArray[1].position = position * 1.5f;
 }

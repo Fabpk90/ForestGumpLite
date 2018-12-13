@@ -21,8 +21,12 @@ private:
     //For drawing the aiming line
     sf::VertexArray aimingLineVertexArray;
 
+    bool isAimingCorrect;
     bool isAiming;
     float aimAngle;
+
+    float aimAngleMax;
+    float aimAngleMin;
 
     //loads the lines in the vertex array, the position is by default the position of the player
     void loadAimingLine();
@@ -59,6 +63,7 @@ public:
 
     bool isPlayerOne() { return isPlayer1; }
 
+    void setPosition(sf::Vector2f position) override;
 
 
 
