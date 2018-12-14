@@ -15,7 +15,8 @@ Player::Player(const char *path, int health, bool isPlayer1) : Actor(path, healt
 {
     this->isPlayer1 = isPlayer1;
     isAiming = false;
-    isAimingCorrect = false;
+
+    shouldBeDrawn = true;
 
     loadAimingLine();
 }
@@ -32,10 +33,13 @@ void Player::onDie()
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    Actor::draw(target, states);
+    if(shouldBeDrawn)
+    {
+        Actor::draw(target, states);
 
-    if(isAiming)
-        target.draw(aimingLineVertexArray);
+        if(isAiming)
+            target.draw(aimingLineVertexArray);
+    }
 }
 
 void Player::setOrientation(EDirection direction)
@@ -86,39 +90,24 @@ void Player::updateAimingLine(sf::Vector2i position)
     angle = (angle * 180.0f / PI);
 
     //if correct angle, set it to the actual angle
-    //TODO: Test the angle
-
-    std::cout << angle << "   " << aimAngleMin << "  "<< aimAngleMax <<  std::endl;
 
     //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
     if(orientation == 0)
     {
         if(angle > aimAngleMin || angle < aimAngleMax)
         {
-            isAimingCorrect = true;
-
             aimingLineVertexArray[1].position = sf::Vector2f(position);
             aimAngle = angle;
         }
-        else
-            isAimingCorrect = false;
-
     }
     else
     {
         if(angle > aimAngleMin && angle < aimAngleMax)
         {
-            isAimingCorrect = true;
-
             aimingLineVertexArray[1].position = sf::Vector2f(position);
             aimAngle = angle;
         }
-        else
-            isAimingCorrect = false;
     }
-
-
-
 }
 
 sf::RectangleShape Player::getAimRectangle()
@@ -132,7 +121,7 @@ sf::RectangleShape Player::getAimRectangle()
             VectorHelper::getLength((aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).x,
                            (aimingLineVertexArray[1].position - aimingLineVertexArray[0].position).y)));
 
-    rect.setRotation(aimAngle - 90);
+    rect.setRotation(aimAngle - 90); // because 0 is down
 
     return rect;
 }
@@ -140,8 +129,6 @@ sf::RectangleShape Player::getAimRectangle()
 void Player::setPosition(sf::Vector2f position)
 {
     Actor::setPosition(position);
-
-    std::cout << "ha";
 
     //centering the pos to the center of the player sprite
     position.x += sprite->getTexture()->getSize().x >> 1;

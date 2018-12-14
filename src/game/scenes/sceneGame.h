@@ -23,7 +23,13 @@ private:
 
     bool isPlayer1Turn;
 
+    sf::RectangleShape rect;
+
     void changePlayerTurn();
+
+    /// Checks if the player sees the other player
+    /// \return
+    bool checkPlayerSight();
 
 public:
 

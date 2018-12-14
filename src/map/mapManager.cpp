@@ -176,7 +176,7 @@ void MapManager::loadLines()
 
 }
 
-bool MapManager::collisionCheck(Player &playerAiming) {
+bool MapManager::collisionAimCheck(Player &playerAiming) {
     bool didCollide = false;
     auto actor = actorList.begin();
 

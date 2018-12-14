@@ -21,15 +21,16 @@ private:
     //For drawing the aiming line
     sf::VertexArray aimingLineVertexArray;
 
-    bool isAimingCorrect;
     bool isAiming;
     float aimAngle;
 
-    float aimAngleMax;
-    float aimAngleMin;
+    int aimAngleMax;
+    int aimAngleMin;
 
     //loads the lines in the vertex array, the position is by default the position of the player
     void loadAimingLine();
+
+    bool shouldBeDrawn;
 
 public:
     enum EDirection
@@ -65,7 +66,12 @@ public:
 
     void setPosition(sf::Vector2f position) override;
 
+    void setToBeDrawn(bool drawn) { shouldBeDrawn = drawn; }
+    bool getToBeDrawn() { return shouldBeDrawn; }
 
+
+    int getAimMaxAngle() { return aimAngleMax; }
+    int getAimMinAngle() { return aimAngleMin; }
 
     sf::RectangleShape getAimRectangle();
 };

@@ -6,6 +6,7 @@
 #include "../gameManager.h"
 #include "sceneGame.h"
 #include "../../util/Constants.h"
+#include "../../util/Collision.h"
 
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath)
 : mapManager(mapPath)
@@ -13,10 +14,9 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
     p1 = new Player(player1ImgPath, 1, true);
     p2 = new Player(player2ImgPath, 1, false);
 
-    playerPlaying = p1;
 
     p1->setPosition(mapManager.getFreePosition());
-    p1->setOrientation(Player::DOWN);
+    p1->setOrientation(Player::UP);
     mapManager.addActor(p1);
 
     p2->setPosition(mapManager.getFreePosition());
@@ -25,7 +25,8 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
 
     mapManager.setDrawLines(true);
 
-    isPlayer1Turn = true;
+    isPlayer1Turn = false;
+    changePlayerTurn();
 }
 
 void SceneGame::update()
@@ -40,7 +41,7 @@ void SceneGame::update()
         {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming())
             {
-                mapManager.collisionCheck(*playerPlaying);
+                mapManager.collisionAimCheck(*playerPlaying);
 
                 playerPlaying->setIsAiming(false);
 
@@ -67,17 +68,79 @@ void SceneGame::update()
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
     window.draw(mapManager);
+    for(int i = 0; i < 12; ++i)
+        window.draw(rectt[i]);
     window.display();
 }
 
 void SceneGame::changePlayerTurn()
 {
+    //COMMENT HERE TO SEE ALL THE PLAYERS
+
     if(isPlayer1Turn)
+    {
         playerPlaying = p2;
+
+        p1->setToBeDrawn(false);
+        p2->setToBeDrawn(true);
+    }
     else
+    {
         playerPlaying = p1;
 
+        p1->setToBeDrawn(true);
+        p2->setToBeDrawn(false);
+    }
+
     isPlayer1Turn = !isPlayer1Turn;
+
+    //if the player sees the other one, we draw him
+    if(checkPlayerSight())
+    {
+        std::cout << "yay" << std::endl;
+
+        if(isPlayer1Turn)
+            p2->setToBeDrawn(true);
+        else
+            p1->setToBeDrawn(true);
+    }
+}
+
+bool SceneGame::checkPlayerSight()
+{
+    Player& otherPlayer = isPlayer1Turn ? *p2 : *p1;
+    std::list<Actor*> actors = mapManager.getActorList();
+    sf::Vector2f position = playerPlaying->getPosition();
+
+    rect.setSize(sf::Vector2f(30, SCREEN_SIZE_WIDTH));
+
+    //centering the pos to the center of the player sprite
+    position.x += playerPlaying->getSprite().getTexture()->getSize().x >> 1;
+    position.y += playerPlaying->getSprite().getTexture()->getSize().y >> 1;
+
+    rect.setPosition(position);
+
+    //here we cast 10 rect to see if the sight collides wih the other player
+    for(int angle = playerPlaying->getAimMinAngle(); angle <= playerPlaying->getAimMaxAngle(); angle += 18)
+    {
+        rect.setRotation(angle);
+
+        bool touchedObstacle = false;
+        for(auto actor = actors.begin(); actor != actors.end() || !touchedObstacle; ++actor)
+        {
+            if(Collision::BoundingBoxTest((*actor)->getSprite(), rect))
+            {
+                auto player = dynamic_cast<Player*>(*actor);
+
+                if(player && player != playerPlaying)
+                    return true;
+                else
+                    touchedObstacle = true;
+            }
+        }
+    }
+
+    return false;
 }
 
 SceneGame::~SceneGame() = default;
