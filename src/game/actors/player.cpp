@@ -90,23 +90,10 @@ void Player::updateAimingLine(sf::Vector2i position)
     angle = (angle * 180.0f / PI);
 
     //if correct angle, set it to the actual angle
-
-    //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
-    if(orientation == 0)
+    if(isAngleValid(angle))
     {
-        if(angle > aimAngleMin || angle < aimAngleMax)
-        {
-            aimingLineVertexArray[1].position = sf::Vector2f(position);
-            aimAngle = angle;
-        }
-    }
-    else
-    {
-        if(angle > aimAngleMin && angle < aimAngleMax)
-        {
-            aimingLineVertexArray[1].position = sf::Vector2f(position);
-            aimAngle = angle;
-        }
+        aimingLineVertexArray[1].position = sf::Vector2f(position);
+        aimAngle = angle;
     }
 }
 
@@ -137,4 +124,26 @@ void Player::setPosition(sf::Vector2f position)
     aimingLineVertexArray[0].position = position;
 
     aimingLineVertexArray[1].position = position * 1.5f;
+}
+
+bool Player::isAngleValid(float angle)
+{
+
+    //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
+    if(orientation == 0)
+    {
+        if(angle > aimAngleMin || angle < aimAngleMax)
+        {
+            return true;
+        }
+    }
+    else
+    {
+        if(angle > aimAngleMin && angle < aimAngleMax)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -7,6 +7,7 @@
 #include "sceneGame.h"
 #include "../../util/Constants.h"
 #include "../../util/Collision.h"
+#include "../../util/VectorHelper.h"
 
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath)
 : mapManager(mapPath)
@@ -25,6 +26,8 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
 
     mapManager.setDrawLines(true);
 
+    sightRectangle.setSize(sf::Vector2f(5, SCREEN_SIZE_WIDTH));
+
     isPlayer1Turn = false;
     changePlayerTurn();
 }
@@ -33,7 +36,6 @@ void SceneGame::update()
 {
     sf::RenderWindow& window = GameManager::Instance->getWindow();
 
-    //check for closing window
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -68,15 +70,11 @@ void SceneGame::update()
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
     window.draw(mapManager);
-    for(int i = 0; i < 12; ++i)
-        window.draw(rectt[i]);
     window.display();
 }
 
 void SceneGame::changePlayerTurn()
 {
-    //COMMENT HERE TO SEE ALL THE PLAYERS
-
     if(isPlayer1Turn)
     {
         playerPlaying = p2;
@@ -97,8 +95,6 @@ void SceneGame::changePlayerTurn()
     //if the player sees the other one, we draw him
     if(checkPlayerSight())
     {
-        std::cout << "yay" << std::endl;
-
         if(isPlayer1Turn)
             p2->setToBeDrawn(true);
         else
@@ -109,33 +105,46 @@ void SceneGame::changePlayerTurn()
 bool SceneGame::checkPlayerSight()
 {
     Player& otherPlayer = isPlayer1Turn ? *p2 : *p1;
-    std::list<Actor*> actors = mapManager.getActorList();
-    sf::Vector2f position = playerPlaying->getPosition();
-
-    rect.setSize(sf::Vector2f(30, SCREEN_SIZE_WIDTH));
+    sf::Vector2f startPos = playerPlaying->getPosition();
+    sf::Vector2f endPos = otherPlayer.getPosition();
 
     //centering the pos to the center of the player sprite
-    position.x += playerPlaying->getSprite().getTexture()->getSize().x >> 1;
-    position.y += playerPlaying->getSprite().getTexture()->getSize().y >> 1;
+    startPos.x += playerPlaying->getSprite().getTexture()->getSize().x >> 1;
+    startPos.y += playerPlaying->getSprite().getTexture()->getSize().y >> 1;
 
-    rect.setPosition(position);
 
-    //here we cast 10 rect to see if the sight collides wih the other player
-    for(int angle = playerPlaying->getAimMinAngle(); angle <= playerPlaying->getAimMaxAngle(); angle += 18)
+    //normalizing end pos to compute angle
+    endPos.x -= startPos.x;
+    endPos.y -= startPos.y;
+
+    sightRectangle.setPosition(startPos);
+
+    float angle = VectorHelper::angleBetween(endPos, sf::Vector2f(0.0f, 0.0f));
+    if(angle < 0) angle += 2 * PI;
+
+    angle = (angle * 180.0f / PI);
+
+    //we check if the player could possibly see the other
+    if(playerPlaying->isAngleValid(angle))
     {
-        rect.setRotation(angle);
+        sightRectangle.setRotation(angle - 90);
 
-        bool touchedObstacle = false;
-        for(auto actor = actors.begin(); actor != actors.end() || !touchedObstacle; ++actor)
+        auto actors = mapManager.getActorList();
+
+        for(Actor* actor : actors)
         {
-            if(Collision::BoundingBoxTest((*actor)->getSprite(), rect))
+            if(Collision::BoundingBoxTest(actor->getSprite(), sightRectangle))
             {
-                auto player = dynamic_cast<Player*>(*actor);
+                Player* player = dynamic_cast<Player*>(actor);
 
-                if(player && player != playerPlaying)
-                    return true;
+                if(player)
+                {
+                    //here we could be hitting ourselves, if so we ignore it
+                    if(player == &otherPlayer)
+                        return true;
+                }
                 else
-                    touchedObstacle = true;
+                    return false;
             }
         }
     }

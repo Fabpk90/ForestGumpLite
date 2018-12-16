@@ -58,6 +58,8 @@ public:
     void setOrientation(EDirection direction);
     int getOrientation() { return orientation; }
 
+    bool isAngleValid(float angleAmount);
+
     void setIsAiming(bool aiming);
     void toggleAiming() { isAiming = !isAiming; }
     bool getIsAiming() { return  isAiming; }
