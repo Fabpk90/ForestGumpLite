@@ -13,7 +13,7 @@ class Editor  : public Scene{
 
 private:
     MapManager mapManager;
-
+	int brushType;
 
 public:
     Editor();
@@ -21,6 +21,7 @@ public:
     ~Editor() override;
 
     void update() override;
+    void paint(sf::RenderWindow& window);
 
 };
 

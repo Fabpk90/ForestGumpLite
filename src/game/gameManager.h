@@ -8,11 +8,13 @@
 #include <SFML/Graphics.hpp>
 
 #include "scenes/scene.h"
+#include "../editor/editor.h"
 
 class GameManager
 {
 private:
     Scene* scene;
+    Editor* editor;
     sf::RenderWindow* window;
 
     sf::Color clearColor;
@@ -24,7 +26,9 @@ public:
     static GameManager* Instance;
 
     void setScene(Scene* scene, bool isOldToBeDeleted = false);
+    void setEditor(Editor* edit) {editor = edit;}
     void renderScene();
+    void editorMode();
 
     sf::RenderWindow& getWindow() { return *window; }
 

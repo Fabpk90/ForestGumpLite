@@ -36,6 +36,11 @@ void GameManager::renderScene()
     scene->update();
 }
 
+void GameManager::editorMode()
+{
+    editor->update();
+}
+
 GameManager::~GameManager()
 {
     delete scene;

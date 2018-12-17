@@ -11,11 +11,13 @@ int main()
     GameManager gm;
 
     gm.setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png"));
+    gm.setEditor(new Editor());
     //gm.setScene(new Editor());
 
     while (gm.getWindow().isOpen())
     {
-        gm.renderScene();
+        //gm.renderScene();
+        gm.editorMode();
     }
 
     return 0;
