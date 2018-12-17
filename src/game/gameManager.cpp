@@ -48,4 +48,6 @@ void GameManager::setWinner(bool isWinnerPlayer1)
         std::cout << "Player 1 has won!  Shame on you player 2!";
     else
         std::cout << "Player 2 has won!  Shame on you player 1!";
+
+    window->close();
 }
