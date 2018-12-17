@@ -14,7 +14,6 @@ class GameManager
 {
 private:
     Scene* scene;
-    Editor* editor;
     sf::RenderWindow* window;
 
     sf::Color clearColor;
@@ -26,7 +25,6 @@ public:
     static GameManager* Instance;
 
     void setScene(Scene* scene, bool isOldToBeDeleted = false);
-    void setEditor(Editor* edit) {editor = edit;}
     void renderScene();
     void editorMode();
 

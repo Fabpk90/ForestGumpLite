@@ -49,7 +49,7 @@ Editor::Editor()																	//the same amount of lines as pre-streching, it
 {																					//I tried to rebuild the mapmanager after making my setsize but to no avails, pretty much like everything else I've tried.
     mapManager.setDrawLines(true);													//I did succeed to limit the length of the horizontal lines (which was easy but then again, so should be the grid width thingy)
 																					//Welp, my incoherente rent is now over, this was way to long to write it as a commentary but it's (literraly) too late.
-    brushType = 0;																	//Oh and before I go, I couldn't push earlier 'cause I got 403 when I tried to push (on my branch)
+    brushType = 0;																	//Oh and before I go, I couldn't push earlier 'cause I got 403 when I tried to push ((on my branch) on your repo)
 }
 
 void Editor::paint(sf::RenderWindow& window)
