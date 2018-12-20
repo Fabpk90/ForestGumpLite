@@ -29,3 +29,7 @@ sf::Vector2f VectorHelper::normalize(sf::Vector2f v)
 float VectorHelper::angleBetween(sf::Vector2f v1, sf::Vector2f v2) {
     return atan2(v1.y, v1.x) - atan2(v2.y, v2.x);;
 }
+
+float VectorHelper::getLength(sf::Vector2f v) {
+    return sqrt((v.x * v.x) + (v.y * v.y));
+}

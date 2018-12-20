@@ -44,7 +44,8 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Player::setOrientation(EDirection direction)
 {
-    //TODO: maybe change this to not include a modulo op
+    //TODO: fix this, because when angle == 0 -> bug for the sight (orientation up)
+
     orientation = direction * 90;
 
     if(orientation == 0)
@@ -57,6 +58,9 @@ void Player::setOrientation(EDirection direction)
         aimAngleMin = orientation - 90;
         aimAngleMax = orientation + 90;
     }
+
+    aimAngleMin -= 1;
+    aimAngleMax += 1;
 }
 
 void Player::setIsAiming(bool aiming)
@@ -131,14 +135,14 @@ bool Player::isAngleValid(float angle)
     //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
     if(orientation == 0)
     {
-        if(angle > aimAngleMin || angle < aimAngleMax)
+        if(angle >= aimAngleMin || angle <= aimAngleMax)
         {
             return true;
         }
     }
     else
     {
-        if(angle > aimAngleMin && angle < aimAngleMax)
+        if(angle >= aimAngleMin && angle <= aimAngleMax)
         {
             return true;
         }

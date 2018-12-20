@@ -26,7 +26,7 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
 
     mapManager.setDrawLines(true);
 
-    sightRectangle.setSize(sf::Vector2f(5, SCREEN_SIZE_WIDTH));
+    sightRectangle.setSize(sf::Vector2f(2, SCREEN_SIZE_WIDTH));
 
     isPlayer1Turn = false;
     changePlayerTurn();
@@ -114,6 +114,9 @@ bool SceneGame::checkPlayerSight()
     startPos.x += playerPlaying->getSprite().getTexture()->getSize().x >> 1;
     startPos.y += playerPlaying->getSprite().getTexture()->getSize().y >> 1;
 
+    //centering the pos to the center of the other player sprite
+    endPos.x += otherPlayer.getSprite().getTexture()->getSize().x >> 1;
+    endPos.y += otherPlayer.getSprite().getTexture()->getSize().y >> 1;
 
     //normalizing end pos to compute angle
     endPos.x -= startPos.x;
@@ -126,28 +129,64 @@ bool SceneGame::checkPlayerSight()
 
     angle = (angle * 180.0f / PI);
 
-    //we check if the player could possibly see the other
+    //because of the collision check, we need to see if the other player has been touch
+    //if it has, we need to see if it is the nearest
+    std::list<Actor*> actorHit;
+    float distanceMin = SCREEN_SIZE_WIDTH;
+
+    //we check if the player could possibly see the other one
     if(playerPlaying->isAngleValid(angle))
     {
         sightRectangle.setRotation(angle - 90);
 
         auto actors = mapManager.getActorList();
 
-        for(Actor* actor : actors)
-        {
-            if(Collision::BoundingBoxTest(actor->getSprite(), sightRectangle))
-            {
-                Player* player = dynamic_cast<Player*>(actor);
+        //first pass to see who's been hit
+        for (Actor *actor : actors) {
+            if (Collision::BoundingBoxTest(actor->getSprite(), sightRectangle)) {
+                actorHit.push_back(actor);
+            }
+        }
 
-                if(player)
+        Actor *nearestActor = nullptr;
+
+        //checking the nearest hit actor
+        for (Actor* actor : actorHit)
+        {
+            float distance = VectorHelper::getLength(actor->getPosition() - playerPlaying->getPosition());
+
+            if (distanceMin > distance)
+            {
+                std::cout << "distance good " << distance << std::endl;
+
+                Player *player = dynamic_cast<Player *>(actor);
+
+                if (player)
                 {
                     //here we could be hitting ourselves, if so we ignore it
-                    if(player == &otherPlayer)
-                        return true;
+                    if (player == &otherPlayer)
+                    {
+                        nearestActor = actor;
+                        distanceMin = distance;
+                    }
+
                 }
                 else
-                    return false;
+                {
+                    nearestActor = actor;
+                    distanceMin = distance;
+                }
             }
+
+        }
+
+        Player *player = dynamic_cast<Player *>(nearestActor);
+
+        if (player)
+        {
+            //here we could be hitting ourselves, if so we ignore it
+            if (player == &otherPlayer)
+                return true;
         }
     }
 
