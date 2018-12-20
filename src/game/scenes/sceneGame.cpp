@@ -90,6 +90,8 @@ void SceneGame::changePlayerTurn()
         p2->setToBeDrawn(false);
     }
 
+    playerPlaying->setMovementRemaining(MOVEMENT_PER_TURN);
+
     isPlayer1Turn = !isPlayer1Turn;
 
     //if the player sees the other one, we draw him

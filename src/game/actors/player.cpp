@@ -128,7 +128,6 @@ void Player::setPosition(sf::Vector2f position)
 
 bool Player::isAngleValid(float angle)
 {
-
     //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
     if(orientation == 0)
     {

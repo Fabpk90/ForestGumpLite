@@ -12,6 +12,9 @@
 class Player : public Actor
 {
 private:
+
+    int movementRemaining;
+
     //the power of the weapon
     int powerMax;
     bool isPlayer1;
@@ -71,9 +74,11 @@ public:
     void setToBeDrawn(bool drawn) { shouldBeDrawn = drawn; }
     bool getToBeDrawn() { return shouldBeDrawn; }
 
-
     int getAimMaxAngle() { return aimAngleMax; }
     int getAimMinAngle() { return aimAngleMin; }
+
+    void setMovementRemaining(int amount) { movementRemaining = amount; }
+    int getMovementRemaining() { return movementRemaining; }
 
     sf::RectangleShape getAimRectangle();
 };

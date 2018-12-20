@@ -17,6 +17,8 @@
 
 #define PI 3.14159265
 
+#define MOVEMENT_PER_TURN 3
+
 /* Map constants  */
 #define TILE_TREE 1
 #define TILE_ROCK 2
