@@ -33,6 +33,8 @@ private:
     /// \return
     bool checkPlayerSight();
 
+    void checkForPlayerMovement();
+
 public:
 
     ~SceneGame() override;

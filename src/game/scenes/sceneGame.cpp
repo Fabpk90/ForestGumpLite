@@ -12,8 +12,8 @@
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath)
 : mapManager(mapPath)
 {
-    p1 = new Player(player1ImgPath, 1, true);
-    p2 = new Player(player2ImgPath, 1, false);
+    p1 = new Player(player1ImgPath, 10, true);
+    p2 = new Player(player2ImgPath, 10, false);
 
     p1->setPosition(mapManager.getFreePosition());
     p1->setOrientation(Player::UP);
@@ -61,7 +61,11 @@ void SceneGame::update()
         }
         else if (event.type == sf::Event::Closed)
             window.close();
+
+        if(playerPlaying->getMovementRemaining())
+            checkForPlayerMovement();
     }
+
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
@@ -186,6 +190,26 @@ bool SceneGame::checkPlayerSight()
         }
     }
     return false;
+}
+
+void SceneGame::checkForPlayerMovement()
+{
+    sf::Vector2f pos = playerPlaying->getPosition();
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        pos += sf::Vector2f(-PIXEL_SIZE, 0);
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        pos += sf::Vector2f(PIXEL_SIZE, 0);
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        pos += sf::Vector2f(0, -PIXEL_SIZE);
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        pos += sf::Vector2f(0, PIXEL_SIZE);
+
+    if(mapManager.getIsPositionFree(pos))
+    {
+        playerPlaying->moveTo(pos);
+    }
+
 }
 
 SceneGame::~SceneGame() = default;

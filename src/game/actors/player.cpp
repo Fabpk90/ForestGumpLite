@@ -81,6 +81,14 @@ void Player::loadAimingLine()
 
 void Player::updateAimingLine(sf::Vector2i position)
 {
+    sf::Vector2f pos = sprite->getPosition();
+
+    //centering the pos to the center of the player sprite
+    pos.x += sprite->getTexture()->getSize().x >> 1;
+    pos.y += sprite->getTexture()->getSize().y >> 1;
+
+    aimingLineVertexArray[0].position = pos;
+
     //this vector represents the translated aim vector, the center of the cartesian model being the player pos
     sf::Vector2f translatedPosition = sf::Vector2f(position);
 
@@ -169,4 +177,10 @@ sf::CircleShape Player::getAimCircle()
             , aimingLineVertexArray[1].position.y - cs.getRadius());
 
     return cs;
+}
+
+void Player::moveTo(sf::Vector2f pos)
+{
+    setPosition(pos);
+    movementRemaining--;
 }

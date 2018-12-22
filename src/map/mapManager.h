@@ -23,8 +23,6 @@ private:
 
     //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
 
-    bool getIsPositionFree(sf::Vector2f pos);
-
     void loadLines();
 
     bool drawLines;
@@ -57,6 +55,8 @@ public:
     bool collisionAimCheck(Player &playerAiming);
 
     void setDrawLines(bool drawLines) { this->drawLines = drawLines; }
+
+    bool getIsPositionFree(sf::Vector2f pos);
 };
 
 
