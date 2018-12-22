@@ -181,10 +181,12 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
     auto actor = actorList.begin();
 
     auto aimingRect =  playerAiming.getAimRectangle();
+    auto aimingCicle = playerAiming.getAimCircle();
 
     while(actor != actorList.end())
     {
-        if (Collision::BoundingBoxTest((*actor)->getSprite(), aimingRect))
+        if (Collision::BoundingBoxTest((*actor)->getSprite(), aimingRect)
+        || (*actor)->getSprite().getGlobalBounds().intersects(aimingCicle.getGlobalBounds()))
         {
             auto player = dynamic_cast<Player*>(*actor);
 
@@ -192,7 +194,7 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
             {
                 didCollide = true;
 
-                if((*actor)->takeDamage(1))
+                if((*actor)->takeDamage(playerAiming.getPowerInUse()))
                 {
                     delete *actor;
                     actor = actorList.erase(actor);
@@ -206,6 +208,9 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
         else
             ++actor;
     }
+
+    //applying the damage equals to the power
+    playerAiming.takeDamage(playerAiming.getPowerInUse());
 
     return didCollide;
 }

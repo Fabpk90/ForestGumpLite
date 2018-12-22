@@ -96,8 +96,17 @@ void Player::updateAimingLine(sf::Vector2i position)
     //if correct angle, set it to the actual angle
     if(isAngleValid(angle))
     {
-        aimingLineVertexArray[1].position = sf::Vector2f(position);
+        sf::Vector2f tmpVec = sf::Vector2f(position);
         aimAngle = angle;
+
+        float power = VectorHelper::getLength(aimingLineVertexArray[0].position - tmpVec)
+                / PIXEL_SIZE;
+
+        if(power < health)
+        {
+            aimingLineVertexArray[1].position = tmpVec;
+            powerInUse = (int)power;
+        }
     }
 }
 
@@ -149,4 +158,15 @@ bool Player::isAngleValid(float angle)
     }
 
     return false;
+}
+
+sf::CircleShape Player::getAimCircle()
+{
+    cs.setRadius(powerInUse * PIXEL_SIZE);
+
+    //centering the circle
+    cs.setPosition(aimingLineVertexArray[1].position.x - cs.getRadius()
+            , aimingLineVertexArray[1].position.y - cs.getRadius());
+
+    return cs;
 }

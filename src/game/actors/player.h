@@ -17,12 +17,16 @@ private:
 
     //the power of the weapon
     int powerMax;
+    //power in use in this turn
+    int powerInUse;
     bool isPlayer1;
 
     int orientation;
 
     //For drawing the aiming line
     sf::VertexArray aimingLineVertexArray;
+
+    sf::CircleShape cs;
 
     bool isAiming;
     float aimAngle;
@@ -55,8 +59,8 @@ public:
 
     void updateAimingLine(sf::Vector2i position);
 
-    void setPower(int amount) { powerMax = amount; }
-    int getPower() { return powerMax; }
+    int getPowerMax() { return powerMax; }
+    int getPowerInUse() { return powerInUse; }
 
     void setOrientation(EDirection direction);
     int getOrientation() { return orientation; }
@@ -81,6 +85,7 @@ public:
     int getMovementRemaining() { return movementRemaining; }
 
     sf::RectangleShape getAimRectangle();
+    sf::CircleShape getAimCircle();
 };
 
 

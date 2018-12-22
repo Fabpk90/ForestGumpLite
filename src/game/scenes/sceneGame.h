@@ -25,6 +25,7 @@ private:
 
     //used to know whether or not the player playing sees the other one
     sf::RectangleShape sightRectangle;
+    sf::CircleShape circleAim;
 
     void changePlayerTurn();
 

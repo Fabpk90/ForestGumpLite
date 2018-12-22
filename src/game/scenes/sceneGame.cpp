@@ -15,7 +15,6 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
     p1 = new Player(player1ImgPath, 1, true);
     p2 = new Player(player2ImgPath, 1, false);
 
-
     p1->setPosition(mapManager.getFreePosition());
     p1->setOrientation(Player::UP);
     mapManager.addActor(p1);
@@ -142,23 +141,23 @@ bool SceneGame::checkPlayerSight()
         auto actors = mapManager.getActorList();
 
         //first pass to see who's been hit
-        for (Actor *actor : actors) {
-            if (Collision::BoundingBoxTest(actor->getSprite(), sightRectangle)) {
+        for (Actor *actor : actors)
+        {
+            if (Collision::BoundingBoxTest(actor->getSprite(), sightRectangle))
+            {
                 actorHit.push_back(actor);
             }
         }
 
         Actor *nearestActor = nullptr;
 
+        float distance = 0;
         //checking the nearest hit actor
         for (Actor* actor : actorHit)
         {
-            float distance = VectorHelper::getLength(actor->getPosition() - playerPlaying->getPosition());
-
+            distance = VectorHelper::getLength(actor->getPosition() - playerPlaying->getPosition());
             if (distanceMin > distance)
             {
-                std::cout << "distance good " << distance << std::endl;
-
                 Player *player = dynamic_cast<Player *>(actor);
 
                 if (player)
@@ -169,7 +168,6 @@ bool SceneGame::checkPlayerSight()
                         nearestActor = actor;
                         distanceMin = distance;
                     }
-
                 }
                 else
                 {
@@ -177,19 +175,16 @@ bool SceneGame::checkPlayerSight()
                     distanceMin = distance;
                 }
             }
-
         }
 
         Player *player = dynamic_cast<Player *>(nearestActor);
 
-        if (player)
+        //here we could be hitting ourselves, if so we ignore it
+        if (player && player == &otherPlayer)
         {
-            //here we could be hitting ourselves, if so we ignore it
-            if (player == &otherPlayer)
-                return true;
+            return true;
         }
     }
-
     return false;
 }
 
