@@ -8,7 +8,7 @@
 #define FORESTGUMPLITE_MENU_H
 
 
-class Menu : public Scene {
+class Menu : public sf::Drawable {
 private:
     int itemSelected;
     sf::Font font;
@@ -17,12 +17,11 @@ private:
 public:
     Menu(float width, float height);
 
-    void drawMenu(sf::RenderWindow &window);
     void MoveUp();
     void MoveDown();
     int getItem() {return itemSelected;}
 
-    void update() override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     ~Menu();
 };

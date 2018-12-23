@@ -6,9 +6,14 @@
 
 Menu::Menu(float width, float height)
 {
+    /*if(!font.loadFromFile("Arial.ttf"))
+    {
+
+    }*/
     menuText[0].setFont(font);
     menuText[0].setFillColor(sf::Color::Blue);
     menuText[0].setString("Jouer");
+    menuText[0].setCharacterSize(24);
     menuText[0].setPosition(width/2, height/4);
 
     menuText[1].setFont(font);
@@ -22,14 +27,6 @@ Menu::Menu(float width, float height)
     menuText[3].setPosition(width/2, height/12);
 
     itemSelected=0;
-}
-
-void Menu::drawMenu(sf::RenderWindow &window)
-{
-    for (const auto &i : menuText)
-    {
-        window.draw(i);
-    }
 }
 
 void Menu::MoveUp()
@@ -52,8 +49,12 @@ void Menu::MoveDown()
     }
 }
 
+void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    for(auto t:menuText)
+    {
+        target.draw(t);
+    }
+}
+
 Menu::~Menu() {}
 
-void Menu::update() {
-
-}

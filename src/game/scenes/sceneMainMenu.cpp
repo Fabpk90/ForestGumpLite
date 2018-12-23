@@ -35,10 +35,8 @@ void SceneMainMenu::update()
         window.close();
 
     window.clear();
-    menu.drawMenu(window);
+    window.draw(menu);
     window.display();
-
-
 }
 
 SceneMainMenu::SceneMainMenu():menu(600,400)
