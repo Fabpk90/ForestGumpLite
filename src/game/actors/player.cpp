@@ -143,8 +143,6 @@ void Player::setPosition(sf::Vector2f position)
     position.y += sprite->getTexture()->getSize().y >> 1;
 
     aimingLineVertexArray[0].position = position;
-
-    aimingLineVertexArray[1].position = position * 1.5f;
 }
 
 bool Player::isAngleValid(float angle)

@@ -205,7 +205,7 @@ void SceneGame::checkForPlayerMovement()
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         pos += sf::Vector2f(0, PIXEL_SIZE);
 
-    if(mapManager.getIsPositionFree(pos))
+    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
     {
         playerPlaying->moveTo(pos);
     }
