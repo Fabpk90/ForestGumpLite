@@ -9,8 +9,6 @@
 #include "../../util/VectorHelper.h"
 #include "../../util/Constants.h"
 
-Player::~Player() = default;
-
 Player::Player(const char *path, int health, bool isPlayer1) : Actor(path, health)
 {
     this->isPlayer1 = isPlayer1;
@@ -44,8 +42,6 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Player::setOrientation(EDirection direction)
 {
-    //TODO: fix this, because when angle == 0 -> bug for the sight (orientation up)
-
     orientation = direction * 90;
 
     if(orientation == 0)
@@ -72,20 +68,20 @@ void Player::loadAimingLine()
 {
     aimingLineVertexArray = sf::VertexArray(sf::Lines, 2);
 
-    aimingLineVertexArray[0].position = sprite->getPosition();
+    aimingLineVertexArray[0].position = sprite.getPosition();
     aimingLineVertexArray[0].color = sf::Color::Red;
 
-    aimingLineVertexArray[1].position = sprite->getPosition() * 1.5f;
+    aimingLineVertexArray[1].position = sprite.getPosition() * 1.5f;
     aimingLineVertexArray[1].color = sf::Color::Red;
 }
 
 void Player::updateAimingLine(sf::Vector2i position)
 {
-    sf::Vector2f pos = sprite->getPosition();
+    sf::Vector2f pos = sprite.getPosition();
 
     //centering the pos to the center of the player sprite
-    pos.x += sprite->getTexture()->getSize().x >> 1;
-    pos.y += sprite->getTexture()->getSize().y >> 1;
+    pos.x += sprite.getTexture()->getSize().x >> 1;
+    pos.y += sprite.getTexture()->getSize().y >> 1;
 
     aimingLineVertexArray[0].position = pos;
 
@@ -139,8 +135,8 @@ void Player::setPosition(sf::Vector2f position)
     Actor::setPosition(position);
 
     //centering the pos to the center of the player sprite
-    position.x += sprite->getTexture()->getSize().x >> 1;
-    position.y += sprite->getTexture()->getSize().y >> 1;
+    position.x += sprite.getTexture()->getSize().x >> 1;
+    position.y += sprite.getTexture()->getSize().y >> 1;
 
     aimingLineVertexArray[0].position = position;
 }

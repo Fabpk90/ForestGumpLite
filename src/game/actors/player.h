@@ -48,8 +48,6 @@ public:
         UP
     };
 
-    ~Player() override;
-
     Player(const char* path, int health, bool isPlayer1);
 
     bool takeDamage(int amount) override;

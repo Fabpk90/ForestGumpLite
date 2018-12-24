@@ -7,7 +7,7 @@
 
 Obstacle::Obstacle(const char *path, int health, int x, int y) : Actor(path, health)
 {
-    sprite->setPosition(x, y);
+    sprite.setPosition(x, y);
 }
 
 void Obstacle::onDie()

@@ -18,7 +18,7 @@ class MapManager : public sf::Drawable
 private:
     list<Actor*> actorList;
 
-    //used  for storing the line points, sent to the graphic card every frame to be drawn
+    //used for drawing the net on the map
     sf::VertexArray lineVertexPoints;
 
     //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
@@ -30,7 +30,7 @@ private:
 public:
     ~MapManager() override;
 
-    MapManager(const char *path);
+    explicit MapManager(const char *path);
     MapManager();
 
     /// Loads the map into the manager
