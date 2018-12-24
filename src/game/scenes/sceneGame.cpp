@@ -10,8 +10,11 @@
 #include "../../util/VectorHelper.h"
 
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath)
-: mapManager(mapPath)
+: mapManager(mapPath), hud()
 {
+    hud.setActiveText(HUDManager::HEALTH, true);
+    hud.setTextString(HUDManager::HEALTH, "Test");
+
     p1 = new Player(player1ImgPath, 10, true);
     p2 = new Player(player2ImgPath, 10, false);
 
@@ -73,6 +76,7 @@ void SceneGame::update()
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
     window.draw(mapManager);
+    window.draw(hud);
     window.display();
 }
 

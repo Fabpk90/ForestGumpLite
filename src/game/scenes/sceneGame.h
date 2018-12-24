@@ -8,6 +8,7 @@
 #include "scene.h"
 #include "../actors/player.h"
 #include "../../map/mapManager.h"
+#include "../../util/HUDManager.h"
 
 class SceneGame : public Scene
 {
@@ -35,6 +36,7 @@ private:
 
     void checkForPlayerMovement();
 
+    HUDManager hud;
 public:
 
     ~SceneGame() override;
