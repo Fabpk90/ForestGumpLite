@@ -189,25 +189,30 @@ void Player::moveTo(sf::Vector2f pos)
     movementRemaining--;
 }
 
-void Player::updatePowerText(sf::Vector2i mousePosition, float power)
+void Player::updatePowerText(sf::Vector2i mousePosition, int power)
 {
-    //sets the text on the center of the aim line
-    sf::Vector2f pos = sprite.getPosition();
-    pos.x += mousePosition.x;
-    pos.y += mousePosition.y;
+    if(power > 0)
+    {
+        //sets the text on the center of the aim line
+        sf::Vector2f pos = sprite.getPosition();
+        pos.x += mousePosition.x;
+        pos.y += mousePosition.y;
 
-    pos.x /= 2;
-    pos.y /= 2;
+        pos.x /= 2;
+        pos.y /= 2;
 
-    hud.setTextPosition(HUDManager::POWER, pos);
-    hud.setTextString(HUDManager::POWER, std::to_string(power));
+        hud.setActiveText(HUDManager::POWER, true);
+        hud.setTextPosition(HUDManager::POWER, pos);
+        hud.setTextString(HUDManager::POWER, std::to_string(power));
+    }
+    else
+        hud.setActiveText(HUDManager::POWER, false);
+
 }
 
 void Player::toggleAiming()
 {
     isAiming = !isAiming;
-
-    if(isAiming)
-        hud.setActiveText(HUDManager::POWER, true);
+    hud.setActiveText(HUDManager::POWER, isAiming);
 }
 

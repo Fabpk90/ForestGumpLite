@@ -41,7 +41,7 @@ private:
 
     bool shouldBeDrawn;
 
-    void updatePowerText(sf::Vector2i mousePosition, float power);
+    void updatePowerText(sf::Vector2i mousePosition, int power);
 
     HUDManager& hud;
 
