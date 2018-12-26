@@ -29,6 +29,7 @@ private:
     sf::CircleShape circleAim;
 
     void changePlayerTurn();
+    void updatePlayerHUD();
 
     /// Checks if the player sees the other player
     /// \return

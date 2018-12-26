@@ -15,8 +15,8 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
     hud.setActiveText(HUDManager::HEALTH, true);
     hud.setTextString(HUDManager::HEALTH, "Test");
 
-    p1 = new Player(player1ImgPath, 10, true);
-    p2 = new Player(player2ImgPath, 10, false);
+    p1 = new Player(player1ImgPath, 10, true, hud);
+    p2 = new Player(player2ImgPath, 10, false, hud);
 
     p1->setPosition(mapManager.getFreePosition());
     p1->setOrientation(Player::UP);
@@ -26,7 +26,7 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char
     p2->setOrientation(Player::DOWN);
     mapManager.addActor(p2);
 
-    mapManager.setDrawLines(true);
+    //mapManager.setDrawLines(true);
 
     sightRectangle.setSize(sf::Vector2f(2, SCREEN_SIZE_WIDTH));
 
@@ -45,12 +45,9 @@ void SceneGame::update()
         {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming())
             {
-                mapManager.collisionAimCheck(*playerPlaying);
-
                 playerPlaying->setIsAiming(false);
-
+                mapManager.collisionAimCheck(*playerPlaying);
                 changePlayerTurn();
-
             }
             else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
             {
@@ -109,6 +106,8 @@ void SceneGame::changePlayerTurn()
         else
             p1->setToBeDrawn(true);
     }
+
+    updatePlayerHUD();
 }
 
 bool SceneGame::checkPlayerSight()
@@ -135,6 +134,7 @@ bool SceneGame::checkPlayerSight()
     if(angle < 0) angle += 2 * PI;
 
     angle = (angle * 180.0f / PI);
+    angle = (int)angle % 361;
 
     //because of the collision check, we need to see if the other player has been touch
     //if it has, we need to see if it is the nearest
@@ -214,6 +214,19 @@ void SceneGame::checkForPlayerMovement()
         playerPlaying->moveTo(pos);
     }
 
+}
+
+void SceneGame::updatePlayerHUD()
+{
+    hud.deActivateAllTexts();
+
+    hud.setActiveText(HUDManager::HEALTH, true);
+    hud.setTextString(HUDManager::HEALTH, std::to_string(playerPlaying->getHealth()));
+
+    if(playerPlaying->getHealth() < playerPlaying->getMaxHealth() >> 1)
+    {
+        hud.setTextColor(HUDManager::HEALTH, sf::Color::Red);
+    }
 }
 
 SceneGame::~SceneGame() = default;

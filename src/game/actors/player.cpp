@@ -9,8 +9,10 @@
 #include "../../util/VectorHelper.h"
 #include "../../util/Constants.h"
 
-Player::Player(const char *path, int health, bool isPlayer1) : Actor(path, health)
+Player::Player(const char *path, int health, bool isPlayer1, HUDManager& hud)
+: Actor(path, health), hud(hud)
 {
+    maxHealth = health;
     this->isPlayer1 = isPlayer1;
     isAiming = false;
 
@@ -62,6 +64,9 @@ void Player::setOrientation(EDirection direction)
 void Player::setIsAiming(bool aiming)
 {
     isAiming = aiming;
+
+    if(isAiming)
+        hud.setActiveText(HUDManager::POWER, true);
 }
 
 void Player::loadAimingLine()
@@ -110,7 +115,12 @@ void Player::updateAimingLine(sf::Vector2i position)
         {
             aimingLineVertexArray[1].position = tmpVec;
             powerInUse = (int)power;
+
+            if(isAiming)
+                updatePowerText(position, power);
         }
+
+
     }
 }
 
@@ -178,3 +188,26 @@ void Player::moveTo(sf::Vector2f pos)
     setPosition(pos);
     movementRemaining--;
 }
+
+void Player::updatePowerText(sf::Vector2i mousePosition, float power)
+{
+    //sets the text on the center of the aim line
+    sf::Vector2f pos = sprite.getPosition();
+    pos.x += mousePosition.x;
+    pos.y += mousePosition.y;
+
+    pos.x /= 2;
+    pos.y /= 2;
+
+    hud.setTextPosition(HUDManager::POWER, pos);
+    hud.setTextString(HUDManager::POWER, std::to_string(power));
+}
+
+void Player::toggleAiming()
+{
+    isAiming = !isAiming;
+
+    if(isAiming)
+        hud.setActiveText(HUDManager::POWER, true);
+}
+

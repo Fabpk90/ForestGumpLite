@@ -31,7 +31,7 @@ HUDManager::HUDManager()
     }
 }
 
-void HUDManager::setTextColor(HUDManager::ETextIndex index, sf::Color &color)
+void HUDManager::setTextColor(HUDManager::ETextIndex index, const sf::Color color)
 {
     arrayText[index].setFillColor(color);
 }
@@ -49,4 +49,11 @@ void HUDManager::setActiveText(HUDManager::ETextIndex index, bool active)
 void HUDManager::setTextString(HUDManager::ETextIndex index, std::string str)
 {
     arrayText[index].setString(str);
+}
+
+void HUDManager::deActivateAllTexts()
+{
+    for (int i = 0; i < NUM_ELEMENT; ++i) {
+        bElementsToBeDrawn[i] = false;
+    }
 }

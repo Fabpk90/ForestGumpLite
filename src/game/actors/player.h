@@ -8,11 +8,13 @@
 #include <SFML/Graphics.hpp>
 
 #include "actor.h"
+#include "../../util/HUDManager.h"
 
 class Player : public Actor
 {
 private:
 
+    int maxHealth;
     int movementRemaining;
 
     //the power of the weapon
@@ -39,6 +41,10 @@ private:
 
     bool shouldBeDrawn;
 
+    void updatePowerText(sf::Vector2i mousePosition, float power);
+
+    HUDManager& hud;
+
 public:
     enum EDirection
     {
@@ -48,7 +54,7 @@ public:
         UP
     };
 
-    Player(const char* path, int health, bool isPlayer1);
+    Player(const char* path, int health, bool isPlayer1, HUDManager& hud);
 
     bool takeDamage(int amount) override;
 
@@ -56,6 +62,8 @@ public:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     void updateAimingLine(sf::Vector2i position);
+
+    int getMaxHealth() { return  maxHealth; }
 
     int getPowerMax() { return powerMax; }
     int getPowerInUse() { return powerInUse; }
@@ -66,7 +74,7 @@ public:
     bool isAngleValid(float angleAmount);
 
     void setIsAiming(bool aiming);
-    void toggleAiming() { isAiming = !isAiming; }
+    void toggleAiming();
     bool getIsAiming() { return  isAiming; }
 
     bool isPlayerOne() { return isPlayer1; }

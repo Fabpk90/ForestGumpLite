@@ -33,7 +33,9 @@ public:
     void setActiveText(ETextIndex index, bool active);
     //here we're not using a ref, to be able to pass "" strings
     void setTextString(ETextIndex index, std::string str);
-    void setTextColor(ETextIndex index, sf::Color& color);
+    void setTextColor(ETextIndex index, const sf::Color color);
+
+    void deActivateAllTexts();
 
 
 protected:
