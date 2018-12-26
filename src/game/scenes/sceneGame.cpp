@@ -9,11 +9,24 @@
 #include "../../util/Collision.h"
 #include "../../util/VectorHelper.h"
 
-SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath)
+SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
+        , const char* player2ImgPath)
 : mapManager(mapPath), hud()
 {
     hud.setActiveText(HUDManager::HEALTH, true);
-    hud.setTextString(HUDManager::HEALTH, "Test");
+    hud.setTextString(HUDManager::HEALTH, "0");
+
+    hud.setActiveText(HUDManager::PLAYER, true);
+    hud.setTextString(HUDManager::PLAYER, "Player1");
+
+    sf::Vector2f playerTextPos = sf::Vector2f(
+            GameManager::Instance->getWindow().getSize().x / 2, 0);
+
+    playerTextPos.x -= hud.getText(HUDManager::PLAYER).getLocalBounds().width
+                        / 2;
+
+    hud.setTextPosition(HUDManager::PLAYER
+            , playerTextPos);
 
     p1 = new Player(player1ImgPath, 10, true, hud);
     p2 = new Player(player2ImgPath, 10, false, hud);
@@ -227,6 +240,13 @@ void SceneGame::updatePlayerHUD()
     {
         hud.setTextColor(HUDManager::HEALTH, sf::Color::Red);
     }
+
+    std::string str = "Player";
+    std::string c = playerPlaying->isPlayerOne() ? "1" : "2";
+    str.append(c);
+
+    hud.setActiveText(HUDManager::PLAYER, true);
+    hud.setTextString(HUDManager::PLAYER, str);
 }
 
 SceneGame::~SceneGame() = default;

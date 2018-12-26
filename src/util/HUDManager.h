@@ -5,7 +5,7 @@
 #ifndef FORESTGUMPLITE_HUDMANAGER_H
 #define FORESTGUMPLITE_HUDMANAGER_H
 
-#define NUM_ELEMENT 2
+#define NUM_ELEMENT 3
 
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -24,7 +24,8 @@ public:
     enum ETextIndex
     {
         HEALTH = 0,
-        POWER
+        POWER,
+        PLAYER
     };
 
     HUDManager();
@@ -36,6 +37,8 @@ public:
     void setTextColor(ETextIndex index, const sf::Color color);
 
     void deActivateAllTexts();
+
+    sf::Text& getText(ETextIndex index) { return arrayText[index]; };
 
 
 protected:

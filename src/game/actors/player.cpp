@@ -119,9 +119,9 @@ void Player::updateAimingLine(sf::Vector2i position)
             if(isAiming)
                 updatePowerText(position, power);
         }
-
-
     }
+    else
+        hud.setActiveText(HUDManager::POWER, false);
 }
 
 sf::RectangleShape Player::getAimRectangle()
