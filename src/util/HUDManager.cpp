@@ -19,7 +19,7 @@ HUDManager::HUDManager()
     if(!font.loadFromFile("res/font/Roboto.ttf"))
     {
         std::cerr << "Error while loading the font Roboto";
-        exit(0);
+        exit(-1);
     }
 
     for (int i = 0; i < NUM_ELEMENT; ++i) {

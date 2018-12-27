@@ -13,20 +13,7 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
         , const char* player2ImgPath)
 : mapManager(mapPath), hud()
 {
-    hud.setActiveText(HUDManager::HEALTH, true);
-    hud.setTextString(HUDManager::HEALTH, "0");
-
-    hud.setActiveText(HUDManager::PLAYER, true);
-    hud.setTextString(HUDManager::PLAYER, "Player1");
-
-    sf::Vector2f playerTextPos = sf::Vector2f(
-            GameManager::Instance->getWindow().getSize().x / 2, 0);
-
-    playerTextPos.x -= hud.getText(HUDManager::PLAYER).getLocalBounds().width
-                        / 2;
-
-    hud.setTextPosition(HUDManager::PLAYER
-            , playerTextPos);
+    initHUD();
 
     p1 = new Player(player1ImgPath, 10, true, hud);
     p2 = new Player(player2ImgPath, 10, false, hud);
@@ -45,6 +32,33 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
 
     isPlayer1Turn = false;
     changePlayerTurn();
+}
+
+void SceneGame::initHUD()
+{
+    hud.setActiveText(HUDManager::HEALTH, true);
+    hud.setTextString(HUDManager::HEALTH, "0");
+
+    hud.setActiveText(HUDManager::PLAYER, true);
+    hud.setTextString(HUDManager::PLAYER, "Player1");
+
+    hud.setActiveText(HUDManager::MOVEMENT, true);
+    hud.setTextString(HUDManager::MOVEMENT, "Movement: 3");
+
+    sf::Vector2f textPos = sf::Vector2f(
+            GameManager::Instance->getWindow().getSize().x / 2, 0);
+    textPos.x -= hud.getText(HUDManager::PLAYER).getLocalBounds().width
+                        / 2;
+    hud.setTextPosition(HUDManager::PLAYER
+            , textPos);
+
+    textPos = sf::Vector2f(
+            GameManager::Instance->getWindow().getSize().x, 0);
+
+    textPos.x -= hud.getText(HUDManager::MOVEMENT).getLocalBounds().width;
+
+    hud.setTextPosition(HUDManager::MOVEMENT
+            , textPos);
 }
 
 void SceneGame::update()
@@ -225,6 +239,9 @@ void SceneGame::checkForPlayerMovement()
     if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
     {
         playerPlaying->moveTo(pos);
+
+        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+        hud.setTextString(HUDManager::MOVEMENT, str);
     }
 
 }
@@ -247,6 +264,11 @@ void SceneGame::updatePlayerHUD()
 
     hud.setActiveText(HUDManager::PLAYER, true);
     hud.setTextString(HUDManager::PLAYER, str);
+
+    str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+
+    hud.setActiveText(HUDManager::MOVEMENT, true);
+    hud.setTextString(HUDManager::MOVEMENT, str);
 }
 
 SceneGame::~SceneGame() = default;

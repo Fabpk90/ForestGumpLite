@@ -37,6 +37,8 @@ private:
 
     void checkForPlayerMovement();
 
+    void initHUD();
+
     HUDManager hud;
 public:
 

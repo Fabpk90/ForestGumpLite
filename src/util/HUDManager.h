@@ -5,7 +5,7 @@
 #ifndef FORESTGUMPLITE_HUDMANAGER_H
 #define FORESTGUMPLITE_HUDMANAGER_H
 
-#define NUM_ELEMENT 3
+#define NUM_ELEMENT 4
 
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -25,7 +25,8 @@ public:
     {
         HEALTH = 0,
         POWER,
-        PLAYER
+        PLAYER,
+        MOVEMENT
     };
 
     HUDManager();
