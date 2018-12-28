@@ -18,6 +18,12 @@ Player::Player(const char *path, int health, bool isPlayer1, HUDManager& hud)
 
     shouldBeDrawn = true;
 
+    aimingCircle = sf::CircleShape();
+    aimingCircle.setFillColor(sf::Color::Transparent);
+
+    aimingCircle.setOutlineThickness(2.f);
+    aimingCircle.setOutlineColor(sf::Color::Red);
+
     loadAimingLine();
 }
 
@@ -38,7 +44,10 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
         Actor::draw(target, states);
 
         if(isAiming)
+        {
             target.draw(aimingLineVertexArray);
+            target.draw(aimingCircle);
+        }
     }
 }
 
@@ -117,7 +126,11 @@ void Player::updateAimingLine(sf::Vector2i position)
             powerInUse = (int)power;
 
             if(isAiming)
+            {
                 updatePowerText(position, power);
+                updateAimingCircle();
+            }
+
         }
     }
     else
@@ -174,13 +187,18 @@ bool Player::isAngleValid(float angle)
 
 sf::CircleShape Player::getAimCircle()
 {
-    cs.setRadius(powerInUse * PIXEL_SIZE);
+    updateAimingCircle();
+
+    return aimingCircle;
+}
+
+void Player::updateAimingCircle()
+{
+    aimingCircle.setRadius(powerInUse * PIXEL_SIZE);
 
     //centering the circle
-    cs.setPosition(aimingLineVertexArray[1].position.x - cs.getRadius()
-            , aimingLineVertexArray[1].position.y - cs.getRadius());
-
-    return cs;
+    aimingCircle.setPosition(aimingLineVertexArray[1].position.x - aimingCircle.getRadius()
+            , aimingLineVertexArray[1].position.y - aimingCircle.getRadius());
 }
 
 void Player::moveTo(sf::Vector2f pos)

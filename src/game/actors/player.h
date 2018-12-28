@@ -17,6 +17,8 @@ private:
     int maxHealth;
     int movementRemaining;
 
+    bool shouldBeDrawn;
+
     //the power of the weapon
     int powerMax;
     //power in use in this turn
@@ -28,7 +30,7 @@ private:
     //For drawing the aiming line
     sf::VertexArray aimingLineVertexArray;
 
-    sf::CircleShape cs;
+    sf::CircleShape aimingCircle;
 
     bool isAiming;
     float aimAngle;
@@ -39,11 +41,10 @@ private:
     //loads the lines in the vertex array, the position is by default the position of the player
     void loadAimingLine();
 
-    bool shouldBeDrawn;
-
     void updatePowerText(sf::Vector2i mousePosition, int power);
-
     HUDManager& hud;
+
+    void updateAimingCircle();
 
 public:
     enum EDirection
