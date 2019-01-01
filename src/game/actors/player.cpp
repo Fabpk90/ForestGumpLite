@@ -55,6 +55,8 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Player::setOrientation(EDirection direction)
 {
+    //std::cout << direction << std::endl;
+
     orientation = direction * 90;
 
     if(orientation == 0)
@@ -174,8 +176,12 @@ void Player::setPosition(sf::Vector2f position)
 
 bool Player::isAngleValid(float angle)
 {
-    //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
-    if(orientation == 0)
+    //special case, because of %360
+    if(orientation == UP * 90 && angle == 0)
+        return true;
+
+    //special case where the orientation is zero, we have to accept a weird angle because of its nature %360
+    if(orientation == RIGHT)
     {
         if(angle >= aimAngleMin || angle <= aimAngleMax)
         {

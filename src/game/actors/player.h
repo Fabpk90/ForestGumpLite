@@ -86,6 +86,7 @@ public:
     bool isPlayerOne() { return isPlayer1; }
 
     void setPosition(sf::Vector2f position) override;
+
     /// Moves the player to the pos, consuming 1 movement
     /// \param pos Position to go
     void moveTo(sf::Vector2f pos);

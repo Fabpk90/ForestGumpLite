@@ -74,6 +74,10 @@ bool MapManager::loadMapFromFile(const char *path)
                     //actorList.push_back(
                           //  new Obstacle("res/texture/tree.png", HEALTH_ROCK_BIG, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
                     break;
+
+                default:
+                    std::cerr << "Identifiant de l'entité non reconnu";
+                    exit(-1);
             }
         }
 
@@ -171,7 +175,6 @@ void MapManager::loadLines()
         //second point
         vertex.position = sf::Vector2f(window.getSize().x, i * PIXEL_SIZE);
         lineVertexPoints.append(vertex);
-
     }
 
     for (int i = 0; i < sizeX; ++i)
@@ -183,9 +186,7 @@ void MapManager::loadLines()
         //second point
         vertex.position = sf::Vector2f(i * PIXEL_SIZE, window.getSize().y);
         lineVertexPoints.append(vertex);
-
     }
-
 }
 
 bool MapManager::collisionAimCheck(Player &playerAiming) {
@@ -194,8 +195,6 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
 
     auto aimingRect =  playerAiming.getAimRectangle();
     auto aimingCircleBound = playerAiming.getAimCircle().getGlobalBounds();
-
-    std::cout << aimingCircleBound.width << "  " << aimingCircleBound.height << std::endl;
 
     while(actor != actorList.end())
     {
@@ -206,12 +205,10 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
 
             if(!player || player->isPlayerOne() != playerAiming.isPlayerOne())
             {
-
                 didCollide = true;
 
                 if((*actor)->takeDamage(playerAiming.getPowerInUse()))
                 {
-                    std::cout << "hahaha " << std::endl;
                     auto act = *actor;
                     actor = actorList.erase(actor);
                     delete act;
