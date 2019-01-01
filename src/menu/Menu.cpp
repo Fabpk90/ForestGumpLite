@@ -2,14 +2,17 @@
 // Created by charlotte on 22/12/18.
 //
 
+#include <iostream>
 #include "Menu.h"
 
 Menu::Menu(float width, float height)
 {
-    /*if(!font.loadFromFile("Arial.ttf"))
+    if(!font.loadFromFile("res/font/Roboto.ttf"))
     {
+        std::cerr << "Error while loading the font Roboto";
+        exit(-1);
+    }
 
-    }*/
     menuText[0].setFont(font);
     menuText[0].setFillColor(sf::Color::Blue);
     menuText[0].setString("Jouer");
@@ -19,12 +22,12 @@ Menu::Menu(float width, float height)
     menuText[1].setFont(font);
     menuText[1].setFillColor(sf::Color::White);
     menuText[1].setString("Editeur");
-    menuText[1].setPosition(width/2, height/8);
+    menuText[1].setPosition(width/2, height/2);
 
-    menuText[3].setFont(font);
-    menuText[3].setFillColor(sf::Color::White);
-    menuText[3].setString("Quitter");
-    menuText[3].setPosition(width/2, height/12);
+    menuText[2].setFont(font);
+    menuText[2].setFillColor(sf::Color::White);
+    menuText[2].setString("Quitter");
+    menuText[2].setPosition(width/2, height/1);
 
     itemSelected=0;
 }
