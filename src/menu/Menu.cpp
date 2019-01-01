@@ -15,18 +15,18 @@ Menu::Menu(float width, float height)
     menuText[0].setFont(font);
     menuText[0].setFillColor(sf::Color::Blue);
     menuText[0].setString("Jouer");
-    menuText[0].setCharacterSize(24);
+    //menuText[0].setCharacterSize(24);
     menuText[0].setPosition(width/2, height/4);
 
     menuText[1].setFont(font);
     menuText[1].setFillColor(sf::Color::White);
     menuText[1].setString("Editeur");
-    menuText[1].setPosition(width/2, height/8);
+    menuText[1].setPosition(width/2, height/2);
 
-    menuText[3].setFont(font);
-    menuText[3].setFillColor(sf::Color::White);
-    menuText[3].setString("Quitter");
-    menuText[3].setPosition(width/2, height/12);
+    menuText[2].setFont(font);
+    menuText[2].setFillColor(sf::Color::White);
+    menuText[2].setString("Quitter");
+    menuText[2].setPosition(width/2, height);
 
     itemSelected=0;
 }
