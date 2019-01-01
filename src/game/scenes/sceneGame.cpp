@@ -103,7 +103,6 @@ void SceneGame::update()
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
     window.draw(mapManager);
-    window.draw(sightRectangle);
     window.draw(hud);
     window.display();
 }
