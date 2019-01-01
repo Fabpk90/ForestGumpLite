@@ -56,12 +56,24 @@ bool MapManager::loadMapFromFile(const char *path)
             switch(tileValue)
             {
                 case TILE_TREE:
-                    actorList.push_back(new Obstacle("res/texture/tree.png", 1, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    actorList.push_back(
+                            new Obstacle("res/texture/tree.png", HEALTH_TREE, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
                 break;
 
                 case TILE_ROCK:
-
+                   // actorList.push_back(
+                           // new Obstacle("res/texture/tree.png", HEALTH_ROCK, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
                 break;
+
+                case TILE_TREE_BIG:
+                   // actorList.push_back(
+                           // new Obstacle("res/texture/tree.png", HEALTH_TREE_BIG, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    break;
+
+                case TILE_ROCK_BIG:
+                    //actorList.push_back(
+                          //  new Obstacle("res/texture/tree.png", HEALTH_ROCK_BIG, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    break;
             }
         }
 
