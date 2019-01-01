@@ -2,14 +2,16 @@
 // Created by charlotte on 22/12/18.
 //
 
+#include <iostream>
 #include "Menu.h"
 
 Menu::Menu(float width, float height)
 {
-    /*if(!font.loadFromFile("Arial.ttf"))
+    if(!font.loadFromFile("res/font/Roboto.ttf"))
     {
+        std::cerr << "Erreur de chargement du font Roboto";
+    }
 
-    }*/
     menuText[0].setFont(font);
     menuText[0].setFillColor(sf::Color::Blue);
     menuText[0].setString("Jouer");
@@ -33,9 +35,9 @@ void Menu::MoveUp()
 {
     if(itemSelected-1 >= 0)
     {
-        menuText[itemSelected].setColor(sf::Color::White);
+        menuText[itemSelected].setFillColor(sf::Color::White);
         itemSelected--;
-        menuText[itemSelected].setColor(sf::Color::Blue);
+        menuText[itemSelected].setFillColor(sf::Color::Blue);
     }
 }
 
@@ -43,14 +45,15 @@ void Menu::MoveDown()
 {
     if(itemSelected-1 < 3)
     {
-        menuText[itemSelected].setColor(sf::Color::White);
+        menuText[itemSelected].setFillColor(sf::Color::White);
         itemSelected++;
-        menuText[itemSelected].setColor(sf::Color::Blue);
+        menuText[itemSelected].setFillColor(sf::Color::Blue);
     }
 }
 
-void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    for(auto t:menuText)
+void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    for(auto const &t:menuText)
     {
         target.draw(t);
     }
