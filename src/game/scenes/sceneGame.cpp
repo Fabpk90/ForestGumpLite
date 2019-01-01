@@ -72,7 +72,8 @@ void SceneGame::update()
     {
         if (event.type == sf::Event::MouseButtonPressed)
         {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming())
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming()
+            && playerPlaying->getCanShoot())
             {
                 playerPlaying->setIsAiming(false);
                 mapManager.collisionAimCheck(*playerPlaying);

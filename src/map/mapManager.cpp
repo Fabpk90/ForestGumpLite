@@ -193,23 +193,28 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
     auto actor = actorList.begin();
 
     auto aimingRect =  playerAiming.getAimRectangle();
-    auto aimingCicle = playerAiming.getAimCircle();
+    auto aimingCircleBound = playerAiming.getAimCircle().getGlobalBounds();
+
+    std::cout << aimingCircleBound.width << "  " << aimingCircleBound.height << std::endl;
 
     while(actor != actorList.end())
     {
         if (Collision::BoundingBoxTest((*actor)->getSprite(), aimingRect)
-        || (*actor)->getSprite().getGlobalBounds().intersects(aimingCicle.getGlobalBounds()))
+        || (*actor)->getSprite().getGlobalBounds().intersects(aimingCircleBound))
         {
             auto player = dynamic_cast<Player*>(*actor);
 
             if(!player || player->isPlayerOne() != playerAiming.isPlayerOne())
             {
+
                 didCollide = true;
 
                 if((*actor)->takeDamage(playerAiming.getPowerInUse()))
                 {
-                    delete *actor;
+                    std::cout << "hahaha " << std::endl;
+                    auto act = *actor;
                     actor = actorList.erase(actor);
+                    delete act;
                 }
                 else
                     ++actor;

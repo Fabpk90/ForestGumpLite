@@ -24,6 +24,8 @@ Player::Player(const char *path, int health, bool isPlayer1, HUDManager& hud)
     aimingCircle.setOutlineThickness(2.f);
     aimingCircle.setOutlineColor(sf::Color::Red);
 
+    aimingCircle.setPosition(sprite.getPosition());
+
     loadAimingLine();
 }
 
@@ -127,6 +129,8 @@ void Player::updateAimingLine(sf::Vector2i position)
 
             if(isAiming)
             {
+                canShoot = true;
+
                 updatePowerText(position, power);
                 updateAimingCircle();
             }
@@ -134,7 +138,11 @@ void Player::updateAimingLine(sf::Vector2i position)
         }
     }
     else
+    {
         hud.setActiveText(HUDManager::POWER, false);
+        canShoot = false;
+    }
+
 }
 
 sf::RectangleShape Player::getAimRectangle()
