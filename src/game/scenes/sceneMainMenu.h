@@ -6,9 +6,12 @@
 #define FORESTGUMPLITE_SCENEMAINMENU_H
 
 #include "scene.h"
+#include "../../menu/Menu.h"
 
 class SceneMainMenu : public Scene
 {
+private:
+    Menu menu;
 public:
 
     ~SceneMainMenu() override;

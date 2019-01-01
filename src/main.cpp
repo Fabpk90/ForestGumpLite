@@ -5,13 +5,15 @@
 #include "game/scenes/sceneMainMenu.h"
 #include "game/scenes/sceneGame.h"
 #include "editor/editor.h"
+#include "menu/Menu.h"
 
 int main()
 {
     GameManager gm;
 
-    gm.setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png"));
+    //gm.setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png"));
     //gm.setScene(new Editor());
+    gm.setScene(new SceneMainMenu());
 
     while (gm.getWindow().isOpen())
     {
