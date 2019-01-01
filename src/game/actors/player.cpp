@@ -24,6 +24,8 @@ Player::Player(const char *path, int health, bool isPlayer1, HUDManager& hud)
     aimingCircle.setOutlineThickness(2.f);
     aimingCircle.setOutlineColor(sf::Color::Red);
 
+    aimingCircle.setPosition(sprite.getPosition());
+
     loadAimingLine();
 }
 
@@ -53,6 +55,8 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Player::setOrientation(EDirection direction)
 {
+    //std::cout << direction << std::endl;
+
     orientation = direction * 90;
 
     if(orientation == 0)
@@ -127,6 +131,8 @@ void Player::updateAimingLine(sf::Vector2i position)
 
             if(isAiming)
             {
+                canShoot = true;
+
                 updatePowerText(position, power);
                 updateAimingCircle();
             }
@@ -134,7 +140,11 @@ void Player::updateAimingLine(sf::Vector2i position)
         }
     }
     else
+    {
         hud.setActiveText(HUDManager::POWER, false);
+        canShoot = false;
+    }
+
 }
 
 sf::RectangleShape Player::getAimRectangle()
@@ -166,8 +176,12 @@ void Player::setPosition(sf::Vector2f position)
 
 bool Player::isAngleValid(float angle)
 {
-    //special case where the orientation is zero, we have to accept a weird angle because of its nature %361
-    if(orientation == 0)
+    //special case, because of %360
+    if(orientation == UP * 90 && angle == 0)
+        return true;
+
+    //special case where the orientation is zero, we have to accept a weird angle because of its nature %360
+    if(orientation == RIGHT)
     {
         if(angle >= aimAngleMin || angle <= aimAngleMax)
         {

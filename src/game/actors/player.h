@@ -32,17 +32,20 @@ private:
 
     sf::CircleShape aimingCircle;
 
+    bool canShoot;
     bool isAiming;
     float aimAngle;
 
     int aimAngleMax;
     int aimAngleMin;
 
+
+    HUDManager& hud;
+
     //loads the lines in the vertex array, the position is by default the position of the player
     void loadAimingLine();
 
     void updatePowerText(sf::Vector2i mousePosition, int power);
-    HUDManager& hud;
 
     void updateAimingCircle();
 
@@ -78,9 +81,12 @@ public:
     void toggleAiming();
     bool getIsAiming() { return  isAiming; }
 
+    bool getCanShoot() { return canShoot && isAiming; }
+
     bool isPlayerOne() { return isPlayer1; }
 
     void setPosition(sf::Vector2f position) override;
+
     /// Moves the player to the pos, consuming 1 movement
     /// \param pos Position to go
     void moveTo(sf::Vector2f pos);

@@ -56,12 +56,28 @@ bool MapManager::loadMapFromFile(const char *path)
             switch(tileValue)
             {
                 case TILE_TREE:
-                    actorList.push_back(new Obstacle("res/texture/tree.png", 1, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    actorList.push_back(
+                            new Obstacle("res/texture/tree.png", HEALTH_TREE, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
                 break;
 
                 case TILE_ROCK:
-
+                   // actorList.push_back(
+                           // new Obstacle("res/texture/tree.png", HEALTH_ROCK, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
                 break;
+
+                case TILE_TREE_BIG:
+                   // actorList.push_back(
+                           // new Obstacle("res/texture/tree.png", HEALTH_TREE_BIG, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    break;
+
+                case TILE_ROCK_BIG:
+                    //actorList.push_back(
+                          //  new Obstacle("res/texture/tree.png", HEALTH_ROCK_BIG, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    break;
+
+                default:
+                    std::cerr << "Identifiant de l'entité non reconnu";
+                    exit(-1);
             }
         }
 
@@ -159,7 +175,6 @@ void MapManager::loadLines()
         //second point
         vertex.position = sf::Vector2f(window.getSize().x, i * PIXEL_SIZE);
         lineVertexPoints.append(vertex);
-
     }
 
     for (int i = 0; i < sizeX; ++i)
@@ -171,9 +186,7 @@ void MapManager::loadLines()
         //second point
         vertex.position = sf::Vector2f(i * PIXEL_SIZE, window.getSize().y);
         lineVertexPoints.append(vertex);
-
     }
-
 }
 
 bool MapManager::collisionAimCheck(Player &playerAiming) {
@@ -181,12 +194,12 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
     auto actor = actorList.begin();
 
     auto aimingRect =  playerAiming.getAimRectangle();
-    auto aimingCicle = playerAiming.getAimCircle();
+    auto aimingCircleBound = playerAiming.getAimCircle().getGlobalBounds();
 
     while(actor != actorList.end())
     {
         if (Collision::BoundingBoxTest((*actor)->getSprite(), aimingRect)
-        || (*actor)->getSprite().getGlobalBounds().intersects(aimingCicle.getGlobalBounds()))
+        || (*actor)->getSprite().getGlobalBounds().intersects(aimingCircleBound))
         {
             auto player = dynamic_cast<Player*>(*actor);
 
@@ -196,8 +209,9 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
 
                 if((*actor)->takeDamage(playerAiming.getPowerInUse()))
                 {
-                    delete *actor;
+                    auto act = *actor;
                     actor = actorList.erase(actor);
+                    delete act;
                 }
                 else
                     ++actor;
