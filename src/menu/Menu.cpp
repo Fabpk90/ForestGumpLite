@@ -29,6 +29,15 @@ Menu::Menu(float width, float height)
     menuText[2].setPosition(width/2, height);
 
     itemSelected=0;
+
+    if (!texture.loadFromFile("res/texture/fond.jpg"))
+    {
+        std::cerr << "Erreur de chargement de la texture fond";
+    }
+    texture.setSmooth(true);
+
+    sprite.setTexture(texture);
+    sprite.setOrigin(sf::Vector2f(25.f, 0));
 }
 
 void Menu::MoveUp()
@@ -43,7 +52,7 @@ void Menu::MoveUp()
 
 void Menu::MoveDown()
 {
-    if(itemSelected-1 < 3)
+    if(itemSelected+1 < 3)
     {
         menuText[itemSelected].setFillColor(sf::Color::White);
         itemSelected++;
@@ -53,6 +62,7 @@ void Menu::MoveDown()
 
 void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+    target.draw(sprite);
     for(auto const &t:menuText)
     {
         target.draw(t);
