@@ -18,11 +18,13 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     p1 = new Player(player1ImgPath, 10, true, hud);
     p2 = new Player(player2ImgPath, 10, false, hud);
 
-    p1->setPosition(mapManager.getFreePosition());
+    //p1->setPosition(mapManager.getFreePosition());
+    p1->setPosition(sf::Vector2f(0, 0));
     p1->setOrientation(Player::UP);
     mapManager.addActor(p1);
 
-    p2->setPosition(mapManager.getFreePosition());
+    //p2->setPosition(mapManager.getFreePosition());
+    p2->setPosition(sf::Vector2f(PIXEL_SIZE, 0));
     p2->setOrientation(Player::DOWN);
     mapManager.addActor(p2);
 
@@ -100,6 +102,7 @@ void SceneGame::update()
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
     window.draw(mapManager);
+    window.draw(sightRectangle);
     window.draw(hud);
     window.display();
 }
@@ -161,7 +164,8 @@ bool SceneGame::checkPlayerSight()
     if(angle < 0) angle += 2 * PI;
 
     angle = (angle * 180.0f / PI);
-    angle = (int)angle % 361;
+
+    std::cout << angle <<std::endl;
 
     //because of the collision check, we need to see if the other player has been touch
     //if it has, we need to see if it is the nearest
