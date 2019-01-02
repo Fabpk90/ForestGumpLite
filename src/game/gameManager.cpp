@@ -4,6 +4,7 @@
 #include "../util/Constants.h"
 #include <iostream>
 #include "gameManager.h"
+#include "scenes/sceneMainMenu.h"
 
 GameManager* GameManager::Instance = nullptr;
 
@@ -23,11 +24,9 @@ GameManager::GameManager()
     }
 }
 
-void GameManager::setScene(Scene *scene, bool isOldToBeDeleted)
+void GameManager::setScene(Scene *scene)
 {
-    if(isOldToBeDeleted)
-        delete scene;
-
+    delete this->scene;
     this->scene = scene;
 }
 
@@ -49,5 +48,5 @@ void GameManager::setWinner(bool isWinnerPlayer1)
     else
         std::cout << "Player 2 has won!  Shame on you player 1!";
 
-    window->close();
+    setScene(new SceneMainMenu());
 }

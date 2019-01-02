@@ -8,11 +8,15 @@
 
 class Scene
 {
+private:
+
+
 public:
 
     virtual ~Scene() = default;
 
     virtual void update() = 0;
+    void goBackScene();
 };
 
 

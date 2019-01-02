@@ -10,6 +10,7 @@ Menu::Menu(float width, float height)
     if(!font.loadFromFile("res/font/Roboto.ttf"))
     {
         std::cerr << "Erreur de chargement du font Roboto";
+        exit(-1);
     }
 
     menuText[0].setFont(font);

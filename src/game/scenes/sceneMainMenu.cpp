@@ -5,6 +5,8 @@
 #include <SFML/Window/Event.hpp>
 #include "sceneMainMenu.h"
 #include "../gameManager.h"
+#include "sceneGame.h"
+#include "../../editor/editor.h"
 #include <iostream>
 
 void SceneMainMenu::update()
@@ -20,9 +22,11 @@ void SceneMainMenu::update()
             if(event.key.code == sf::Keyboard::Down) menu.MoveDown();
             if(event.key.code == sf::Keyboard::Return)
             {
-                //TODO: Rediriger vers le jeux ou l'editeur
-                if(menu.getItem()==0) std::cout << "Jouer" << std::endl;
-                if(menu.getItem()==1) std::cout << "Editeur" << std::endl;
+                if(menu.getItem()==0) GameManager::Instance->setScene(
+                        new SceneGame("res/map/map1.level"
+                        , "res/texture/Player.png"
+                        , "res/texture/Player.png"));
+                if(menu.getItem()==1) GameManager::Instance->setScene(new Editor())
                 if(menu.getItem()==2) window.close();
             }
         }
