@@ -13,6 +13,10 @@
 class SceneGame : public Scene
 {
 private:
+
+    sf::RenderWindow& window;
+    sf::View view;
+
     MapManager mapManager;
 
     //Players are pointer because in the mapManager they are in the array of pointers

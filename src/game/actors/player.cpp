@@ -55,8 +55,6 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Player::setOrientation(EDirection direction)
 {
-    //std::cout << direction << std::endl;
-
     orientation = direction * 90;
 
     if(orientation == 0)
@@ -93,7 +91,7 @@ void Player::loadAimingLine()
     aimingLineVertexArray[1].color = sf::Color::Red;
 }
 
-void Player::updateAimingLine(sf::Vector2i position)
+void Player::updateAimingLine(sf::Vector2f position)
 {
     sf::Vector2f pos = sprite.getPosition();
 
@@ -104,13 +102,13 @@ void Player::updateAimingLine(sf::Vector2i position)
     aimingLineVertexArray[0].position = pos;
 
     //this vector represents the translated aim vector, the center of the cartesian model being the player pos
-    sf::Vector2f translatedPosition = sf::Vector2f(position);
-
     //translating with the player pos, normalizing the pos to calculate the angle
-    translatedPosition.x -= aimingLineVertexArray[0].position.x;
-    translatedPosition.y -= aimingLineVertexArray[0].position.y;
+    sf::Vector2f tmp = position;
 
-    float angle = VectorHelper::angleBetween(translatedPosition, sf::Vector2f(0.0f, 0.0f));
+    tmp.x -= aimingLineVertexArray[0].position.x;
+    tmp.y -= aimingLineVertexArray[0].position.y;
+
+    float angle = VectorHelper::angleBetween(tmp, sf::Vector2f(0.0f, 0.0f));
     if(angle < 0) angle += 2 * PI;
 
     angle = (angle * 180.0f / PI);
@@ -118,15 +116,14 @@ void Player::updateAimingLine(sf::Vector2i position)
     //if correct angle, set it to the actual angle
     if(isAngleValid(angle))
     {
-        sf::Vector2f tmpVec = sf::Vector2f(position);
         aimAngle = angle;
 
-        float power = VectorHelper::getLength(aimingLineVertexArray[0].position - tmpVec)
+        float power = VectorHelper::getLength(aimingLineVertexArray[0].position - position)
                 / PIXEL_SIZE;
 
         if(power < health)
         {
-            aimingLineVertexArray[1].position = tmpVec;
+            aimingLineVertexArray[1].position = position;
             powerInUse = (int)power;
 
             if(isAiming)
@@ -136,7 +133,6 @@ void Player::updateAimingLine(sf::Vector2i position)
                 updatePowerText(position, power);
                 updateAimingCircle();
             }
-
         }
     }
     else
@@ -221,7 +217,7 @@ void Player::moveTo(sf::Vector2f pos)
     movementRemaining--;
 }
 
-void Player::updatePowerText(sf::Vector2i mousePosition, int power)
+void Player::updatePowerText(sf::Vector2f mousePosition, int power)
 {
     if(power > 0)
     {

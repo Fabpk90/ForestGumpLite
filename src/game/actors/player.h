@@ -45,7 +45,7 @@ private:
     //loads the lines in the vertex array, the position is by default the position of the player
     void loadAimingLine();
 
-    void updatePowerText(sf::Vector2i mousePosition, int power);
+    void updatePowerText(sf::Vector2f mousePosition, int power);
 
     void updateAimingCircle();
 
@@ -65,7 +65,7 @@ public:
     void onDie() override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    void updateAimingLine(sf::Vector2i position);
+    void updateAimingLine(sf::Vector2f position);
 
     int getMaxHealth() { return  maxHealth; }
 

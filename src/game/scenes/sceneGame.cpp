@@ -11,8 +11,13 @@
 
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
         , const char* player2ImgPath)
-: mapManager(mapPath), hud()
+: mapManager(mapPath), hud(), window(GameManager::Instance->getWindow())
 {
+    view.setSize(sf::Vector2f(GameManager::Instance->getWindow().getSize()));
+    view.setCenter(0,0);
+
+    GameManager::Instance->getWindow().setView(view);
+
     initHUD();
 
     p1 = new Player(player1ImgPath, 10, true, hud);
@@ -47,26 +52,28 @@ void SceneGame::initHUD()
     hud.setActiveText(HUDManager::MOVEMENT, true);
     hud.setTextString(HUDManager::MOVEMENT, "Movement: 3");
 
-    sf::Vector2f textPos = sf::Vector2f(
-            GameManager::Instance->getWindow().getSize().x / 2, 0);
+    sf::Vector2f textPos = window.mapPixelToCoords(sf::Vector2i(window.getSize().x / 2, 0));
+
+    std::cout << textPos.x << " " << textPos.y << std::endl;
+
     textPos.x -= hud.getText(HUDManager::PLAYER).getLocalBounds().width
                         / 2;
     hud.setTextPosition(HUDManager::PLAYER
             , textPos);
 
-    textPos = sf::Vector2f(
-            GameManager::Instance->getWindow().getSize().x, 0);
+    textPos = window.mapPixelToCoords(sf::Vector2i(window.getSize().x, 0));
 
     textPos.x -= hud.getText(HUDManager::MOVEMENT).getLocalBounds().width;
 
     hud.setTextPosition(HUDManager::MOVEMENT
             , textPos);
+
+    textPos = window.mapPixelToCoords(sf::Vector2i(0, 0));
+    hud.setTextPosition(HUDManager::HEALTH, textPos);
 }
 
 void SceneGame::update()
 {
-    sf::RenderWindow& window = GameManager::Instance->getWindow();
-
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -82,12 +89,14 @@ void SceneGame::update()
             else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
             {
                 playerPlaying->toggleAiming();
-                playerPlaying->updateAimingLine(sf::Mouse::getPosition(window));
+                sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+                playerPlaying->updateAimingLine(window.mapPixelToCoords(pixelPos));
             }
         }
         else if(event.type == sf::Event::MouseMoved)
         {
-            playerPlaying->updateAimingLine(sf::Mouse::getPosition(window));
+            sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+            playerPlaying->updateAimingLine(window.mapPixelToCoords(pixelPos));
         }
         else if (event.type == sf::Event::Closed)
             window.close();
@@ -164,8 +173,6 @@ bool SceneGame::checkPlayerSight()
     if(angle < 0) angle += 2 * PI;
 
     angle = (angle * 180.0f / PI);
-
-    std::cout << angle <<std::endl;
 
     //because of the collision check, we need to see if the other player has been touch
     //if it has, we need to see if it is the nearest
@@ -275,4 +282,8 @@ void SceneGame::updatePlayerHUD()
     hud.setTextString(HUDManager::MOVEMENT, str);
 }
 
-SceneGame::~SceneGame() = default;
+SceneGame::~SceneGame()
+{
+    GameManager::Instance->getWindow().setView(
+            GameManager::Instance->getWindow().getDefaultView());
+};
