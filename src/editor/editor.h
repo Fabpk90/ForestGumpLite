@@ -14,13 +14,16 @@ class Editor  : public Scene{
 private:
     MapManager mapManager;
 	int brushType;
-
+	sf::Color clearColor;
+	sf::Thread thread;
+	
 public:
     Editor();
 
     ~Editor() override;
 
     void update() override;
+	void palette();
     void paint(sf::RenderWindow& window);
 
 };
