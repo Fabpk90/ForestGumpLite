@@ -20,6 +20,28 @@ void Editor::update()
 
     window.display();
 
+		for(auto actor : obstaclesP)
+		{
+			winPalette->draw(actor->getSprite());
+		}
+		sf::Event eventPal;
+    
+		
+		winPalette->display();
+		winPalette->clear(clearColor);
+		
+		while (winPalette->pollEvent(eventPal))//crash
+		{
+
+			if (eventPal.type == sf::Event::MouseButtonReleased)							
+					brushSelect(*winPalette);													
+		}																				
+																				
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			winPalette->close();
+	
+		
+		
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -37,48 +59,18 @@ Editor::~Editor()
 																					
 }																					
 																					
-Editor::Editor() : thread(&Editor::palette, this)															
+Editor::Editor()															
 {																					
     mapManager.setDrawLines(true);				
-	thread.launch();												
-    brushType = 0;																	
-}
-
-void Editor::palette()
-{
-	sf::RenderWindow* winPalette = new sf::RenderWindow(sf::VideoMode(128, 500), "Palette");	
-	
+    
+	winPalette = new sf::RenderWindow(sf::VideoMode(64, 128), "Palette");
+	obstaclesP.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0));
+    obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 32, 0));
     winPalette->setKeyRepeatEnabled(false);													
     clearColor.r = 0;
     clearColor.g = 0;
-    clearColor.b = 0;
-    
-    list<Actor*> obstacles;
-    obstacles.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0));
-    obstacles.push_back(new Obstacle("res/texture/rock.png", 1, 64, 0));	
-    													
-    sf::Event eventPal;
-    
-    while (winPalette->isOpen())//crash
-    {	
-		for(auto actor : obstacles)
-		{
-			winPalette->draw(actor->getSprite());
-		}
-		winPalette->display();
-		winPalette->clear(clearColor);
-		
-		while (winPalette->pollEvent(eventPal))//crash
-		{
-
-			if (eventPal.type == sf::Event::MouseButtonReleased)							
-					std::cout << "lol\n";														
-		}																				
-																				
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			winPalette->close();	
-	}
-	
+    clearColor.b = 0;										
+    brushType = 0;																	
 }
 
 void Editor::paint(sf::RenderWindow& window)
@@ -115,8 +107,20 @@ void Editor::paint(sf::RenderWindow& window)
 			break;
 
 			case TILE_ROCK:
-
+				mapManager.addActor(new Obstacle("res/texture/rock.png", 1, BoundX, BoundY));
 			break;
 		}
 	}
+}
+
+void Editor::brushSelect(sf::RenderWindow& window)
+{
+	sf::Vector2i mouse = sf::Mouse::getPosition(window);
+	int BoundX = mouse.x;
+	int BoundY = mouse.y;
+	std::cout << mouse.x << " / " << mouse.y << std::endl;
+	if(BoundX >= 0 && BoundX <= 32 && BoundY >= 0 && BoundY <= 32)
+	brushType = TILE_TREE;
+	if(BoundX > 32 && BoundX <= 64 && BoundY >= 0 && BoundY <= 32)
+	brushType = TILE_ROCK;
 }

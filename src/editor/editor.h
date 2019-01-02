@@ -15,7 +15,8 @@ private:
     MapManager mapManager;
 	int brushType;
 	sf::Color clearColor;
-	sf::Thread thread;
+	sf::RenderWindow* winPalette;
+	list<Actor*> obstaclesP;
 	
 public:
     Editor();
@@ -23,9 +24,8 @@ public:
     ~Editor() override;
 
     void update() override;
-	void palette();
     void paint(sf::RenderWindow& window);
-
+	void brushSelect(sf::RenderWindow& window);
 };
 
 
