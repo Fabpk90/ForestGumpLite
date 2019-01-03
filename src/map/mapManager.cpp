@@ -56,11 +56,11 @@ bool MapManager::loadMapFromFile(const char *path)
             switch(tileValue)
             {
                 case TILE_TREE:
-                    actorList.push_back(new Obstacle("res/texture/tree.png", 1, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
+                    actorList.push_back(new Obstacle("res/texture/tree.png", 1, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE, TILE_TREE));
                 break;
 
                 case TILE_ROCK:
-
+					actorList.push_back(new Obstacle("res/texture/rock.png", 1, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE, TILE_ROCK));
                 break;
             }
         }
@@ -146,14 +146,17 @@ void MapManager::loadLines()
     lineVertexPoints.setPrimitiveType(sf::PrimitiveType::Lines);
 
     sf::Vertex vertex;
-
+    
+	int X = window.getSize().x;
+	int Y = window.getSize().y;
+	
     float sizeY = window.getSize().y / PIXEL_SIZE;
     float sizeX = window.getSize().x / PIXEL_SIZE;
 
-    for (int i = 0; i < sizeY; ++i)
+    for (int i = -sizeY; i < sizeY; ++i)
     {
         //first point of the line
-        vertex.position = sf::Vector2f(0, i * PIXEL_SIZE);
+        vertex.position = sf::Vector2f(-X, i * PIXEL_SIZE);
         lineVertexPoints.append(vertex);
 
         //second point
@@ -162,10 +165,10 @@ void MapManager::loadLines()
 
     }
 
-    for (int i = 0; i < sizeX; ++i)
+    for (int i = -sizeX; i < sizeX; ++i)
     {
         //first point of the line
-        vertex.position = sf::Vector2f(i * PIXEL_SIZE, 0);
+        vertex.position = sf::Vector2f(i * PIXEL_SIZE, -Y);
         lineVertexPoints.append(vertex);
 
         //second point

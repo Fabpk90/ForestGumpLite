@@ -17,7 +17,7 @@ private:
 	sf::Color clearColor;
 	sf::RenderWindow* winPalette;
 	list<Actor*> obstaclesP;
-
+	
 	sf::View view;
 
 public:
@@ -28,6 +28,7 @@ public:
     void update() override;
     void paint(sf::RenderWindow& window);
 	void brushSelect(sf::RenderWindow& window);
+	void save();
 };
 
 

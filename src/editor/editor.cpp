@@ -7,6 +7,8 @@
 #include "../util/Constants.h"
 #include "../game/actors/obstacle.h"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 
 
@@ -66,8 +68,8 @@ Editor::Editor()
     
 	winPalette = new sf::RenderWindow(sf::VideoMode(64, 128), "Palette");
 	//TODO: Load all that from a file "catalog"
-	obstaclesP.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0));
-    obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 32, 0));
+	obstaclesP.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0, 1));
+    obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 32, 0, 2));
     winPalette->setKeyRepeatEnabled(false);													
     clearColor.r = 0;
     clearColor.g = 0;
@@ -99,6 +101,7 @@ void Editor::paint(sf::RenderWindow& window)
 	BoundX = (int)pixPosX * PIXEL_SIZE;
 	BoundY = (int)pixPosY * PIXEL_SIZE;
 
+
 	bool isFound = false;
 	
 	std::cout << BoundX << " " << mouse.x << " / " << BoundY << " " << mouse.y << std::endl;
@@ -120,11 +123,11 @@ void Editor::paint(sf::RenderWindow& window)
 		switch(brushType)
 		{
 			case TILE_TREE:
-				mapManager.addActor(new Obstacle("res/texture/tree.png", 1, BoundX, BoundY)); //add health amount choice
+				mapManager.addActor(new Obstacle("res/texture/tree.png", 1, BoundX, BoundY, TILE_TREE)); //add health amount choice
 			break;
 
 			case TILE_ROCK:
-				mapManager.addActor(new Obstacle("res/texture/rock.png", 1, BoundX, BoundY));
+				mapManager.addActor(new Obstacle("res/texture/rock.png", 1, BoundX, BoundY, TILE_ROCK));
 			break;
 		}
 	}
@@ -140,4 +143,35 @@ void Editor::brushSelect(sf::RenderWindow& window)
 	brushType = TILE_TREE;
 	if(BoundX > 32 && BoundX <= 64 && BoundY >= 0 && BoundY <= 32)
 	brushType = TILE_ROCK;
+	if(BoundX >= 0 && BoundX <= 32 && BoundY >= 32 && BoundY <= 64)
+	save();
+	if(BoundX >= 32 && BoundX <= 64 && BoundY >= 32 && BoundY <= 64)
+	;//LOAD
+}
+
+void Editor::save()
+{
+	std::string path = "res/map/map";
+	std::cout << "Entrer le nom de la map\nmap";
+	std::string slot;
+	
+	//Pas ouf je préfererais utiliser directement la fenetre plutôt que le terminal mais je suis pas trop sûr de comment procéder
+	//Et aussi, attention à pas dépasser un nombre max je suppose
+	std::cin >> slot;
+	path.append(slot);
+	
+	path.append(".level");
+	
+	std::ofstream file(path);
+	
+	 if(file.is_open())
+    {
+		std::list<Actor*>::iterator actor = mapManager.getActorList().begin();
+		while(actor != mapManager.getActorList().end())
+		{
+			file << dynamic_cast<Obstacle*>((*actor))->getType() << std::endl;
+			file << (*actor)->getPosition().x << " " << (*actor)->getPosition().y << std::endl;
+			actor++;
+		}
+	}
 }

@@ -10,9 +10,14 @@
 
 class Obstacle : public Actor
 {
-public:
-    Obstacle(const char* path, int health, int x, int y);
-    void onDie();
+	private:
+	int type;
+		
+	public:
+		Obstacle(const char* path, int health, int x, int y, int type);
+		int getType();
+		void setType(int type);
+		void onDie();
 };
 
 
