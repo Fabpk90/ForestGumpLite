@@ -56,7 +56,8 @@ void Editor::update()
 																					
 Editor::~Editor()																	
 {																					
-																					
+	GameManager::Instance->getWindow()
+	.setView(GameManager::Instance->getWindow().getDefaultView());
 }																					
 																					
 Editor::Editor()															
@@ -64,22 +65,40 @@ Editor::Editor()
     mapManager.setDrawLines(true);				
     
 	winPalette = new sf::RenderWindow(sf::VideoMode(64, 128), "Palette");
+	//TODO: Load all that from a file "catalog"
 	obstaclesP.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0));
     obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 32, 0));
     winPalette->setKeyRepeatEnabled(false);													
     clearColor.r = 0;
     clearColor.g = 0;
     clearColor.b = 0;										
-    brushType = 0;																	
+    brushType = 0;
+
+    view.setCenter(0, 0);
+    view.setSize(sf::Vector2f(GameManager::Instance->getWindow().getSize()));
+    GameManager::Instance->getWindow().setView(view);
 }
 
 void Editor::paint(sf::RenderWindow& window)
 {
 	std::cout << "bonjour\n";
 	
-	sf::Vector2i mouse = sf::Mouse::getPosition(window);
-	int BoundX = mouse.x - (mouse.x % PIXEL_SIZE);
-	int BoundY = mouse.y - (mouse.y % PIXEL_SIZE);
+	sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+
+	int BoundX = 0, BoundY = 0;
+
+	float pixPosX = (mouse.x / PIXEL_SIZE);
+	float pixPosY = (mouse.y / PIXEL_SIZE);
+
+	//this is needed when the pos is neg, because of the flooring of the cast
+	if(pixPosX < 0)
+		pixPosX--;
+	if(pixPosY < 0)
+		pixPosY--;
+
+	BoundX = (int)pixPosX * PIXEL_SIZE;
+	BoundY = (int)pixPosY * PIXEL_SIZE;
+
 	bool isFound = false;
 	
 	std::cout << BoundX << " " << mouse.x << " / " << BoundY << " " << mouse.y << std::endl;
@@ -87,10 +106,8 @@ void Editor::paint(sf::RenderWindow& window)
 	while(actor != mapManager.getActorList().end())
 	{
 		
-		if (BoundX <= (*actor)->getPosition().x &&											
-			BoundX + PIXEL_SIZE > (*actor)->getPosition().x &&
-			BoundY <= (*actor)->getPosition().y &&
-			BoundY + PIXEL_SIZE  > (*actor)->getPosition().y)
+		if (BoundX ==(*actor)->getPosition().x
+		 && BoundY ==  (*actor)->getPosition().y)
 		{
 			mapManager.getActorList().erase(actor++);
 			isFound = true;
@@ -115,7 +132,7 @@ void Editor::paint(sf::RenderWindow& window)
 
 void Editor::brushSelect(sf::RenderWindow& window)
 {
-	sf::Vector2i mouse = sf::Mouse::getPosition(window);
+	sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));;
 	int BoundX = mouse.x;
 	int BoundY = mouse.y;
 	std::cout << mouse.x << " / " << mouse.y << std::endl;

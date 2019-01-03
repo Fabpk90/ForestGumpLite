@@ -17,7 +17,9 @@ private:
 	sf::Color clearColor;
 	sf::RenderWindow* winPalette;
 	list<Actor*> obstaclesP;
-	
+
+	sf::View view;
+
 public:
     Editor();
 
