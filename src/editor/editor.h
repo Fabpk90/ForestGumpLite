@@ -14,6 +14,7 @@ class Editor  : public Scene{
 private:
     MapManager mapManager;
 	int brushType;
+	int Health;
 	sf::Color clearColor;
 	sf::RenderWindow* winPalette;
 	list<Actor*> obstaclesP;
@@ -28,6 +29,7 @@ public:
     void update() override;
     void paint(sf::RenderWindow& window);
 	void brushSelect(sf::RenderWindow& window);
+	void setHealth();
 	void save();
 };
 

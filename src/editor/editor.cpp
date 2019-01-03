@@ -70,12 +70,17 @@ Editor::Editor()
 	//TODO: Load all that from a file "catalog"
 	obstaclesP.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0, 1));
     obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 32, 0, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/save.png", 1, 0, 32, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/load.png", 1, 32, 32, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/health.png", 1, 0, 64, 2));
+    
     winPalette->setKeyRepeatEnabled(false);													
     clearColor.r = 0;
     clearColor.g = 0;
     clearColor.b = 0;										
     brushType = 0;
-
+	Health = 1;
+	
     view.setCenter(0, 0);
     view.setSize(sf::Vector2f(GameManager::Instance->getWindow().getSize()));
     GameManager::Instance->getWindow().setView(view);
@@ -123,11 +128,11 @@ void Editor::paint(sf::RenderWindow& window)
 		switch(brushType)
 		{
 			case TILE_TREE:
-				mapManager.addActor(new Obstacle("res/texture/tree.png", 1, BoundX, BoundY, TILE_TREE)); //add health amount choice
+				mapManager.addActor(new Obstacle("res/texture/tree.png", Health, BoundX, BoundY, TILE_TREE));
 			break;
 
 			case TILE_ROCK:
-				mapManager.addActor(new Obstacle("res/texture/rock.png", 1, BoundX, BoundY, TILE_ROCK));
+				mapManager.addActor(new Obstacle("res/texture/rock.png", Health, BoundX, BoundY, TILE_ROCK));
 			break;
 		}
 	}
@@ -147,17 +152,27 @@ void Editor::brushSelect(sf::RenderWindow& window)
 	save();
 	if(BoundX >= 32 && BoundX <= 64 && BoundY >= 32 && BoundY <= 64)
 	;//LOAD
+	if(BoundX >= 0 && BoundX <= 32 && BoundY >= 64 && BoundY <= 96)
+	setHealth();
+}
+
+void Editor::setHealth()
+{
+	std::cout << "Combien de vie les prochains obstacles auront ?\n";
+	//Don't like that one either
+	//Especially since I noticed that entering letters will cause the save to never actually do anything
+	std::cin >> Health;
 }
 
 void Editor::save()
 {
 	std::string path = "res/map/map";
-	std::cout << "Entrer le nom de la map\nmap";
+	std::cout << "Entrer le nom de la map\n";
 	std::string slot;
 	
 	//Pas ouf je préfererais utiliser directement la fenetre plutôt que le terminal mais je suis pas trop sûr de comment procéder
 	//Et aussi, attention à pas dépasser un nombre max je suppose
-	std::cin >> slot;
+	std::getline(std::cin,slot);
 	path.append(slot);
 	
 	path.append(".level");
@@ -170,7 +185,7 @@ void Editor::save()
 		while(actor != mapManager.getActorList().end())
 		{
 			file << dynamic_cast<Obstacle*>((*actor))->getType() << std::endl;
-			file << (*actor)->getPosition().x << " " << (*actor)->getPosition().y << std::endl;
+			file << (*actor)->getPosition().x << " " << (*actor)->getPosition().y << " " << (*actor)->getHealth() << std::endl;
 			actor++;
 		}
 	}
