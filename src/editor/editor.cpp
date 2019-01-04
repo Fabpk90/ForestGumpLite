@@ -161,7 +161,20 @@ void Editor::setHealth()
 	std::cout << "Combien de vie les prochains obstacles auront ?\n";
 	//Don't like that one either
 	//Especially since I noticed that entering letters will cause the save to never actually do anything
-	std::cin >> Health;
+	std::string buf;
+	std::getline(std::cin,buf);
+	
+	try {
+		Health = std::stoi(buf);
+	}
+	catch (std::invalid_argument)
+	{
+		std::cout << "argument invalide, vie inchangée\n";
+	}
+	catch (std::out_of_range)
+	{
+		std::cout << "nombre trop grand, vie inchangée\n";
+	}
 }
 
 void Editor::save()
