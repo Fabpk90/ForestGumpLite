@@ -48,7 +48,9 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
         if(isAiming)
         {
             target.draw(aimingLineVertexArray);
-            target.draw(aimingCircle);
+
+            if(canShoot)
+                target.draw(aimingCircle);
         }
     }
 }
@@ -121,18 +123,22 @@ void Player::updateAimingLine(sf::Vector2f position)
         float power = VectorHelper::getLength(aimingLineVertexArray[0].position - position)
                 / PIXEL_SIZE;
 
-        if(power < health)
+
+        aimingLineVertexArray[1].position = position;
+
+        if(power >= 1 && power < PLAYER_MAX_POWER +1
+        && isAiming)
         {
-            aimingLineVertexArray[1].position = position;
             powerInUse = (int)power;
+            canShoot = true;
 
-            if(isAiming)
-            {
-                canShoot = true;
-
-                updatePowerText(position, power);
-                updateAimingCircle();
-            }
+            updatePowerText(position, power);
+            updateAimingCircle();
+        }
+        else
+        {
+            hud.setActiveText(HUDManager::POWER, false);
+            canShoot = false;
         }
     }
     else

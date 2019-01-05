@@ -5,6 +5,10 @@
 #ifndef FORESTGUMPLITE_CONSTANTS_H
 #define FORESTGUMPLITE_CONSTANTS_H
 
+/*Player consts*/
+
+#define PLAYER_MAX_POWER 5
+
 /*  Screen constants  */
 
 #define PIXEL_SIZE 32
@@ -24,7 +28,6 @@
 #define TILE_TREE_BIG 2
 #define TILE_ROCK 3
 #define TILE_ROCK_BIG 4
-
 
 #define HEALTH_TREE 1
 #define HEALTH_TREE_BIG 3
