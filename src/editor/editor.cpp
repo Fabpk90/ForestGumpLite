@@ -121,7 +121,8 @@ void Editor::paint(sf::RenderWindow& window)
 			isFound = true;
 			std::cout << "BOOM\n";
 		}
-		++actor;
+		if(actor !=  mapManager.getActorList().end())
+			++actor;
 	}
 	if(!isFound)
 	{
