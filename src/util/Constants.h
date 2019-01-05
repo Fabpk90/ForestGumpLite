@@ -19,8 +19,8 @@
 
 /* Map constants  */
 #define TILE_TREE 1
-#define TILE_ROCK 2
-#define TILE_BIGTREE 3
-#define TILE_BIGROCK 4
+#define TILE_TREE_BIG 2
+#define TILE_ROCK 3
+#define TILE_ROCK_BIG 4
 
 #endif //FORESTGUMPLITE_CONSTANTS_H

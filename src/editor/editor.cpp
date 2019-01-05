@@ -67,14 +67,25 @@ Editor::Editor()
     mapManager.setDrawLines(true);				
     
 	winPalette = new sf::RenderWindow(sf::VideoMode(160, 128), "Palette");
-	//TODO: Load all that from a file "catalog"
-	obstaclesP.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0, 1));
-    obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 0, 32, 2));
-    obstaclesP.push_back(new Obstacle("res/texture/save.png", 1, 96, 96, 2));
-    obstaclesP.push_back(new Obstacle("res/texture/load.png", 1, 128, 96, 2));
-    obstaclesP.push_back(new Obstacle("res/texture/health.png", 1, 64, 96, 2));
-    obstaclesP.push_back(new Obstacle("res/texture/BTree.png", 1, 32, 0, 3));
-    obstaclesP.push_back(new Obstacle("res/texture/BRock.png", 1, 96, 0, 4));
+
+    std::ifstream file("res/texture/catalog");
+    int X, Y, tileValue;
+    std::string path;
+    
+    if(file.is_open())
+    {
+		while(file >> path)
+		{
+			file >> X;
+			file >> Y;
+			file >> tileValue;
+			
+			obstaclesP.push_back(new Obstacle(path.c_str(), 1, X, Y, tileValue));
+		}
+		
+	}
+    file.close();
+    
     
     winPalette->setKeyRepeatEnabled(false);													
     clearColor.r = 0;
@@ -109,7 +120,7 @@ void Editor::paint(sf::RenderWindow& window)
 	BoundY = (int)pixPosY * PIXEL_SIZE;
 	
 	sf::FloatRect paternRect(sf::Vector2f(BoundX, BoundY),sf::Vector2f(32,32));
-	if(brushType >= TILE_BIGTREE)
+	if(brushType == TILE_ROCK_BIG || brushType == TILE_TREE_BIG)
 	{
 		paternRect.width += 32;
 		paternRect.height += 32;
@@ -143,12 +154,12 @@ void Editor::paint(sf::RenderWindow& window)
 				mapManager.addActor(new Obstacle("res/texture/rock.png", Health, BoundX, BoundY, TILE_ROCK));
 			break;
 			
-			case TILE_BIGTREE:
-				mapManager.addActor(new Obstacle("res/texture/BTree.png", Health, BoundX, BoundY, TILE_BIGTREE));
+			case TILE_TREE_BIG:
+				mapManager.addActor(new Obstacle("res/texture/BTree.png", Health, BoundX, BoundY, TILE_TREE_BIG));
 			break;
 
-			case TILE_BIGROCK:
-				mapManager.addActor(new Obstacle("res/texture/BRock.png", Health, BoundX, BoundY, TILE_BIGROCK));
+			case TILE_ROCK_BIG:
+				mapManager.addActor(new Obstacle("res/texture/BRock.png", Health, BoundX, BoundY, TILE_ROCK_BIG));
 			break;
 		}
 	}
@@ -165,9 +176,9 @@ void Editor::brushSelect(sf::RenderWindow& window)
 	else if(BoundX >= 0 && BoundX <= 32 && BoundY >= 32 && BoundY <= 64)
 	{brushType = TILE_ROCK;}
 	else if(BoundX >= 32 && BoundX <= 96 && BoundY >= 0 && BoundY <= 64)
-	{brushType = TILE_BIGTREE;}
+	{brushType = TILE_TREE_BIG;}
 	else if(BoundX >= 96 && BoundX <= 160 && BoundY >= 0 && BoundY <= 64)
-	{brushType = TILE_BIGROCK;}
+	{brushType = TILE_ROCK_BIG;}
 	else if(BoundX >= 96 && BoundX <= 128 && BoundY >= 96 && BoundY <= 128)
 	{save();}
 	else if(BoundX >= 128 && BoundX <= 160 && BoundY >= 96 && BoundY <= 128)
@@ -179,8 +190,6 @@ void Editor::brushSelect(sf::RenderWindow& window)
 void Editor::setHealth()
 {
 	std::cout << "Combien de vie les prochains obstacles auront ?\n";
-	//Don't like that one either
-	//Especially since I noticed that entering letters will cause the save to never actually do anything
 	std::string buf;
 	std::getline(std::cin,buf);
 	
@@ -222,4 +231,6 @@ void Editor::save()
 			actor++;
 		}
 	}
+	
+	file.close();
 }
