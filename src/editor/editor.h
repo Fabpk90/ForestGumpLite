@@ -31,6 +31,7 @@ public:
 	void brushSelect(sf::RenderWindow& window);
 	void setHealth();
 	void save();
+	void load();
 };
 
 

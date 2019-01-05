@@ -6,9 +6,11 @@
 #include "../game/gameManager.h"
 #include "../util/Constants.h"
 #include "../game/actors/obstacle.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cassert>
 
 
 
@@ -182,7 +184,7 @@ void Editor::brushSelect(sf::RenderWindow& window)
 	else if(BoundX >= 96 && BoundX <= 128 && BoundY >= 96 && BoundY <= 128)
 	{save();}
 	else if(BoundX >= 128 && BoundX <= 160 && BoundY >= 96 && BoundY <= 128)
-	{;}//LOAD//////////////////////////////////////////////////////////////////
+	{load();}
 	else if(BoundX >= 64 && BoundX <= 96 && BoundY >= 96 && BoundY <= 128)
 	{setHealth();}
 }
@@ -230,6 +232,67 @@ void Editor::save()
 			file << (*actor)->getPosition().x << " " << (*actor)->getPosition().y << " " << (*actor)->getHealth() << std::endl;
 			actor++;
 		}
+	}
+	
+	file.close();
+}
+
+void Editor::load()
+{
+	std::string path = "res/map/map";
+	std::cout << "Entrer le nom de la map à charger\n";
+	std::string slot;
+	std::getline(std::cin,slot);
+	path.append(slot);
+	path.append(".level");
+	
+	std::ifstream file(path);
+	
+	 if(file.is_open())
+    {
+		mapManager.getActorList().clear();
+		int tileValue, Health, X, Y;
+		
+		while(file >> tileValue)
+		{
+			if(!file.eof())
+                file >> X;
+            else
+                assert(false);
+
+            if(!file.eof())
+                file >> Y;
+            else
+                assert(false);
+            
+             if(!file.eof())
+                file >> Health;
+            else
+                assert(false);
+                
+            switch(tileValue)
+            {
+                case TILE_TREE:
+					mapManager.addActor(new Obstacle("res/texture/tree.png", Health, X, Y, TILE_TREE));
+					break;
+					
+				case TILE_TREE_BIG:
+					mapManager.addActor(new Obstacle("res/texture/BTree.png", Health, X, Y, TILE_TREE_BIG));
+					break;
+					
+				case TILE_ROCK:
+					mapManager.addActor(new Obstacle("res/texture/rock.png", Health, X, Y, TILE_ROCK));
+					break;
+					
+				case TILE_ROCK_BIG:
+					mapManager.addActor(new Obstacle("res/texture/BRock.png", Health, X, Y, TILE_ROCK_BIG));
+					break;
+			}
+		}
+	}
+	else
+	{
+		std::cout << "Impossible d'ouvrire le fichier\n";
 	}
 	
 	file.close();
