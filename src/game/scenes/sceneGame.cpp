@@ -253,6 +253,14 @@ void SceneGame::checkForPlayerMovement()
 
         std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
         hud.setTextString(HUDManager::MOVEMENT, str);
+
+        if(checkPlayerSight())
+        {
+            if(isPlayer1Turn)
+                p2->setToBeDrawn(true);
+            else
+                p1->setToBeDrawn(true);
+        }
     }
 
 }
