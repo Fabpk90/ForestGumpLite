@@ -13,6 +13,7 @@ void SceneMainMenu::update()
 {
     sf::RenderWindow& window = GameManager::Instance->getWindow();
 
+    int btnSelected = -1;
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -22,18 +23,12 @@ void SceneMainMenu::update()
             if(event.key.code == sf::Keyboard::Down) menu.MoveDown();
             if(event.key.code == sf::Keyboard::Return)
             {
-                if(menu.getItem()==0) GameManager::Instance->setScene(
-                        new SceneGame("res/map/map1.level"
-                        , "res/texture/Player.png"
-                        , "res/texture/Player.png"));
-                if(menu.getItem()==1) GameManager::Instance->setScene(new Editor())
-                if(menu.getItem()==2) window.close();
+                btnSelected = menu.getItem();
             }
         }
         if (event.type == sf::Event::Closed)
             window.close();
     }
-
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
@@ -41,6 +36,22 @@ void SceneMainMenu::update()
     window.clear();
     window.draw(menu);
     window.display();
+
+    switch (btnSelected)
+    {
+        case 0:
+            GameManager::Instance->
+            setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png"));
+            break;
+
+        case 1:
+            GameManager::Instance->setScene(new Editor());
+            break;
+
+        case 2:
+            window.close();
+            break;
+    }
 }
 
 SceneMainMenu::SceneMainMenu():menu(600,400)
