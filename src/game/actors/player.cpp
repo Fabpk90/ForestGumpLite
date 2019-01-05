@@ -31,7 +31,8 @@ Player::Player(const char *path, int health, bool isPlayer1, HUDManager& hud)
 
 bool Player::takeDamage(int amount)
 {
-    return Actor::takeDamage(amount);
+    GameManager::Instance->setWinner(!isPlayer1);
+    return true;
 }
 
 void Player::onDie()
