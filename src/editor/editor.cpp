@@ -66,13 +66,15 @@ Editor::Editor()
 {																					
     mapManager.setDrawLines(true);				
     
-	winPalette = new sf::RenderWindow(sf::VideoMode(64, 128), "Palette");
+	winPalette = new sf::RenderWindow(sf::VideoMode(160, 128), "Palette");
 	//TODO: Load all that from a file "catalog"
 	obstaclesP.push_back(new Obstacle("res/texture/tree.png", 1, 0, 0, 1));
-    obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 32, 0, 2));
-    obstaclesP.push_back(new Obstacle("res/texture/save.png", 1, 0, 32, 2));
-    obstaclesP.push_back(new Obstacle("res/texture/load.png", 1, 32, 32, 2));
-    obstaclesP.push_back(new Obstacle("res/texture/health.png", 1, 0, 64, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/rock.png", 1, 0, 32, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/save.png", 1, 96, 96, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/load.png", 1, 128, 96, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/health.png", 1, 64, 96, 2));
+    obstaclesP.push_back(new Obstacle("res/texture/BTree.png", 1, 32, 0, 3));
+    obstaclesP.push_back(new Obstacle("res/texture/BRock.png", 1, 96, 0, 4));
     
     winPalette->setKeyRepeatEnabled(false);													
     clearColor.r = 0;
@@ -105,8 +107,14 @@ void Editor::paint(sf::RenderWindow& window)
 
 	BoundX = (int)pixPosX * PIXEL_SIZE;
 	BoundY = (int)pixPosY * PIXEL_SIZE;
-
-
+	
+	sf::FloatRect paternRect(sf::Vector2f(BoundX, BoundY),sf::Vector2f(32,32));
+	if(brushType >= TILE_BIGTREE)
+	{
+		paternRect.width += 32;
+		paternRect.height += 32;
+	}
+		
 	bool isFound = false;
 	
 	std::cout << BoundX << " " << mouse.x << " / " << BoundY << " " << mouse.y << std::endl;
@@ -114,14 +122,13 @@ void Editor::paint(sf::RenderWindow& window)
 	while(actor != mapManager.getActorList().end())
 	{
 		
-		if (BoundX ==(*actor)->getPosition().x
-		 && BoundY ==  (*actor)->getPosition().y)
+		if ((*actor)->getGlobalBounds().intersects(paternRect))
 		{
 			mapManager.getActorList().erase(actor++);
 			isFound = true;
 			std::cout << "BOOM\n";
 		}
-		if(actor !=  mapManager.getActorList().end())
+		else if(actor !=  mapManager.getActorList().end())
 			++actor;
 	}
 	if(!isFound)
@@ -135,6 +142,14 @@ void Editor::paint(sf::RenderWindow& window)
 			case TILE_ROCK:
 				mapManager.addActor(new Obstacle("res/texture/rock.png", Health, BoundX, BoundY, TILE_ROCK));
 			break;
+			
+			case TILE_BIGTREE:
+				mapManager.addActor(new Obstacle("res/texture/BTree.png", Health, BoundX, BoundY, TILE_BIGTREE));
+			break;
+
+			case TILE_BIGROCK:
+				mapManager.addActor(new Obstacle("res/texture/BRock.png", Health, BoundX, BoundY, TILE_BIGROCK));
+			break;
 		}
 	}
 }
@@ -146,15 +161,19 @@ void Editor::brushSelect(sf::RenderWindow& window)
 	int BoundY = mouse.y;
 	std::cout << mouse.x << " / " << mouse.y << std::endl;
 	if(BoundX >= 0 && BoundX <= 32 && BoundY >= 0 && BoundY <= 32)
-	brushType = TILE_TREE;
-	if(BoundX > 32 && BoundX <= 64 && BoundY >= 0 && BoundY <= 32)
-	brushType = TILE_ROCK;
-	if(BoundX >= 0 && BoundX <= 32 && BoundY >= 32 && BoundY <= 64)
-	save();
-	if(BoundX >= 32 && BoundX <= 64 && BoundY >= 32 && BoundY <= 64)
-	;//LOAD
-	if(BoundX >= 0 && BoundX <= 32 && BoundY >= 64 && BoundY <= 96)
-	setHealth();
+	{brushType = TILE_TREE;}
+	else if(BoundX >= 0 && BoundX <= 32 && BoundY >= 32 && BoundY <= 64)
+	{brushType = TILE_ROCK;}
+	else if(BoundX >= 32 && BoundX <= 96 && BoundY >= 0 && BoundY <= 64)
+	{brushType = TILE_BIGTREE;}
+	else if(BoundX >= 96 && BoundX <= 160 && BoundY >= 0 && BoundY <= 64)
+	{brushType = TILE_BIGROCK;}
+	else if(BoundX >= 96 && BoundX <= 128 && BoundY >= 96 && BoundY <= 128)
+	{save();}
+	else if(BoundX >= 128 && BoundX <= 160 && BoundY >= 96 && BoundY <= 128)
+	{;}//LOAD//////////////////////////////////////////////////////////////////
+	else if(BoundX >= 64 && BoundX <= 96 && BoundY >= 96 && BoundY <= 128)
+	{setHealth();}
 }
 
 void Editor::setHealth()
