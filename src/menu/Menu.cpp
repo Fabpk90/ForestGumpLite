@@ -43,7 +43,7 @@ Menu::Menu(float width, float height)
     texture.setSmooth(true);
 
     sprite.setTexture(texture);
-    sprite.setOrigin(sf::Vector2f(25.f, 0));
+    sprite.setScale(1.1,1.1);
 }
 
 void Menu::MoveUp()

@@ -422,10 +422,11 @@ void SceneGame::IA_Aim() {
     }
     else if (playerPlaying->getCanShoot())
     {
-        sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
-        playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
+        sf::Vector2i *anotherPos = new sf::Vector2i(playerPlaying->getPosition());
+        playerPlaying->updateAimingLine(window.mapPixelToCoords(*anotherPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
         changePlayerTurn();
     }
+    //else changePlayerTurn();
 };
