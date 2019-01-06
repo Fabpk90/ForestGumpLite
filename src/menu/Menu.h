@@ -12,7 +12,7 @@ class Menu : public sf::Drawable {
 private:
     int itemSelected;
     sf::Font font;
-    sf::Text menuText[3];
+    sf::Text menuText[4];
     sf::Sprite sprite;
     sf::Texture texture;
 

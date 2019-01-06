@@ -41,15 +41,19 @@ void SceneMainMenu::update()
     {
         case 0:
             GameManager::Instance->
-            setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png", true));
-            break;
-
-        case 1:
-            GameManager::Instance->setScene(new Editor());
+            setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png", false));
             break;
 
         case 2:
+            GameManager::Instance->setScene(new Editor());
+            break;
+
+        case 3:
             window.close();
+            break;
+        case 1:
+            GameManager::Instance->
+                    setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png", true));
             break;
     }
 }

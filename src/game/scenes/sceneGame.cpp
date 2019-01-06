@@ -8,6 +8,7 @@
 #include "../../util/Constants.h"
 #include "../../util/Collision.h"
 #include "../../util/VectorHelper.h"
+#include "time.h"
 
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
         , const char* player2ImgPath, bool IA)
@@ -86,11 +87,13 @@ void SceneGame::update()
                 playerPlaying->toggleAiming();
                 if(checkPlayerSight() && playerPlaying->getCanShoot())
                 {
+                    sf::Vector2i *playerPos = new sf::Vector2i(p2->getPosition());
+                    playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
                     playerPlaying->setIsAiming(false);
                     mapManager.collisionAimCheck(*playerPlaying);
                     changePlayerTurn();
                 }
-                else if (playerPlaying->getCanShoot())
+                else if (playerPlaying->getCanShoot() && playerPlaying->getIsAiming())
                 {
                     playerPlaying->setIsAiming(false);
                     mapManager.collisionAimCheck(*playerPlaying);
@@ -124,6 +127,8 @@ void SceneGame::update()
                 playerPlaying->toggleAiming();
                 if(checkPlayerSight() && playerPlaying->getCanShoot())
                 {
+                    sf::Vector2i *playerPos = new sf::Vector2i(p2->getPosition());
+                    playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
                     playerPlaying->setIsAiming(false);
                     mapManager.collisionAimCheck(*playerPlaying);
                     changePlayerTurn();
