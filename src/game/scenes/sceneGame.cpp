@@ -83,7 +83,6 @@ void SceneGame::update()
         switch(rng)
         {
             case 0: {
-                //Meh dans l'idee ok mais manque savoir où tiré
                 IA_Aim();
                 break;
             }
@@ -411,17 +410,20 @@ SceneGame::~SceneGame()
 }
 
 void SceneGame::IA_Aim() {
+    Player* whoPlay=playerPlaying;
     playerPlaying->toggleAiming();
     if(checkPlayerSight() && playerPlaying->getCanShoot())
     {
-        sf::Vector2i *playerPos = new sf::Vector2i(p2->getPosition());
+        sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
         changePlayerTurn();
     }
-    else if (playerPlaying->getCanShoot() && playerPlaying->getIsAiming())
+    else if (playerPlaying->getCanShoot())
     {
+        sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
+        playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
         changePlayerTurn();
