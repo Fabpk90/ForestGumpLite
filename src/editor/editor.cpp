@@ -23,7 +23,8 @@ void Editor::update()
     window.draw(mapManager);
 
     window.display();
-
+		
+		//Draw all the obstacles of the palette (catalog)
 		for(auto actor : obstaclesP)
 		{
 			winPalette->draw(actor->getSprite());
@@ -34,7 +35,8 @@ void Editor::update()
 		winPalette->display();
 		winPalette->clear(clearColor);
 		
-		while (winPalette->pollEvent(eventPal))//crash
+		//Event handling of the palette
+		while (winPalette->pollEvent(eventPal))
 		{
 
 			if (eventPal.type == sf::Event::MouseButtonReleased)							
@@ -47,10 +49,11 @@ void Editor::update()
 		
 		
     sf::Event event;
+    //Event handling of the map
     while (window.pollEvent(event))
     {
 		if (event.type == sf::Event::MouseButtonReleased)							
-			paint(window);		
+			paint(window);	//Place or remove an obstacle	
 															
     }																				
 																					
@@ -65,11 +68,14 @@ Editor::~Editor()
 }																					
 																					
 Editor::Editor()															
-{																					
+{	
+	//Activate line for mapping  conveniance																				
     mapManager.setDrawLines(true);				
     
+    //Open the palette window
 	winPalette = new sf::RenderWindow(sf::VideoMode(160, 128), "Palette");
-
+	
+	//Load the obstacles from the catalog onto the palette
     std::ifstream file("res/texture/catalog");
     int X, Y, tileValue;
     std::string path;
@@ -96,15 +102,16 @@ Editor::Editor()
     brushType = 0;
 	Health = 1;
 	
+	//Setup the map view
     view.setCenter(0, 0);
     view.setSize(sf::Vector2f(GameManager::Instance->getWindow().getSize()));
     GameManager::Instance->getWindow().setView(view);
 }
 
+//Draw an obstacle on the map
 void Editor::paint(sf::RenderWindow& window)
 {
-	std::cout << "bonjour\n";
-	
+
 	sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
 	int BoundX = 0, BoundY = 0;
@@ -121,6 +128,7 @@ void Editor::paint(sf::RenderWindow& window)
 	BoundX = (int)pixPosX * PIXEL_SIZE;
 	BoundY = (int)pixPosY * PIXEL_SIZE;
 	
+	//Create an invisible rectangle the size of the currently selected obstacle
 	sf::FloatRect paternRect(sf::Vector2f(BoundX, BoundY),sf::Vector2f(32,32));
 	if(brushType == TILE_ROCK_BIG || brushType == TILE_TREE_BIG)
 	{
@@ -130,7 +138,11 @@ void Editor::paint(sf::RenderWindow& window)
 		
 	bool isFound = false;
 	
+	//Debugging message, don't forget to remove it
 	std::cout << BoundX << " " << mouse.x << " / " << BoundY << " " << mouse.y << std::endl;
+	
+	//Goes through the map's obstacle list, remove all obstacles colliding with the paternRect
+	//If no colliding obstacle is found, add an obstacle to the list
 	std::list<Actor*>::iterator actor = mapManager.getActorList().begin();
 	while(actor != mapManager.getActorList().end())
 	{
@@ -167,6 +179,7 @@ void Editor::paint(sf::RenderWindow& window)
 	}
 }
 
+//Select obstacles and Save/Load/ChangeH health
 void Editor::brushSelect(sf::RenderWindow& window)
 {
 	sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));;
@@ -191,10 +204,12 @@ void Editor::brushSelect(sf::RenderWindow& window)
 
 void Editor::setHealth()
 {
+	//Get health from the console
 	std::cout << "Combien de vie les prochains obstacles auront ?\n";
 	std::string buf;
 	std::getline(std::cin,buf);
 	
+	//Take care of the scenario in wich the user is a massive CUNT/////////////
 	try {
 		Health = std::stoi(buf);
 	}
@@ -210,6 +225,7 @@ void Editor::setHealth()
 
 void Editor::save()
 {
+	//Build the file's name
 	std::string path = "res/map/map";
 	std::cout << "Entrer le nom de la map\n";
 	std::string slot;
@@ -229,7 +245,9 @@ void Editor::save()
 		while(actor != mapManager.getActorList().end())
 		{
 			file << dynamic_cast<Obstacle*>((*actor))->getType() << std::endl;
-			file << (*actor)->getPosition().x << " " << (*actor)->getPosition().y << " " << (*actor)->getHealth() << std::endl;
+			
+			//Normalize the Coordinates
+			file << (*actor)->getPosition().x / PIXEL_SIZE << " " << (*actor)->getPosition().y / PIXEL_SIZE << " " << (*actor)->getHealth() << std::endl;
 			actor++;
 		}
 	}
@@ -239,6 +257,7 @@ void Editor::save()
 
 void Editor::load()
 {
+	//Build the file's name
 	std::string path = "res/map/map";
 	std::cout << "Entrer le nom de la map à charger\n";
 	std::string slot;
@@ -246,6 +265,7 @@ void Editor::load()
 	path.append(slot);
 	path.append(".level");
 	
+	//Create all the obstacles it reads and send an error if the file is not formated properly
 	std::ifstream file(path);
 	
 	 if(file.is_open())
@@ -287,6 +307,10 @@ void Editor::load()
 				case TILE_ROCK_BIG:
 					mapManager.addActor(new Obstacle("res/texture/BRock.png", Health, X, Y, TILE_ROCK_BIG));
 					break;
+					
+				default:
+					std::cerr << "Oï mate ! Seems like your a daft cunt to me !";//I really need to change that ///////////////////////////////
+					exit(-1);
 			}
 		}
 	}

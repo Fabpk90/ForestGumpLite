@@ -37,48 +37,49 @@ MapManager::MapManager(const char* path) : drawLines(false)
 bool MapManager::loadMapFromFile(const char *path)
 {
     std::ifstream file(path);
-    int tileValue = 0, tilePosNrmx, tilePosNrmy;
+   int tileValue = 0, Health, X, Y;
+	if(file.is_open())
+	{
+		while(file >> tileValue)
+		{
+			if(!file.eof())
+				file >> X;
+			else
+				assert(false);
 
-    if(file.is_open())
-    {
-        while(file >> tileValue)
-        {
-            if(!file.eof())
-                file >> tilePosNrmx;
-            else
-                assert(false);
+			if(!file.eof())
+				file >> Y;
+			else
+				assert(false);
+			
+			 if(!file.eof())
+				file >> Health;
+			else
+				assert(false);
+				
+			switch(tileValue)
+			{
+				case TILE_TREE:
+					actorList.push_back(new Obstacle("res/texture/tree.png", Health, X * PIXEL_SIZE, Y * PIXEL_SIZE, TILE_TREE));
+					break;
+					
+				case TILE_TREE_BIG:
+					actorList.push_back(new Obstacle("res/texture/BTree.png", Health, X * PIXEL_SIZE, Y * PIXEL_SIZE, TILE_TREE_BIG));
+					break;
+					
+				case TILE_ROCK:
+					actorList.push_back(new Obstacle("res/texture/rock.png", Health, X * PIXEL_SIZE, Y * PIXEL_SIZE, TILE_ROCK));
+					break;
+					
+				case TILE_ROCK_BIG:
+					actorList.push_back(new Obstacle("res/texture/BRock.png", Health, X * PIXEL_SIZE, Y * PIXEL_SIZE, TILE_ROCK_BIG));
+					break;
 
-            if(!file.eof())
-                file >> tilePosNrmy;
-            else
-                assert(false);
-
-            switch(tileValue)
-            {
-                case TILE_TREE:
-                    actorList.push_back(
-                            new Obstacle("res/texture/tree.png", HEALTH_TREE, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE, TILE_TREE));
-                break;
-
-                case TILE_ROCK:
-					actorList.push_back(new Obstacle("res/texture/rock.png", 1, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE, TILE_ROCK));
-                break;
-
-                case TILE_TREE_BIG:
-                   // actorList.push_back(
-                           // new Obstacle("res/texture/tree.png", HEALTH_TREE_BIG, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
-                    break;
-
-                case TILE_ROCK_BIG:
-                    //actorList.push_back(
-                          //  new Obstacle("res/texture/tree.png", HEALTH_ROCK_BIG, tilePosNrmx * PIXEL_SIZE, tilePosNrmy * PIXEL_SIZE));
-                    break;
-
-                default:
-                    std::cerr << "Identifiant de l'entité non reconnu";
-                    exit(-1);
-            }
-        }
+				default:
+					std::cerr << "Identifiant de l'entité non reconnu";
+					exit(-1);
+			}
+		}
 
         file.close();
 
