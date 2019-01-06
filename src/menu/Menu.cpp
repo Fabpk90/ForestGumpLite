@@ -9,14 +9,14 @@ Menu::Menu(float width, float height)
 {
     if(!font.loadFromFile("res/font/Roboto.ttf"))
     {
-        std::cerr << "Error while loading the font Roboto";
+        std::cerr << "Erreur de chargement du font Roboto";
         exit(-1);
     }
 
     menuText[0].setFont(font);
     menuText[0].setFillColor(sf::Color::Blue);
     menuText[0].setString("Jouer");
-    menuText[0].setCharacterSize(24);
+    //menuText[0].setCharacterSize(24);
     menuText[0].setPosition(width/2, height/4);
 
     menuText[1].setFont(font);
@@ -26,34 +26,44 @@ Menu::Menu(float width, float height)
 
     menuText[2].setFont(font);
     menuText[2].setFillColor(sf::Color::White);
-    menuText[2].setString("Quitter");
-    menuText[2].setPosition(width/2, height/1);
+    menuText[2].setPosition(width/2, height);
 
     itemSelected=0;
+
+    if (!texture.loadFromFile("res/texture/fond.jpg"))
+    {
+        std::cerr << "Erreur de chargement de la texture fond";
+    }
+    texture.setSmooth(true);
+
+    sprite.setTexture(texture);
+    sprite.setOrigin(sf::Vector2f(25.f, 0));
 }
 
 void Menu::MoveUp()
 {
     if(itemSelected-1 >= 0)
     {
-        menuText[itemSelected].setColor(sf::Color::White);
+        menuText[itemSelected].setFillColor(sf::Color::White);
         itemSelected--;
-        menuText[itemSelected].setColor(sf::Color::Blue);
+        menuText[itemSelected].setFillColor(sf::Color::Blue);
     }
 }
 
 void Menu::MoveDown()
 {
-    if(itemSelected-1 < 3)
+    if(itemSelected+1 < 3)
     {
-        menuText[itemSelected].setColor(sf::Color::White);
+        menuText[itemSelected].setFillColor(sf::Color::White);
         itemSelected++;
-        menuText[itemSelected].setColor(sf::Color::Blue);
+        menuText[itemSelected].setFillColor(sf::Color::Blue);
     }
 }
 
-void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    for(auto t:menuText)
+void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    target.draw(sprite);
+    for(auto const &t:menuText)
     {
         target.draw(t);
     }

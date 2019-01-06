@@ -13,6 +13,8 @@ private:
     int itemSelected;
     sf::Font font;
     sf::Text menuText[3];
+    sf::Sprite sprite;
+    sf::Texture texture;
 
 public:
     Menu(float width, float height);

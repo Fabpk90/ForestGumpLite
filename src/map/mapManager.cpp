@@ -86,8 +86,6 @@ bool MapManager::loadMapFromFile(const char *path)
     }
     else //TODO: Error handling
         return false;
-
-
 }
 
 void MapManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
