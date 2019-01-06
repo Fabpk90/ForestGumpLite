@@ -78,34 +78,18 @@ void SceneGame::update()
     if(isIAPlayer)
     {
         srand(time(NULL));
-        int rng=rand()%2;
+        int rng=rand()%5;
 
         switch(rng)
         {
             case 0: {
                 //Meh dans l'idee ok mais manque savoir où tiré
-                playerPlaying->toggleAiming();
-                if(checkPlayerSight() && playerPlaying->getCanShoot())
-                {
-                    sf::Vector2i *playerPos = new sf::Vector2i(p2->getPosition());
-                    playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
-                    playerPlaying->setIsAiming(false);
-                    mapManager.collisionAimCheck(*playerPlaying);
-                    changePlayerTurn();
-                }
-                else if (playerPlaying->getCanShoot() && playerPlaying->getIsAiming())
-                {
-                    playerPlaying->setIsAiming(false);
-                    mapManager.collisionAimCheck(*playerPlaying);
-                    changePlayerTurn();
-                }
+                IA_Aim();
                 break;
             }
-            case 1: {
+            case 1: {//Deplacement Gauche
                 while(playerPlaying->getMovementRemaining())
                 {
-                    //TODO: RNG pour le mouvement
-                    //Yolo test de deplacement full gauche
                     sf::Vector2f pos = playerPlaying->getPosition();
                     pos += sf::Vector2f(-PIXEL_SIZE, 0);
                     if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
@@ -124,21 +108,79 @@ void SceneGame::update()
                         }
                     }
                 }
-                playerPlaying->toggleAiming();
-                if(checkPlayerSight() && playerPlaying->getCanShoot())
+                IA_Aim();
+                break;
+            }
+            case 2:{//Deplacement Haut
+                while(playerPlaying->getMovementRemaining())
                 {
-                    sf::Vector2i *playerPos = new sf::Vector2i(p2->getPosition());
-                    playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
-                    playerPlaying->setIsAiming(false);
-                    mapManager.collisionAimCheck(*playerPlaying);
-                    changePlayerTurn();
+                    sf::Vector2f pos = playerPlaying->getPosition();
+                    pos += sf::Vector2f(0, PIXEL_SIZE);
+                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
+                    {
+                        playerPlaying->moveTo(pos);
+
+                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+                        hud.setTextString(HUDManager::MOVEMENT, str);
+
+                        if(checkPlayerSight())
+                        {
+                            if(isPlayer1Turn)
+                                p2->setToBeDrawn(true);
+                            else
+                                p1->setToBeDrawn(true);
+                        }
+                    }
                 }
-                else if (playerPlaying->getCanShoot())
+                IA_Aim();
+                break;
+            }
+            case 3: {//Deplacement Droite
+                while(playerPlaying->getMovementRemaining())
                 {
-                    playerPlaying->setIsAiming(false);
-                    mapManager.collisionAimCheck(*playerPlaying);
-                    changePlayerTurn();
+                    sf::Vector2f pos = playerPlaying->getPosition();
+                    pos += sf::Vector2f(PIXEL_SIZE, 0);
+                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
+                    {
+                        playerPlaying->moveTo(pos);
+
+                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+                        hud.setTextString(HUDManager::MOVEMENT, str);
+
+                        if(checkPlayerSight())
+                        {
+                            if(isPlayer1Turn)
+                                p2->setToBeDrawn(true);
+                            else
+                                p1->setToBeDrawn(true);
+                        }
+                    }
                 }
+                IA_Aim();
+                break;
+            }
+            case 4: {//Deplacement Bas
+                while(playerPlaying->getMovementRemaining())
+                {
+                    sf::Vector2f pos = playerPlaying->getPosition();
+                    pos += sf::Vector2f(0, -PIXEL_SIZE);
+                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
+                    {
+                        playerPlaying->moveTo(pos);
+
+                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+                        hud.setTextString(HUDManager::MOVEMENT, str);
+
+                        if(checkPlayerSight())
+                        {
+                            if(isPlayer1Turn)
+                                p2->setToBeDrawn(true);
+                            else
+                                p1->setToBeDrawn(true);
+                        }
+                    }
+                }
+                IA_Aim();
                 break;
             }
             default: break;
@@ -366,4 +408,22 @@ SceneGame::~SceneGame()
 {
     GameManager::Instance->getWindow().setView(
             GameManager::Instance->getWindow().getDefaultView());
+}
+
+void SceneGame::IA_Aim() {
+    playerPlaying->toggleAiming();
+    if(checkPlayerSight() && playerPlaying->getCanShoot())
+    {
+        sf::Vector2i *playerPos = new sf::Vector2i(p2->getPosition());
+        playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
+        playerPlaying->setIsAiming(false);
+        mapManager.collisionAimCheck(*playerPlaying);
+        changePlayerTurn();
+    }
+    else if (playerPlaying->getCanShoot() && playerPlaying->getIsAiming())
+    {
+        playerPlaying->setIsAiming(false);
+        mapManager.collisionAimCheck(*playerPlaying);
+        changePlayerTurn();
+    }
 };
