@@ -21,17 +21,25 @@ GameManager::GameManager()
         clearColor.b = 128;
 
         scene = nullptr;
+        isSceneToBeFreed = false;
     }
 }
 
 void GameManager::setScene(Scene *scene)
 {
-    delete this->scene;
-    this->scene = scene;
+    nextScene = scene;
+    isSceneToBeFreed = true;
 }
 
 void GameManager::renderScene()
 {
+    if(isSceneToBeFreed)
+    {
+        delete scene;
+        scene = nextScene;
+
+        isSceneToBeFreed = false;
+    }
     scene->update();
 }
 
@@ -44,9 +52,9 @@ GameManager::~GameManager()
 void GameManager::setWinner(bool isWinnerPlayer1)
 {
     if(isWinnerPlayer1)
-        std::cout << "Player 1 has won!  Shame on you player 2!";
+        std::cout << "Player 1 has won!  Shame on you player 2!" << std::endl;
     else
-        std::cout << "Player 2 has won!  Shame on you player 1!";
+        std::cout << "Player 2 has won!  Shame on you player 1!" << std::endl;
 
     setScene(new SceneMainMenu());
 }

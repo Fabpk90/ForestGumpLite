@@ -14,7 +14,10 @@ class GameManager
 {
 private:
     Scene* scene;
+    Scene* nextScene;
     sf::RenderWindow* window;
+
+    bool isSceneToBeFreed;
 
     sf::Color clearColor;
 

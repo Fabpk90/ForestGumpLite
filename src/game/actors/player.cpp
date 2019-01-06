@@ -32,7 +32,7 @@ Player::Player(const char *path, int health, bool isPlayer1, HUDManager& hud)
 bool Player::takeDamage(int amount)
 {
     GameManager::Instance->setWinner(!isPlayer1);
-    return true;
+    return false;
 }
 
 void Player::onDie()
@@ -249,5 +249,10 @@ void Player::toggleAiming()
 {
     isAiming = !isAiming;
     hud.setActiveText(HUDManager::POWER, isAiming);
+}
+
+void Player::takeSelfDamage(int amount)
+{
+    health -= amount;
 }
 

@@ -209,9 +209,7 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
 
                 if((*actor)->takeDamage(playerAiming.getPowerInUse()))
                 {
-                    auto act = *actor;
                     actor = actorList.erase(actor);
-                    delete act;
                 }
                 else
                     ++actor;
@@ -224,7 +222,7 @@ bool MapManager::collisionAimCheck(Player &playerAiming) {
     }
 
     //applying the damage equals to the power
-    playerAiming.takeDamage(playerAiming.getPowerInUse());
+    playerAiming.takeSelfDamage(playerAiming.getPowerInUse());
 
     return didCollide;
 }

@@ -61,6 +61,7 @@ public:
     Player(const char* path, int health, bool isPlayer1, HUDManager& hud);
 
     bool takeDamage(int amount) override;
+    void takeSelfDamage(int amount);
 
     void onDie() override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

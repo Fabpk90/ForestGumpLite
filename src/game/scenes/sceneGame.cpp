@@ -54,8 +54,6 @@ void SceneGame::initHUD()
 
     sf::Vector2f textPos = window.mapPixelToCoords(sf::Vector2i(window.getSize().x / 2, 0));
 
-    std::cout << textPos.x << " " << textPos.y << std::endl;
-
     textPos.x -= hud.getText(HUDManager::PLAYER).getLocalBounds().width
                         / 2;
     hud.setTextPosition(HUDManager::PLAYER
