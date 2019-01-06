@@ -13,7 +13,13 @@ class Editor  : public Scene{
 
 private:
     MapManager mapManager;
-
+	int brushType;
+	int Health;
+	sf::Color clearColor;
+	sf::RenderWindow* winPalette;
+	list<Actor*> obstaclesP;
+	
+	sf::View view;
 
 public:
     Editor();
@@ -21,7 +27,11 @@ public:
     ~Editor() override;
 
     void update() override;
-
+    void paint(sf::RenderWindow& window);
+	void brushSelect(sf::RenderWindow& window);
+	void setHealth();
+	void save();
+	void load();
 };
 
 

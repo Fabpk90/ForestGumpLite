@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "scenes/scene.h"
+#include "../editor/editor.h"
 
 class GameManager
 {
@@ -25,6 +26,7 @@ public:
 
     void setScene(Scene* scene, bool isOldToBeDeleted = false);
     void renderScene();
+    void editorMode();
 
     sf::RenderWindow& getWindow() { return *window; }
 
