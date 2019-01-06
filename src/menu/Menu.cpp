@@ -26,6 +26,7 @@ Menu::Menu(float width, float height)
 
     menuText[2].setFont(font);
     menuText[2].setFillColor(sf::Color::White);
+    menuText[2].setString("Quitter");
     menuText[2].setPosition(width/2, height);
 
     itemSelected=0;

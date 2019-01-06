@@ -41,7 +41,7 @@ void SceneMainMenu::update()
     {
         case 0:
             GameManager::Instance->
-            setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png"));
+            setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png", true));
             break;
 
         case 1:

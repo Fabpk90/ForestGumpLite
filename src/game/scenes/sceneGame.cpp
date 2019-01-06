@@ -10,7 +10,7 @@
 #include "../../util/VectorHelper.h"
 
 SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
-        , const char* player2ImgPath)
+        , const char* player2ImgPath, bool IA)
 : mapManager(mapPath), hud(), window(GameManager::Instance->getWindow())
 {
     view.setSize(sf::Vector2f(GameManager::Instance->getWindow().getSize()));
@@ -19,6 +19,8 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     GameManager::Instance->getWindow().setView(view);
 
     initHUD();
+
+    isIAPlayer= IA;
 
     p1 = new Player(player1ImgPath, 10, true, hud);
     p2 = new Player(player2ImgPath, 10, false, hud);
@@ -72,37 +74,104 @@ void SceneGame::initHUD()
 
 void SceneGame::update()
 {
-    sf::Event event;
-    while (window.pollEvent(event))
+    if(isIAPlayer)
     {
-        if (event.type == sf::Event::MouseButtonPressed)
+        srand(time(NULL));
+        int rng=rand()%2;
+
+        switch(rng)
         {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming()
-            && playerPlaying->getCanShoot())
-            {
-                playerPlaying->setIsAiming(false);
-                mapManager.collisionAimCheck(*playerPlaying);
-                changePlayerTurn();
-            }
-            else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
-            {
+            case 0: {
+                //Meh dans l'idee ok mais manque savoir où tiré
                 playerPlaying->toggleAiming();
+                if(checkPlayerSight() && playerPlaying->getCanShoot())
+                {
+                    playerPlaying->setIsAiming(false);
+                    mapManager.collisionAimCheck(*playerPlaying);
+                    changePlayerTurn();
+                }
+                else if (playerPlaying->getCanShoot())
+                {
+                    playerPlaying->setIsAiming(false);
+                    mapManager.collisionAimCheck(*playerPlaying);
+                    changePlayerTurn();
+                }
+                break;
+            }
+            case 1: {
+                while(playerPlaying->getMovementRemaining())
+                {
+                    //TODO: RNG pour le mouvement
+                    //Yolo test de deplacement full gauche
+                    sf::Vector2f pos = playerPlaying->getPosition();
+                    pos += sf::Vector2f(-PIXEL_SIZE, 0);
+                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
+                    {
+                        playerPlaying->moveTo(pos);
+
+                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+                        hud.setTextString(HUDManager::MOVEMENT, str);
+
+                        if(checkPlayerSight())
+                        {
+                            if(isPlayer1Turn)
+                                p2->setToBeDrawn(true);
+                            else
+                                p1->setToBeDrawn(true);
+                        }
+                    }
+                }
+                playerPlaying->toggleAiming();
+                if(checkPlayerSight() && playerPlaying->getCanShoot())
+                {
+                    playerPlaying->setIsAiming(false);
+                    mapManager.collisionAimCheck(*playerPlaying);
+                    changePlayerTurn();
+                }
+                else if (playerPlaying->getCanShoot())
+                {
+                    playerPlaying->setIsAiming(false);
+                    mapManager.collisionAimCheck(*playerPlaying);
+                    changePlayerTurn();
+                }
+                break;
+            }
+            default: break;
+        }
+    }
+    else
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming()
+                   && playerPlaying->getCanShoot())
+                {
+                    playerPlaying->setIsAiming(false);
+                    mapManager.collisionAimCheck(*playerPlaying);
+                    changePlayerTurn();
+                }
+                else if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
+                {
+                    playerPlaying->toggleAiming();
+                    sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+                    playerPlaying->updateAimingLine(window.mapPixelToCoords(pixelPos));
+                }
+            }
+            else if(event.type == sf::Event::MouseMoved)
+            {
                 sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
                 playerPlaying->updateAimingLine(window.mapPixelToCoords(pixelPos));
             }
-        }
-        else if(event.type == sf::Event::MouseMoved)
-        {
-            sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-            playerPlaying->updateAimingLine(window.mapPixelToCoords(pixelPos));
-        }
-        else if (event.type == sf::Event::Closed)
-            window.close();
+            else if (event.type == sf::Event::Closed)
+                window.close();
 
-        if(playerPlaying->getMovementRemaining())
-            checkForPlayerMovement();
+            if(playerPlaying->getMovementRemaining())
+                checkForPlayerMovement();
+        }
     }
-
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
