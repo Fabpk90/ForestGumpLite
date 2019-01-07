@@ -183,21 +183,7 @@ void SceneGame::handleAITurn()
 void SceneGame::moveIA(sf::Vector2f vec) {
     sf::Vector2f pos = playerPlaying->getPosition();
     pos += vec;
-    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
-    {
-        playerPlaying->moveTo(pos);
-
-        string str = "Movement:"+ to_string(playerPlaying->getMovementRemaining());
-        hud.setTextString(HUDManager::MOVEMENT, str);
-
-        if(checkPlayerSight())
-        {
-            if(isPlayer1Turn)
-                p2->setToBeDrawn(true);
-            else
-                p1->setToBeDrawn(true);
-        }
-    }
+    validateAndMovePose(pos);
 }
 
 void SceneGame::changePlayerTurn()
@@ -331,11 +317,17 @@ void SceneGame::checkForPlayerMovement()
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         pos += sf::Vector2f(0, PIXEL_SIZE);
 
+    validateAndMovePose(pos);
+
+}
+
+void SceneGame::validateAndMovePose(const sf::Vector2f &pos)
+{
     if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
     {
         playerPlaying->moveTo(pos);
 
-        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+        string str = "Movement:"+ to_string(playerPlaying->getMovementRemaining());
         hud.setTextString(HUDManager::MOVEMENT, str);
 
         if(checkPlayerSight())
@@ -346,7 +338,6 @@ void SceneGame::checkForPlayerMovement()
                 p1->setToBeDrawn(true);
         }
     }
-
 }
 
 //Use ZQSD to change orientation
@@ -379,7 +370,7 @@ void SceneGame::checkForPlayerTurning()
 			playerPlaying->getSprite().setRotation(180.f);
 		}
 		
-	//After turning we check wether or not to draw the other player
+	//After turning we check whether or not to draw the other player
 	if(checkPlayerSight())
     {
         if(isPlayer1Turn)
@@ -428,6 +419,7 @@ SceneGame::~SceneGame()
 }
 
 void SceneGame::IA_Aim() {
+
     Player* whoPlay=playerPlaying;
     playerPlaying->toggleAiming();
     if(checkPlayerSight() && playerPlaying->getCanShoot())

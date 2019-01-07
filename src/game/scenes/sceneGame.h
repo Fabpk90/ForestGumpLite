@@ -41,7 +41,7 @@ private:
 
     void checkForPlayerMovement();
 	void checkForPlayerTurning();
-	
+
     void initHUD();
 
     void moveIA(sf::Vector2f vector2);
@@ -56,6 +56,8 @@ public:
     SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath, bool IA);
 
     void update() override;
+
+    void validateAndMovePose(const sf::Vector2f &pos);
 };
 
 
