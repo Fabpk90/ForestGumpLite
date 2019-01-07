@@ -3,7 +3,10 @@
 //
 
 #include <iostream>
+#include <dirent.h>
+#include <sys/types.h>
 #include "Menu.h"
+#include "../game/gameManager.h"
 
 Menu::Menu(float width, float height)
 {
@@ -15,18 +18,24 @@ Menu::Menu(float width, float height)
 
     menuText[0].setFont(font);
     menuText[0].setFillColor(sf::Color::Blue);
-    menuText[0].setString("Jouer");
+    menuText[0].setString("Joueur VS Joueur");
     //menuText[0].setCharacterSize(24);
     menuText[0].setPosition(width/2, height/4);
 
-    menuText[1].setFont(font);
-    menuText[1].setFillColor(sf::Color::White);
-    menuText[1].setString("Editeur");
-    menuText[1].setPosition(width/2, height/2);
-
     menuText[2].setFont(font);
     menuText[2].setFillColor(sf::Color::White);
-    menuText[2].setPosition(width/2, height);
+    menuText[2].setString("Editeur");
+    menuText[2].setPosition(width/2, height/2);
+
+    menuText[3].setFont(font);
+    menuText[3].setFillColor(sf::Color::White);
+    menuText[3].setString("Quitter");
+    menuText[3].setPosition(width/2, height);
+
+    menuText[1].setFont(font);
+    menuText[1].setFillColor(sf::Color::White);
+    menuText[1].setString("IA VS IA");
+    menuText[1].setPosition(width/2, height/3);
 
     itemSelected=0;
 
@@ -37,37 +46,121 @@ Menu::Menu(float width, float height)
     texture.setSmooth(true);
 
     sprite.setTexture(texture);
-    sprite.setOrigin(sf::Vector2f(25.f, 0));
+    sprite.setScale(1.1,1.1);
+
+    isModeSelected = false;
+    mapSelected = -1;
+
+    mapList = std::vector<std::string>();
+
+    loadMapList();
 }
 
 void Menu::MoveUp()
 {
-    if(itemSelected-1 >= 0)
+    if(!isModeSelected)
     {
-        menuText[itemSelected].setFillColor(sf::Color::White);
-        itemSelected--;
-        menuText[itemSelected].setFillColor(sf::Color::Blue);
+        if(itemSelected-1 >= 0)
+        {
+            menuText[itemSelected].setFillColor(sf::Color::White);
+            itemSelected--;
+            menuText[itemSelected].setFillColor(sf::Color::Blue);
+        }
     }
 }
 
 void Menu::MoveDown()
 {
-    if(itemSelected+1 < 3)
+    if(!isModeSelected)
     {
-        menuText[itemSelected].setFillColor(sf::Color::White);
-        itemSelected++;
-        menuText[itemSelected].setFillColor(sf::Color::Blue);
+        if(itemSelected+1 < MENU_MAIN_ITEMS)
+        {
+            menuText[itemSelected].setFillColor(sf::Color::White);
+            itemSelected++;
+            menuText[itemSelected].setFillColor(sf::Color::Blue);
+        }
     }
 }
 
 void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite);
-    for(auto const &t:menuText)
+    if(!isModeSelected)
     {
-        target.draw(t);
+        for(auto const &t:menuText)
+        {
+            target.draw(t);
+        }
     }
 }
 
 Menu::~Menu() {}
+
+void Menu::loadMapList()
+{
+    DIR *dir;
+    struct dirent *ent;
+
+    if ((dir = opendir ("res/map")) != NULL)
+    {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL)
+        {
+            if(ent->d_type == DT_REG)
+            {
+                std::string str = std::string(ent->d_name);
+                str = str.substr(0, str.length() - 6);
+
+                mapList.push_back(str);;
+            }
+        }
+        closedir (dir);
+    } else {
+        /* could not open directory */
+        perror ("");
+    }
+}
+
+void Menu::askForMap()
+{
+    int mapNum = -1;
+    std::cout << "Quel carte voulez-vous charger ?\n";
+
+    for(int i = 0; i < mapList.size(); ++i)
+    {
+        std::cout << i+1 <<" " << mapList[i] << std::endl;
+    }
+
+
+    while(mapNum == -1)
+    {
+        try
+        {
+            std::string buf;
+            std::getline(std::cin,buf);
+
+            mapNum = std::stoi(buf) - 1;
+
+            if(mapNum < 0 || mapNum >= mapList.size())
+            {
+                std::cout << "Ce n'est pas valide, retentez" << std::endl;
+                mapNum = -1;
+            }
+            else
+            {
+                std::cout << "Map chargee!" << std::endl;
+                mapSelected = mapNum;
+            }
+        }
+        catch (std::invalid_argument)
+        {
+            std::cout << "argument invalide, vie inchangée\n";
+        }
+        catch (std::out_of_range)
+        {
+            std::cout << "nombre trop grand, vie inchangée\n";
+        }
+    }
+
+}
 

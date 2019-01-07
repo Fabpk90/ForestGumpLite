@@ -27,6 +27,7 @@ private:
     Player* playerPlaying;
 
     bool isPlayer1Turn;
+    bool isIAPlayer;
 
     //used to know whether or not the player playing sees the other one
     sf::RectangleShape sightRectangle;
@@ -48,9 +49,10 @@ public:
 
     ~SceneGame() override;
 
-    SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath);
+    SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath, bool IA);
 
     void update() override;
+    void IA_Aim();
 };
 
 

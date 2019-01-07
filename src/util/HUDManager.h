@@ -13,9 +13,6 @@
 class HUDManager : public sf::Drawable{
 
 private:
-
-    sf::Font font;
-
     bool bElementsToBeDrawn[NUM_ELEMENT];
     sf::Text arrayText[NUM_ELEMENT];
 

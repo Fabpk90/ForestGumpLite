@@ -22,6 +22,13 @@ GameManager::GameManager()
 
         scene = nullptr;
         isSceneToBeFreed = false;
+
+        if(!font.loadFromFile("res/font/Roboto.ttf"))
+        {
+            std::cerr << "Error while loading the font Roboto";
+            exit(-1);
+        }
+
     }
 }
 

@@ -11,7 +11,10 @@
 class SceneMainMenu : public Scene
 {
 private:
+    int gameModeSelected;
     Menu menu;
+
+    void checkGameMode();
 public:
 
     ~SceneMainMenu() override;

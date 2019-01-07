@@ -13,7 +13,6 @@ void SceneMainMenu::update()
 {
     sf::RenderWindow& window = GameManager::Instance->getWindow();
 
-    int btnSelected = -1;
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -23,7 +22,7 @@ void SceneMainMenu::update()
             if(event.key.code == sf::Keyboard::Down) menu.MoveDown();
             if(event.key.code == sf::Keyboard::Return)
             {
-                btnSelected = menu.getItem();
+                gameModeSelected = menu.getItem();
             }
         }
         if (event.type == sf::Event::Closed)
@@ -31,32 +30,58 @@ void SceneMainMenu::update()
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        window.close();
+    {
+            window.close();
+    }
 
     window.clear();
     window.draw(menu);
     window.display();
 
-    switch (btnSelected)
+    if(gameModeSelected == 3)
+        window.close();
+    else if (gameModeSelected != -1)
     {
-        case 0:
-            GameManager::Instance->
-            setScene(new SceneGame("res/map/map2.level", "res/texture/Player.png", "res/texture/Player.png"));
-            break;
-
-        case 1:
-            GameManager::Instance->setScene(new Editor());
-            break;
-
-        case 2:
-            window.close();
-            break;
+        checkGameMode();
     }
+}
+
+void SceneMainMenu::checkGameMode()
+{
+    string path;
+    if(gameModeSelected == 0 || gameModeSelected == 1)
+        {
+            menu.askForMap();
+            path = "res/map/";
+            path.append(menu.getStringMapSelected());
+            path.append(".level");
+        }
+
+    switch (gameModeSelected)
+        {
+            case 0:
+                GameManager::Instance->
+                        setScene(new SceneGame(path.c_str(),
+                                "res/texture/Player.png",
+                                "res/texture/Player.png", false));
+                break;
+
+            case 2:
+                GameManager::Instance->setScene(new Editor());
+                break;
+
+            case 1:
+                GameManager::Instance->
+                        setScene(new SceneGame(path.c_str(),
+                                "res/texture/Player.png",
+                                "res/texture/Player.png", true));
+                break;
+        }
 }
 
 SceneMainMenu::SceneMainMenu():menu(600,400)
 {
-
+    gameModeSelected = -1;
 }
 
 SceneMainMenu::~SceneMainMenu()

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "HUDManager.h"
+#include "../game/gameManager.h"
 
 void HUDManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
@@ -16,18 +17,13 @@ void HUDManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 HUDManager::HUDManager()
 {
-    if(!font.loadFromFile("res/font/Roboto.ttf"))
-    {
-        std::cerr << "Error while loading the font Roboto";
-        exit(-1);
-    }
 
     for (int i = 0; i < NUM_ELEMENT; ++i) {
         bElementsToBeDrawn[i] = false;
     }
 
     for (int j = 0; j < NUM_ELEMENT; ++j) {
-        arrayText[j].setFont(font);
+        arrayText[j].setFont(GameManager::Instance->getFont());
     }
 }
 
