@@ -42,8 +42,14 @@ void SceneMainMenu::update()
         window.close();
     else if (gameModeSelected != -1)
     {
-        std::string path;
-        if(gameModeSelected == 0 || gameModeSelected == 1)
+        checkGameMode();
+    }
+}
+
+void SceneMainMenu::checkGameMode()
+{
+    string path;
+    if(gameModeSelected == 0 || gameModeSelected == 1)
         {
             menu.askForMap();
             path = "res/map/";
@@ -51,7 +57,7 @@ void SceneMainMenu::update()
             path.append(".level");
         }
 
-        switch (gameModeSelected)
+    switch (gameModeSelected)
         {
             case 0:
                 GameManager::Instance->
@@ -71,7 +77,6 @@ void SceneMainMenu::update()
                                 "res/texture/Player.png", true));
                 break;
         }
-    }
 }
 
 SceneMainMenu::SceneMainMenu():menu(600,400)
