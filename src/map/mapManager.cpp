@@ -113,6 +113,9 @@ sf::Vector2f MapManager::getFreePosition()
     int x = std::rand() % (PIXEL_COUNT_WIDTH);
     int y = std::rand() % (PIXEL_COUNT_HEIGHT);
 
+    if(x & 1) x = -x;
+    if(y & 1) y = -y;
+
     sf::Vector2f pos(x * PIXEL_SIZE, y * PIXEL_SIZE);
 
 
