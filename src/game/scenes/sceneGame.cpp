@@ -28,7 +28,6 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     p2 = new Player(player2ImgPath, 10, false, hud);
 
     p1->setPosition(mapManager.getFreePosition());
-    //p1->setPosition(sf::Vector2f(0*PIXEL_SIZE,0*PIXEL_SIZE));
     p1->setOrientation(Player::UP);
     //Compensate the rotation
 	p1->getSprite().setOrigin(32,0);
@@ -37,7 +36,6 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     mapManager.addActor(p1);
 
     p2->setPosition(mapManager.getFreePosition());
-    //p2->setPosition(sf::Vector2f(-5*PIXEL_SIZE, 6*PIXEL_SIZE));
     p2->setOrientation(Player::DOWN);
     p2->getSprite().setOrigin(0,32);
 	p2->getSprite().setRotation(90.f);
@@ -91,6 +89,10 @@ void SceneGame::update()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            if(event.type == sf::Event::KeyPressed
+            && sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+                changePlayerTurn();
+
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming()
@@ -115,6 +117,7 @@ void SceneGame::update()
             else if (event.type == sf::Event::Closed)
                 window.close();
 
+
         if(playerPlaying->getMovementRemaining() && !playerPlaying->getIsAiming())
             checkForPlayerMovement();
             
@@ -125,6 +128,7 @@ void SceneGame::update()
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
+
 
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());

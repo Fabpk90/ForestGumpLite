@@ -145,9 +145,13 @@ bool MapManager::addActor(Actor *actor)
 
 bool MapManager::getIsPositionFree(sf::Vector2f pos)
 {
+    sf::RectangleShape rect;
+    rect.setPosition(pos);
+    rect.setSize(sf::Vector2f(PIXEL_SIZE, PIXEL_SIZE));
+
     for(Actor* obj : actorList)
     {
-        if(obj->getPosition() == pos)
+        if(obj->getGlobalBounds().intersects(rect.getGlobalBounds()))
         {
             return false;
         }

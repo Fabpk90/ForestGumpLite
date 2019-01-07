@@ -100,7 +100,6 @@ void Menu::loadMapList()
 {
     DIR *dir;
     struct dirent *ent;
-
     if ((dir = opendir ("res/map")) != NULL)
     {
         /* print all the files and directories within directory */
@@ -121,8 +120,13 @@ void Menu::loadMapList()
     }
 }
 
-void Menu::askForMap()
+bool Menu::askForMap()
 {
+    if(mapList.size() == 0)
+    {
+        std::cout << "Aucune map n'est presente, passer par l'editeur avant" << std::endl;
+        return false;
+    }
     int mapNum = -1;
     std::cout << "Quel carte voulez-vous charger ? (-1 pour sortir)\n";
 
@@ -150,15 +154,19 @@ void Menu::askForMap()
             {
                 std::cout << "Map chargee!" << std::endl;
                 mapSelected = mapNum;
+
+                return true;
             }
         }
         catch (std::invalid_argument)
         {
-            std::cout << "argument invalide, vie inchangée\n";
+            std::cout << "argument invalide, map non chargee\n";
+            return false;
         }
         catch (std::out_of_range)
         {
-            std::cout << "nombre trop grand, vie inchangée\n";
+            std::cout << "nombre trop grand, map non chargee\n";
+            return false;
         }
     }
 

@@ -48,18 +48,22 @@ void SceneMainMenu::update()
 
 void SceneMainMenu::checkGameMode()
 {
-    string path;
+    string path; bool isMapOk = false;
     if(gameModeSelected == 0 || gameModeSelected == 1)
         {
-            menu.askForMap();
-            path = "res/map/";
-            path.append(menu.getStringMapSelected());
-            path.append(".level");
+            if(menu.askForMap())
+            {
+                path = "res/map/";
+                path.append(menu.getStringMapSelected());
+                path.append(".level");
+                isMapOk = true;
+            }
         }
 
     switch (gameModeSelected)
         {
             case 0:
+                if(isMapOk)
                 GameManager::Instance->
                         setScene(new SceneGame(path.c_str(),
                                 "res/texture/Player.png",
@@ -71,6 +75,7 @@ void SceneMainMenu::checkGameMode()
                 break;
 
             case 1:
+                if(isMapOk)
                 GameManager::Instance->
                         setScene(new SceneGame(path.c_str(),
                                 "res/texture/Player.png",
