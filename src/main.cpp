@@ -11,10 +11,7 @@ int main()
 {
     GameManager gm;
 
-    //gm.setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png"));
-    //gm.setScene(new Editor());
     gm.setScene(new SceneMainMenu());
-    //gm.setScene(new SceneGame("LOL.level", "res/texture/Player.png", "res/texture/Player.png"));
 
     while (gm.getWindow().isOpen())
     {
