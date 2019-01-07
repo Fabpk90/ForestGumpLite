@@ -43,7 +43,10 @@ private:
 	void checkForPlayerTurning();
 	
     void initHUD();
+
     void moveIA(sf::Vector2f vector2);
+    void handleAITurn();
+    void IA_Aim();
 
     HUDManager hud;
 public:
@@ -53,7 +56,6 @@ public:
     SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath, bool IA);
 
     void update() override;
-    void IA_Aim();
 };
 
 

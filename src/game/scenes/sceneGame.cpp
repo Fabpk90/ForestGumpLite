@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cstdlib>
 #include "../gameManager.h"
 #include "sceneGame.h"
 #include "../../util/Constants.h"
@@ -83,49 +84,7 @@ void SceneGame::update()
 {
     if(isIAPlayer)
     {
-        srand(time(NULL));
-        int rng=rand()%5;
-
-        switch(rng)
-        {
-            case 0: {
-                IA_Aim();
-                break;
-            }
-            case 1: {//Deplacement Gauche
-                while(playerPlaying->getMovementRemaining())
-                {
-                    moveIA(sf::Vector2f(-PIXEL_SIZE, 0));
-                }
-                IA_Aim();
-                break;
-            }
-            case 2:{//Deplacement Haut
-                while(playerPlaying->getMovementRemaining())
-                {
-                    moveIA(sf::Vector2f(0, PIXEL_SIZE));
-                }
-                IA_Aim();
-                break;
-            }
-            case 3: {//Deplacement Droite
-                while(playerPlaying->getMovementRemaining())
-                {
-                    moveIA(sf::Vector2f(PIXEL_SIZE, 0));
-                }
-                IA_Aim();
-                break;
-            }
-            case 4: {//Deplacement Bas
-                while(playerPlaying->getMovementRemaining())
-                {
-                   moveIA(sf::Vector2f(0, -PIXEL_SIZE));
-                }
-                IA_Aim();
-                break;
-            }
-            default: break;
-        }
+        handleAITurn();
     }
     else
     {
@@ -172,6 +131,53 @@ void SceneGame::update()
     window.draw(mapManager);
     window.draw(hud);
     window.display();
+}
+
+void SceneGame::handleAITurn()
+{
+    srand(time(NULL));
+    int rng=rand()%5;
+
+    switch(rng)
+        {
+            case 0: {
+                IA_Aim();
+                break;
+            }
+            case 1: {//Deplacement Gauche
+                while(playerPlaying->getMovementRemaining())
+                {
+                    moveIA(sf::Vector2f(-PIXEL_SIZE, 0));
+                }
+                IA_Aim();
+                break;
+            }
+            case 2:{//Deplacement Haut
+                while(playerPlaying->getMovementRemaining())
+                {
+                    moveIA(sf::Vector2f(0, PIXEL_SIZE));
+                }
+                IA_Aim();
+                break;
+            }
+            case 3: {//Deplacement Droite
+                while(playerPlaying->getMovementRemaining())
+                {
+                    moveIA(sf::Vector2f(PIXEL_SIZE, 0));
+                }
+                IA_Aim();
+                break;
+            }
+            case 4: {//Deplacement Bas
+                while(playerPlaying->getMovementRemaining())
+                {
+                   moveIA(sf::Vector2f(0, -PIXEL_SIZE));
+                }
+                IA_Aim();
+                break;
+            }
+            default: break;
+        }
 }
 
 void SceneGame::moveIA(sf::Vector2f vec) {
