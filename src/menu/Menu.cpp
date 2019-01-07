@@ -124,7 +124,7 @@ void Menu::loadMapList()
 void Menu::askForMap()
 {
     int mapNum = -1;
-    std::cout << "Quel carte voulez-vous charger ?\n";
+    std::cout << "Quel carte voulez-vous charger ? (-1 pour sortir)\n";
 
     for(int i = 0; i < mapList.size(); ++i)
     {

@@ -95,23 +95,7 @@ void SceneGame::update()
             case 1: {//Deplacement Gauche
                 while(playerPlaying->getMovementRemaining())
                 {
-                    sf::Vector2f pos = playerPlaying->getPosition();
-                    pos += sf::Vector2f(-PIXEL_SIZE, 0);
-                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
-                    {
-                        playerPlaying->moveTo(pos);
-
-                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
-                        hud.setTextString(HUDManager::MOVEMENT, str);
-
-                        if(checkPlayerSight())
-                        {
-                            if(isPlayer1Turn)
-                                p2->setToBeDrawn(true);
-                            else
-                                p1->setToBeDrawn(true);
-                        }
-                    }
+                    moveIA(sf::Vector2f(-PIXEL_SIZE, 0));
                 }
                 IA_Aim();
                 break;
@@ -119,23 +103,7 @@ void SceneGame::update()
             case 2:{//Deplacement Haut
                 while(playerPlaying->getMovementRemaining())
                 {
-                    sf::Vector2f pos = playerPlaying->getPosition();
-                    pos += sf::Vector2f(0, PIXEL_SIZE);
-                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
-                    {
-                        playerPlaying->moveTo(pos);
-
-                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
-                        hud.setTextString(HUDManager::MOVEMENT, str);
-
-                        if(checkPlayerSight())
-                        {
-                            if(isPlayer1Turn)
-                                p2->setToBeDrawn(true);
-                            else
-                                p1->setToBeDrawn(true);
-                        }
-                    }
+                    moveIA(sf::Vector2f(0, PIXEL_SIZE));
                 }
                 IA_Aim();
                 break;
@@ -143,23 +111,7 @@ void SceneGame::update()
             case 3: {//Deplacement Droite
                 while(playerPlaying->getMovementRemaining())
                 {
-                    sf::Vector2f pos = playerPlaying->getPosition();
-                    pos += sf::Vector2f(PIXEL_SIZE, 0);
-                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
-                    {
-                        playerPlaying->moveTo(pos);
-
-                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
-                        hud.setTextString(HUDManager::MOVEMENT, str);
-
-                        if(checkPlayerSight())
-                        {
-                            if(isPlayer1Turn)
-                                p2->setToBeDrawn(true);
-                            else
-                                p1->setToBeDrawn(true);
-                        }
-                    }
+                    moveIA(sf::Vector2f(PIXEL_SIZE, 0));
                 }
                 IA_Aim();
                 break;
@@ -167,23 +119,7 @@ void SceneGame::update()
             case 4: {//Deplacement Bas
                 while(playerPlaying->getMovementRemaining())
                 {
-                    sf::Vector2f pos = playerPlaying->getPosition();
-                    pos += sf::Vector2f(0, -PIXEL_SIZE);
-                    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
-                    {
-                        playerPlaying->moveTo(pos);
-
-                        std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
-                        hud.setTextString(HUDManager::MOVEMENT, str);
-
-                        if(checkPlayerSight())
-                        {
-                            if(isPlayer1Turn)
-                                p2->setToBeDrawn(true);
-                            else
-                                p1->setToBeDrawn(true);
-                        }
-                    }
+                   moveIA(sf::Vector2f(0, -PIXEL_SIZE));
                 }
                 IA_Aim();
                 break;
@@ -236,6 +172,26 @@ void SceneGame::update()
     window.draw(mapManager);
     window.draw(hud);
     window.display();
+}
+
+void SceneGame::moveIA(sf::Vector2f vec) {
+    sf::Vector2f pos = playerPlaying->getPosition();
+    pos += vec;
+    if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
+    {
+        playerPlaying->moveTo(pos);
+
+        string str = "Movement:"+ to_string(playerPlaying->getMovementRemaining());
+        hud.setTextString(HUDManager::MOVEMENT, str);
+
+        if(checkPlayerSight())
+        {
+            if(isPlayer1Turn)
+                p2->setToBeDrawn(true);
+            else
+                p1->setToBeDrawn(true);
+        }
+    }
 }
 
 void SceneGame::changePlayerTurn()

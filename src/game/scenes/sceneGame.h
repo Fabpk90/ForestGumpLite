@@ -43,6 +43,7 @@ private:
 	void checkForPlayerTurning();
 	
     void initHUD();
+    void moveIA(sf::Vector2f vector2);
 
     HUDManager hud;
 public:
