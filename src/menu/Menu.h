@@ -24,7 +24,6 @@ private:
 
 
     std::vector<std::string> mapList;
-    std::vector<sf::Text> mapTextList;
 
     void loadMapList();
 
@@ -34,10 +33,11 @@ public:
     void MoveUp();
     void MoveDown();
     int getItem() {return itemSelected;}
-    bool isMapSelected() { return mapSelected != -1; }
-    std::string& getMapSelected() { return mapList[mapSelected]; }
+    std::string getStringMapSelected() { return mapList[mapSelected]; }
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    void askForMap();
 
     ~Menu();
 };

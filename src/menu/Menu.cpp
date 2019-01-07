@@ -49,7 +49,7 @@ Menu::Menu(float width, float height)
     sprite.setScale(1.1,1.1);
 
     isModeSelected = false;
-    mapSelected = 0;
+    mapSelected = -1;
 
     mapList = std::vector<std::string>();
 
@@ -67,10 +67,6 @@ void Menu::MoveUp()
             menuText[itemSelected].setFillColor(sf::Color::Blue);
         }
     }
-    else
-    {
-
-    }
 }
 
 void Menu::MoveDown()
@@ -84,10 +80,6 @@ void Menu::MoveDown()
             menuText[itemSelected].setFillColor(sf::Color::Blue);
         }
     }
-    else
-    {
-
-    }
 }
 
 void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -100,16 +92,6 @@ void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
             target.draw(t);
         }
     }
-    else
-    {
-        for(auto const &t : mapTextList)
-        {
-            target.draw(t);
-        }
-    }
-
-
-
 }
 
 Menu::~Menu() {}
@@ -118,9 +100,6 @@ void Menu::loadMapList()
 {
     DIR *dir;
     struct dirent *ent;
-    sf::Text text;
-
-    text.setFont(GameManager::Instance->getFont());
 
     if ((dir = opendir ("res/map")) != NULL)
     {
@@ -130,14 +109,9 @@ void Menu::loadMapList()
             if(ent->d_type == DT_REG)
             {
                 std::string str = std::string(ent->d_name);
-                mapList.push_back(str);
-
                 str = str.substr(0, str.length() - 6);
-                text.setString(str);
-                mapTextList.push_back(text);
 
-
-                std::cout << str << std::endl;
+                mapList.push_back(str);;
             }
         }
         closedir (dir);
@@ -145,5 +119,48 @@ void Menu::loadMapList()
         /* could not open directory */
         perror ("");
     }
+}
+
+void Menu::askForMap()
+{
+    int mapNum = -1;
+    std::cout << "Quel carte voulez-vous charger ?\n";
+
+    for(int i = 0; i < mapList.size(); ++i)
+    {
+        std::cout << i+1 <<" " << mapList[i] << std::endl;
+    }
+
+
+    while(mapNum == -1)
+    {
+        try
+        {
+            std::string buf;
+            std::getline(std::cin,buf);
+
+            mapNum = std::stoi(buf) - 1;
+
+            if(mapNum < 0 || mapNum >= mapList.size())
+            {
+                std::cout << "Ce n'est pas valide, retentez" << std::endl;
+                mapNum = -1;
+            }
+            else
+            {
+                std::cout << "Map chargee!" << std::endl;
+                mapSelected = mapNum;
+            }
+        }
+        catch (std::invalid_argument)
+        {
+            std::cout << "argument invalide, vie inchangée\n";
+        }
+        catch (std::out_of_range)
+        {
+            std::cout << "nombre trop grand, vie inchangée\n";
+        }
+    }
+
 }
 

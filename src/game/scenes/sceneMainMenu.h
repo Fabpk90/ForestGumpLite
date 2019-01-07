@@ -11,6 +11,7 @@
 class SceneMainMenu : public Scene
 {
 private:
+    int gameModeSelected;
     Menu menu;
 public:
 

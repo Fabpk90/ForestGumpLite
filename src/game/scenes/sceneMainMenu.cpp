@@ -13,7 +13,6 @@ void SceneMainMenu::update()
 {
     sf::RenderWindow& window = GameManager::Instance->getWindow();
 
-    int btnSelected = -1, mapSelected = -1;
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -23,7 +22,7 @@ void SceneMainMenu::update()
             if(event.key.code == sf::Keyboard::Down) menu.MoveDown();
             if(event.key.code == sf::Keyboard::Return)
             {
-                btnSelected = menu.getItem();
+                gameModeSelected = menu.getItem();
             }
         }
         if (event.type == sf::Event::Closed)
@@ -31,21 +30,32 @@ void SceneMainMenu::update()
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        window.close();
+    {
+            window.close();
+    }
 
     window.clear();
     window.draw(menu);
     window.display();
 
-    if(btnSelected == 3)
+    if(gameModeSelected == 3)
         window.close();
-    else if (btnSelected != -1 && menu.isMapSelected())
+    else if (gameModeSelected != -1)
     {
-        switch (btnSelected)
+        std::string path;
+        if(gameModeSelected == 0 || gameModeSelected == 1)
+        {
+            menu.askForMap();
+            path = "res/map/";
+            path.append(menu.getStringMapSelected());
+            path.append(".level");
+        }
+
+        switch (gameModeSelected)
         {
             case 0:
                 GameManager::Instance->
-                        setScene(new SceneGame(menu.getMapSelected().c_str(),
+                        setScene(new SceneGame(path.c_str(),
                                 "res/texture/Player.png",
                                 "res/texture/Player.png", false));
                 break;
@@ -56,7 +66,7 @@ void SceneMainMenu::update()
 
             case 1:
                 GameManager::Instance->
-                        setScene(new SceneGame(menu.getMapSelected().c_str(),
+                        setScene(new SceneGame(path.c_str(),
                                 "res/texture/Player.png",
                                 "res/texture/Player.png", true));
                 break;
@@ -66,7 +76,7 @@ void SceneMainMenu::update()
 
 SceneMainMenu::SceneMainMenu():menu(600,400)
 {
-
+    gameModeSelected = -1;
 }
 
 SceneMainMenu::~SceneMainMenu()
