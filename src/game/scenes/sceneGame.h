@@ -39,7 +39,8 @@ private:
     bool checkPlayerSight();
 
     void checkForPlayerMovement();
-
+	void checkForPlayerTurning();
+	
     void initHUD();
 
     HUDManager hud;

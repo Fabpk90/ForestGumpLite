@@ -24,13 +24,19 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     p2 = new Player(player2ImgPath, 10, false, hud);
 
     //p1->setPosition(mapManager.getFreePosition());
-    p1->setPosition(sf::Vector2f(0, 0));
+    p1->setPosition(sf::Vector2f(0*PIXEL_SIZE,0*PIXEL_SIZE));
     p1->setOrientation(Player::UP);
+    //Compensate the rotation
+	p1->getSprite().setOrigin(32,0);
+	p1->getSprite().setRotation(-90.f);
+
     mapManager.addActor(p1);
 
     //p2->setPosition(mapManager.getFreePosition());
-    p2->setPosition(sf::Vector2f(PIXEL_SIZE, 0));
+    p2->setPosition(sf::Vector2f(-5*PIXEL_SIZE, 6*PIXEL_SIZE));
     p2->setOrientation(Player::DOWN);
+    p2->getSprite().setOrigin(0,32);
+	p2->getSprite().setRotation(90.f);
     mapManager.addActor(p2);
 
     //mapManager.setDrawLines(true);
@@ -99,8 +105,11 @@ void SceneGame::update()
         else if (event.type == sf::Event::Closed)
             window.close();
 
-        if(playerPlaying->getMovementRemaining())
+        if(playerPlaying->getMovementRemaining() && !playerPlaying->getIsAiming())
             checkForPlayerMovement();
+            
+        if(!playerPlaying->getIsAiming())
+			checkForPlayerTurning();
     }
 
 
@@ -261,6 +270,53 @@ void SceneGame::checkForPlayerMovement()
         }
     }
 
+}
+
+//Use ZQSD to change orientation
+void SceneGame::checkForPlayerTurning()
+{
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+		{
+			playerPlaying->setOrientation(Player::UP);
+			//We change the origin of the sprite to compensate for the rotation
+			playerPlaying->getSprite().setOrigin(32,0);
+			playerPlaying->getSprite().setRotation(-90.f);
+			
+		}
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+			playerPlaying->setOrientation(Player::RIGHT);
+			playerPlaying->getSprite().setOrigin(0,0);
+			playerPlaying->getSprite().setRotation(0.f);
+		}
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			playerPlaying->setOrientation(Player::DOWN);
+			playerPlaying->getSprite().setOrigin(0,32);
+			playerPlaying->getSprite().setRotation(90.f);
+		}
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+        {
+			playerPlaying->setOrientation(Player::LEFT);
+			playerPlaying->getSprite().setOrigin(32,32);
+			playerPlaying->getSprite().setRotation(180.f);
+		}
+		
+	//After turning we check wether or not to draw the other player
+	if(checkPlayerSight())
+    {
+        if(isPlayer1Turn)
+            p2->setToBeDrawn(true);
+        else
+            p1->setToBeDrawn(true);
+    }
+    else
+    {
+		if(isPlayer1Turn)
+            p2->setToBeDrawn(false);
+        else
+            p1->setToBeDrawn(false);
+	}
 }
 
 void SceneGame::updatePlayerHUD()
