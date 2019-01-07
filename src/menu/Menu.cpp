@@ -44,36 +44,61 @@ Menu::Menu(float width, float height)
 
     sprite.setTexture(texture);
     sprite.setScale(1.1,1.1);
+
+    isModeSelected = false;
+    mapSelected = 0;
 }
 
 void Menu::MoveUp()
 {
-    if(itemSelected-1 >= 0)
+    if(!isModeSelected)
     {
-        menuText[itemSelected].setFillColor(sf::Color::White);
-        itemSelected--;
-        menuText[itemSelected].setFillColor(sf::Color::Blue);
+        if(itemSelected-1 >= 0)
+        {
+            menuText[itemSelected].setFillColor(sf::Color::White);
+            itemSelected--;
+            menuText[itemSelected].setFillColor(sf::Color::Blue);
+        }
+    }
+    else
+    {
+
     }
 }
 
 void Menu::MoveDown()
 {
-    if(itemSelected+1 < 4)
+    if(!isModeSelected)
     {
-        menuText[itemSelected].setFillColor(sf::Color::White);
-        itemSelected++;
-        menuText[itemSelected].setFillColor(sf::Color::Blue);
+        if(itemSelected+1 < MENU_MAIN_ITEMS)
+        {
+            menuText[itemSelected].setFillColor(sf::Color::White);
+            itemSelected++;
+            menuText[itemSelected].setFillColor(sf::Color::Blue);
+        }
+    }
+    else
+    {
+
     }
 }
 
 void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite);
-    for(auto const &t:menuText)
-    {
-        target.draw(t);
-    }
+    if(!isModeSelected)
+        for(auto const &t:menuText)
+        {
+            target.draw(t);
+        }
+
+
 }
 
 Menu::~Menu() {}
+
+void Menu::loadMapList()
+{
+
+}
 
