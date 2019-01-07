@@ -151,7 +151,8 @@ void SceneGame::handleAITurn()
             case 1: {//Deplacement Gauche
                 while(playerPlaying->getMovementRemaining())
                 {
-                    moveIA(sf::Vector2f(-PIXEL_SIZE, 0));
+                    if(playerPlaying->getPosition().x-PIXEL_SIZE>=(-SCREEN_SIZE_WIDTH/2))
+                        moveIA(sf::Vector2f(-PIXEL_SIZE, 0));
                 }
                 IA_Aim();
                 break;
@@ -159,7 +160,8 @@ void SceneGame::handleAITurn()
             case 2:{//Deplacement Haut
                 while(playerPlaying->getMovementRemaining())
                 {
-                    moveIA(sf::Vector2f(0, PIXEL_SIZE));
+                    if(playerPlaying->getPosition().y+PIXEL_SIZE<=SCREEN_SIZE_HEIGHT/2)
+                        moveIA(sf::Vector2f(0, PIXEL_SIZE));
                 }
                 IA_Aim();
                 break;
@@ -167,7 +169,8 @@ void SceneGame::handleAITurn()
             case 3: {//Deplacement Droite
                 while(playerPlaying->getMovementRemaining())
                 {
-                    moveIA(sf::Vector2f(PIXEL_SIZE, 0));
+                    if(playerPlaying->getPosition().x+PIXEL_SIZE<=SCREEN_SIZE_WIDTH/2)
+                        moveIA(sf::Vector2f(PIXEL_SIZE, 0));
                 }
                 IA_Aim();
                 break;
@@ -175,7 +178,8 @@ void SceneGame::handleAITurn()
             case 4: {//Deplacement Bas
                 while(playerPlaying->getMovementRemaining())
                 {
-                   moveIA(sf::Vector2f(0, -PIXEL_SIZE));
+                    if(playerPlaying->getPosition().y-PIXEL_SIZE>=(-SCREEN_SIZE_HEIGHT/2))
+                     moveIA(sf::Vector2f(0, -PIXEL_SIZE));
                 }
                 IA_Aim();
                 break;
@@ -423,24 +427,44 @@ SceneGame::~SceneGame()
 }
 
 void SceneGame::IA_Aim() {
-
     Player* whoPlay=playerPlaying;
-    playerPlaying->toggleAiming();
-    if(checkPlayerSight() && playerPlaying->getCanShoot())
+
+    sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
+
+    if(checkPlayerSight())//Permet de savoir si le joueur voit l'autre joueur
     {
-        sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
+        playerPlaying->toggleAiming();
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
+        //Met à jour la vie des joueurs
+        if(playerPlaying==p1)
+        {
+            p2->takeDamage(p2->getPowerInUse());
+            std::cout<<"P1 Shot on P2"<<" Vie restante de l'autre joueur:"<<!playerPlaying->getHealth()<<std::endl;
+        }
+        else
+        {
+            p2->takeDamage(p2->getPowerInUse());
+            std::cout<<"P2 Shot on P1"<<" Vie restante de l'autre joueur:"<<!playerPlaying->getHealth()<<std::endl;
+        }
         changePlayerTurn();
+
     }
-    else if (playerPlaying->getCanShoot())
+
+    else//Dans l'autre cas le joueur tire autre part sur la map
     {
-        sf::Vector2i *anotherPos = new sf::Vector2i(playerPlaying->getPosition());
+        sf::Vector2i *anotherPos=new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);
+        playerPlaying->toggleAiming();
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*anotherPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
+        //mise à jour de la vie
+        playerPlaying->takeDamage(playerPlaying->getPowerInUse());
+        if(playerPlaying==p1)
+            std::cout<<"P1 Shot in another way"<<" Vie restante:"<<playerPlaying->getHealth()<<std::endl;
+        else
+            std::cout<<"P2 Shot in another way"<<" Vie restante:"<<playerPlaying->getHealth()<<std::endl;
         changePlayerTurn();
     }
-    //else changePlayerTurn();
-};
+}
