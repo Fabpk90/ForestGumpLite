@@ -52,6 +52,7 @@ public:
 
     void update() override;
     void IA_Aim();
+    void IA_Move(int x, int y);
 };
 
 
