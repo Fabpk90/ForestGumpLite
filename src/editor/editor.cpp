@@ -6,6 +6,7 @@
 #include "../game/gameManager.h"
 #include "../util/Constants.h"
 #include "../game/actors/obstacle.h"
+#include "../game/scenes/sceneMainMenu.h"
 
 #include <iostream>
 #include <fstream>
@@ -182,7 +183,6 @@ void Editor::brushSelect(sf::RenderWindow& window)
 	sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));;
 	int BoundX = mouse.x;
 	int BoundY = mouse.y;
-	std::cout << mouse.x << " / " << mouse.y << std::endl;
 	if(BoundX >= 0 && BoundX <= 32 && BoundY >= 0 && BoundY <= 32)
 	{brushType = TILE_TREE;}
 	else if(BoundX >= 0 && BoundX <= 32 && BoundY >= 32 && BoundY <= 64)
@@ -197,6 +197,8 @@ void Editor::brushSelect(sf::RenderWindow& window)
 	{load();}
 	else if(BoundX >= 64 && BoundX <= 96 && BoundY >= 96 && BoundY <= 128)
 	{setHealth();}
+	else if(BoundX >= 0 && BoundX <= 32 && BoundY >= 96 && BoundY <= 128)
+	{quit();}
 }
 
 void Editor::setHealth()
@@ -218,6 +220,8 @@ void Editor::setHealth()
 	{
 		std::cout << "nombre trop grand, vie inchangée\n";
 	}
+	
+	std::cout << "Vie mise à Jour\n";
 }
 
 void Editor::save()
@@ -247,6 +251,7 @@ void Editor::save()
 		}
 	}
 	
+	std::cout << "Map sauvegardee\n";
 	file.close();
 }
 
@@ -288,19 +293,19 @@ void Editor::load()
             switch(tileValue)
             {
                 case TILE_TREE:
-					mapManager.addActor(new Obstacle("res/texture/tree.png", Health, X, Y, TILE_TREE));
+					mapManager.addActor(new Obstacle("res/texture/tree.png", Health, X*PIXEL_SIZE, Y*PIXEL_SIZE, TILE_TREE));
 					break;
 					
 				case TILE_TREE_BIG:
-					mapManager.addActor(new Obstacle("res/texture/BTree.png", Health, X, Y, TILE_TREE_BIG));
+					mapManager.addActor(new Obstacle("res/texture/BTree.png", Health, X*PIXEL_SIZE, Y*PIXEL_SIZE, TILE_TREE_BIG));
 					break;
 					
 				case TILE_ROCK:
-					mapManager.addActor(new Obstacle("res/texture/rock.png", Health, X, Y, TILE_ROCK));
+					mapManager.addActor(new Obstacle("res/texture/rock.png", Health, X*PIXEL_SIZE, Y*PIXEL_SIZE, TILE_ROCK));
 					break;
 					
 				case TILE_ROCK_BIG:
-					mapManager.addActor(new Obstacle("res/texture/BRock.png", Health, X, Y, TILE_ROCK_BIG));
+					mapManager.addActor(new Obstacle("res/texture/BRock.png", Health, X*PIXEL_SIZE, Y*PIXEL_SIZE, TILE_ROCK_BIG));
 					break;
 					
 				default:
@@ -308,6 +313,8 @@ void Editor::load()
 					exit(-1);
 			}
 		}
+		
+		std::cout << "Map chargee !\n";
 	}
 	else
 	{
@@ -315,4 +322,11 @@ void Editor::load()
 	}
 	
 	file.close();
+}
+
+void Editor::quit()
+{
+	winPalette->close();
+	mapManager.getActorList().clear();
+	GameManager::Instance->setScene(new SceneMainMenu());
 }

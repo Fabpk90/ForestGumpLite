@@ -32,6 +32,7 @@ public:
 	void setHealth();
 	void save();
 	void load();
+	void quit();
 };
 
 

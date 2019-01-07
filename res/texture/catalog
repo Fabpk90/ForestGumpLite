@@ -3,5 +3,6 @@ res/texture/rock.png 0 32 3
 res/texture/save.png 96 96 1
 res/texture/load.png 128 96 1
 res/texture/health.png 64 96 1
+res/texture/exit.png 0 96 1
 res/texture/BTree.png 32 0 2
 res/texture/BRock.png 96 0 4

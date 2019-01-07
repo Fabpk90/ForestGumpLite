@@ -26,8 +26,8 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     p1 = new Player(player1ImgPath, 10, true, hud);
     p2 = new Player(player2ImgPath, 10, false, hud);
 
-    //p1->setPosition(mapManager.getFreePosition());
-    p1->setPosition(sf::Vector2f(0*PIXEL_SIZE,0*PIXEL_SIZE));
+    p1->setPosition(mapManager.getFreePosition());
+    //p1->setPosition(sf::Vector2f(0*PIXEL_SIZE,0*PIXEL_SIZE));
     p1->setOrientation(Player::UP);
     //Compensate the rotation
 	p1->getSprite().setOrigin(32,0);
@@ -35,8 +35,8 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
 
     mapManager.addActor(p1);
 
-    //p2->setPosition(mapManager.getFreePosition());
-    p2->setPosition(sf::Vector2f(-5*PIXEL_SIZE, 6*PIXEL_SIZE));
+    p2->setPosition(mapManager.getFreePosition());
+    //p2->setPosition(sf::Vector2f(-5*PIXEL_SIZE, 6*PIXEL_SIZE));
     p2->setOrientation(Player::DOWN);
     p2->getSprite().setOrigin(0,32);
 	p2->getSprite().setRotation(90.f);
