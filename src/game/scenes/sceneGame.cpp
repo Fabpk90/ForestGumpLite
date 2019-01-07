@@ -339,23 +339,24 @@ SceneGame::~SceneGame()
 void SceneGame::IA_Aim() {
     Player* whoPlay=playerPlaying;
     playerPlaying->toggleAiming();
+    sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
+    sf::Vector2i *anotherPos = new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().x)+2*PIXEL_SIZE);
     if(checkPlayerSight() && playerPlaying->getCanShoot())
     {
-        sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
+        std::cout<< "ha"<<std::endl;
         changePlayerTurn();
     }
     else if (playerPlaying->getCanShoot())
     {
-        sf::Vector2i *anotherPos = new sf::Vector2i(playerPlaying->getPosition());
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*anotherPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
+        std::cout<< "ha"<<std::endl;
         changePlayerTurn();
     }
-    //else changePlayerTurn();
 }
 
 void SceneGame::IA_Move(int x, int y) {

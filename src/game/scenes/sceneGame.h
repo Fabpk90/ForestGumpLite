@@ -50,9 +50,9 @@ public:
 
     SceneGame(const char* mapPath, const char* player1ImgPath, const char* player2ImgPath, bool IA);
 
-    void update() override;
     void IA_Aim();
     void IA_Move(int x, int y);
+    void update() override;
 };
 
 
