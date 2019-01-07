@@ -14,6 +14,7 @@ class Menu : public sf::Drawable {
 private:
     int itemSelected;
     sf::Font font;
+    //handled from 0 -> upper text n -> lower
     sf::Text menuText[MENU_MAIN_ITEMS];
     sf::Sprite sprite;
     sf::Texture texture;
@@ -21,7 +22,9 @@ private:
     bool isModeSelected;
     int mapSelected;
 
-    std::list<std::string> mapList;
+
+    std::vector<std::string> mapList;
+    std::vector<sf::Text> mapTextList;
 
     void loadMapList();
 
@@ -31,6 +34,8 @@ public:
     void MoveUp();
     void MoveDown();
     int getItem() {return itemSelected;}
+    bool isMapSelected() { return mapSelected != -1; }
+    std::string& getMapSelected() { return mapList[mapSelected]; }
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

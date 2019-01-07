@@ -3,7 +3,10 @@
 //
 
 #include <iostream>
+#include <dirent.h>
+#include <sys/types.h>
 #include "Menu.h"
+#include "../game/gameManager.h"
 
 Menu::Menu(float width, float height)
 {
@@ -47,6 +50,10 @@ Menu::Menu(float width, float height)
 
     isModeSelected = false;
     mapSelected = 0;
+
+    mapList = std::vector<std::string>();
+
+    loadMapList();
 }
 
 void Menu::MoveUp()
@@ -87,10 +94,20 @@ void Menu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite);
     if(!isModeSelected)
+    {
         for(auto const &t:menuText)
         {
             target.draw(t);
         }
+    }
+    else
+    {
+        for(auto const &t : mapTextList)
+        {
+            target.draw(t);
+        }
+    }
+
 
 
 }
@@ -99,6 +116,34 @@ Menu::~Menu() {}
 
 void Menu::loadMapList()
 {
+    DIR *dir;
+    struct dirent *ent;
+    sf::Text text;
 
+    text.setFont(GameManager::Instance->getFont());
+
+    if ((dir = opendir ("res/map")) != NULL)
+    {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL)
+        {
+            if(ent->d_type == DT_REG)
+            {
+                std::string str = std::string(ent->d_name);
+                mapList.push_back(str);
+
+                str = str.substr(0, str.length() - 6);
+                text.setString(str);
+                mapTextList.push_back(text);
+
+
+                std::cout << str << std::endl;
+            }
+        }
+        closedir (dir);
+    } else {
+        /* could not open directory */
+        perror ("");
+    }
 }
 

@@ -21,6 +21,8 @@ private:
 
     sf::Color clearColor;
 
+    sf::Font font;
+
 public:
     GameManager();
     ~GameManager();
@@ -29,12 +31,12 @@ public:
 
     void setScene(Scene* scene);
     void renderScene();
-    void editorMode();
 
     sf::RenderWindow& getWindow() { return *window; }
 
     void setWinner(bool isWinnerPlayer1);
 
+    sf::Font& getFont() { return font; }
     sf::Color& getClearColor() { return clearColor; }
 };
 

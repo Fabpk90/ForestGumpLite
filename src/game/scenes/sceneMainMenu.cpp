@@ -13,7 +13,7 @@ void SceneMainMenu::update()
 {
     sf::RenderWindow& window = GameManager::Instance->getWindow();
 
-    int btnSelected = -1;
+    int btnSelected = -1, mapSelected = -1;
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -37,24 +37,30 @@ void SceneMainMenu::update()
     window.draw(menu);
     window.display();
 
-    switch (btnSelected)
+    if(btnSelected == 3)
+        window.close();
+    else if (btnSelected != -1 && menu.isMapSelected())
     {
-        case 0:
-            GameManager::Instance->
-            setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png", false));
-            break;
+        switch (btnSelected)
+        {
+            case 0:
+                GameManager::Instance->
+                        setScene(new SceneGame(menu.getMapSelected().c_str(),
+                                "res/texture/Player.png",
+                                "res/texture/Player.png", false));
+                break;
 
-        case 2:
-            GameManager::Instance->setScene(new Editor());
-            break;
+            case 2:
+                GameManager::Instance->setScene(new Editor());
+                break;
 
-        case 3:
-            window.close();
-            break;
-        case 1:
-            GameManager::Instance->
-                    setScene(new SceneGame("res/map/map1.level", "res/texture/Player.png", "res/texture/Player.png", true));
-            break;
+            case 1:
+                GameManager::Instance->
+                        setScene(new SceneGame(menu.getMapSelected().c_str(),
+                                "res/texture/Player.png",
+                                "res/texture/Player.png", true));
+                break;
+        }
     }
 }
 
