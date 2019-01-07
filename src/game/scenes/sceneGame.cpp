@@ -79,37 +79,48 @@ void SceneGame::update()
     {
         srand(time(NULL));
         int rng=rand()%5;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        {
-            switch (rng) {
-                case 0: {
-                    IA_Aim();
-                    break;
-                }
-                case 1: {//Deplacement Gauche
-                    IA_Move(-PIXEL_SIZE, 0);
-                    IA_Aim();
-                    break;
-                }
-                case 2: {//Deplacement Haut
-                    IA_Move(0, PIXEL_SIZE);
-                    IA_Aim();
-                    break;
-                }
-                case 3: {//Deplacement Droite
-                    IA_Move(PIXEL_SIZE, 0);
-                    IA_Aim();
-                    break;
-                }
-                case 4: {//Deplacement Bas
-                    IA_Move(0, -PIXEL_SIZE);
-                    IA_Aim();
-                    break;
-                }
-                default:
-                    break;
+
+        switch (rng) {
+            case 0: {
+                IA_Aim();
+                break;
             }
+            case 1: {//Deplacement Gauche
+                if(playerPlaying->getPosition().x-PIXEL_SIZE>=(-SCREEN_SIZE_WIDTH/2)) {
+                    IA_Move(-PIXEL_SIZE, 0);
+                    std::cout<<"Player move"<<std::endl;
+                }
+                IA_Aim();
+                break;
+            }
+            case 2: {//Deplacement Haut
+                if(playerPlaying->getPosition().y+PIXEL_SIZE<=SCREEN_SIZE_HEIGHT/2){
+                    IA_Move(0, PIXEL_SIZE);
+                    std::cout<<"Player move"<<std::endl;
+                }
+                IA_Aim();
+                break;
+            }
+            case 3: {//Deplacement Droite
+                if(playerPlaying->getPosition().x+PIXEL_SIZE<=SCREEN_SIZE_WIDTH/2){
+                    IA_Move(PIXEL_SIZE, 0);
+                    std::cout<<"Player move"<<std::endl;
+                }
+                IA_Aim();
+                break;
+            }
+            case 4: {//Deplacement Bas
+                if(playerPlaying->getPosition().y-PIXEL_SIZE>=(-SCREEN_SIZE_HEIGHT/2)) {
+                    IA_Move(0, -PIXEL_SIZE);
+                    std::cout<<"Player move"<<std::endl;
+                }
+                IA_Aim();
+                break;
+            }
+            default:
+                break;
         }
+
     }
     else
     {
@@ -344,26 +355,33 @@ void SceneGame::IA_Aim() {
     {
         playerPlaying->toggleAiming();
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
-        if(playerPlaying->getCanShoot()) {
-            playerPlaying->setIsAiming(false);
-            mapManager.collisionAimCheck(*playerPlaying);
-            changePlayerTurn();
-        }
+        playerPlaying->setIsAiming(false);
+        mapManager.collisionAimCheck(*playerPlaying);
+        if(playerPlaying==p1)
+            std::cout<<"P1 Shot on P2"<<std::endl;
+        else
+            std::cout<<"P2 Shot on P1"<<std::endl;
+        changePlayerTurn();
+
     }
+
     else
     {
-        sf::Vector2i *anotherPos; //s'adapte à la l'orientation du joueur
-        if(playerPlaying->getOrientation()==(Player::UP)) anotherPos = new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);
+        sf::Vector2i *anotherPos=new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);; //s'adapte à la l'orientation du joueur
+        /*if(playerPlaying->getOrientation()==(Player::UP)) anotherPos = new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);
         else if(playerPlaying->getOrientation()==(Player::DOWN)) anotherPos = new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)-2*PIXEL_SIZE);
         else if(playerPlaying->getOrientation()==(Player::LEFT)) anotherPos = new sf::Vector2i((playerPlaying->getPosition().x)-2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);
-        else if(playerPlaying->getOrientation()==(Player::RIGHT)) anotherPos = new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);
+        else if(playerPlaying->getOrientation()==(Player::RIGHT)) anotherPos = new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);*/
         playerPlaying->toggleAiming();
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*anotherPos));
-        if(playerPlaying->getCanShoot()) {
-            playerPlaying->setIsAiming(false);
-            mapManager.collisionAimCheck(*playerPlaying);
-            changePlayerTurn();
-        }
+        playerPlaying->setIsAiming(false);
+        mapManager.collisionAimCheck(*playerPlaying);
+        if(playerPlaying==p1)
+            std::cout<<"P1 Shot in another way"<<std::endl;
+        else
+            std::cout<<"P2 Shot in another way"<<std::endl;
+        changePlayerTurn();
+
     }
 }
 
@@ -387,6 +405,10 @@ void SceneGame::IA_Move(int x, int y) {
                     p1->setToBeDrawn(true);
             }
         }
-        else playerPlaying->setMovementRemaining(0);
+        else {
+            playerPlaying->setMovementRemaining(0);
+            std::string str = "Movement:"+ std::to_string(playerPlaying->getMovementRemaining());
+            hud.setTextString(HUDManager::MOVEMENT, str);
+        }
     }
 };
