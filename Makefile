@@ -5,3 +5,6 @@ run: install
 
 install:
 	sudo apt-get install libsfml-dev
+	cmake .&& make
+
+	

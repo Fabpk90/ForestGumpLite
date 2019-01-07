@@ -138,9 +138,6 @@ void Editor::paint(sf::RenderWindow& window)
 		
 	bool isFound = false;
 	
-	//Debugging message, don't forget to remove it
-	std::cout << BoundX << " " << mouse.x << " / " << BoundY << " " << mouse.y << std::endl;
-	
 	//Goes through the map's obstacle list, remove all obstacles colliding with the paternRect
 	//If no colliding obstacle is found, add an obstacle to the list
 	std::list<Actor*>::iterator actor = mapManager.getActorList().begin();
@@ -209,7 +206,7 @@ void Editor::setHealth()
 	std::string buf;
 	std::getline(std::cin,buf);
 	
-	//Take care of the scenario in wich the user is a massive CUNT/////////////
+	//Take care of the scenario in wich the user enters invalid amounts of health
 	try {
 		Health = std::stoi(buf);
 	}
@@ -230,8 +227,6 @@ void Editor::save()
 	std::cout << "Entrer le nom de la map\n";
 	std::string slot;
 	
-	//Pas ouf je préfererais utiliser directement la fenetre plutôt que le terminal mais je suis pas trop sûr de comment procéder
-	//Et aussi, attention à pas dépasser un nombre max je suppose
 	std::getline(std::cin,slot);
 	path.append(slot);
 	
@@ -309,7 +304,7 @@ void Editor::load()
 					break;
 					
 				default:
-					std::cerr << "Oï mate ! Seems like your a daft cunt to me !";//I really need to change that ///////////////////////////////
+					std::cerr << "Valeur d'obstacle non reconnu";
 					exit(-1);
 			}
 		}
