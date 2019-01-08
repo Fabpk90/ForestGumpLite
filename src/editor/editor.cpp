@@ -177,7 +177,7 @@ void Editor::paint(sf::RenderWindow& window)
 	}
 }
 
-//Select obstacles and Save/Load/ChangeH health
+//Select obstacles and Save/Load/Change health
 void Editor::brushSelect(sf::RenderWindow& window)
 {
 	sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));;
@@ -208,7 +208,7 @@ void Editor::setHealth()
 	std::string buf;
 	std::getline(std::cin,buf);
 	
-	//Take care of the scenario in wich the user enters invalid amounts of health
+	//Take care of the scenario in wich the user enters an invalid amounts of health
 	try {
 		Health = std::stoi(buf);
 	}
@@ -269,7 +269,8 @@ void Editor::load()
 	std::ifstream file(path);
 	
 	 if(file.is_open())
-    {
+    {	
+		//Empty the obstacle list to start with a clean state
 		mapManager.getActorList().clear();
 		int tileValue, Health, X, Y;
 		
@@ -324,6 +325,7 @@ void Editor::load()
 	file.close();
 }
 
+//Exit the editor and go back to the main menu
 void Editor::quit()
 {
 	winPalette->close();
