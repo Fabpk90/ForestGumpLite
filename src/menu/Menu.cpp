@@ -162,11 +162,13 @@ bool Menu::askForMap()
         catch (std::invalid_argument)
         {
             std::cout << "argument invalide, map non chargee\n";
+            std::cout << "retour à la selection du mode de jeu\n";
             return false;
         }
         catch (std::out_of_range)
         {
             std::cout << "nombre trop grand, map non chargee\n";
+             std::cout << "retour à la selection du mode de jeu\n";
             return false;
         }
     }
