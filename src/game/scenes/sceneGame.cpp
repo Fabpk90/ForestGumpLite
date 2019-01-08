@@ -365,7 +365,6 @@ void SceneGame::checkForPlayerTurning(int AITurning)
 		{
 			playerPlaying->setOrientation(Player::UP);
 			
-			std::cout << playerPlaying->getPosition().x << std::endl;
 			playerPlaying->getSprite().setTextureRect(sf::IntRect(0,32,32,32));
 			
 		}
@@ -436,7 +435,7 @@ SceneGame::~SceneGame()
 }
 
 void SceneGame::IA_Aim() {
-    if(checkPlayerSight())
+    if(checkPlayerSight())//Initialise la vision des joueurs
     {
         if(isPlayer1Turn)
             p2->setToBeDrawn(true);
@@ -448,8 +447,8 @@ void SceneGame::IA_Aim() {
     {
         playerPlaying->toggleAiming();
         sf::Vector2i *playerPos = new sf::Vector2i((isPlayer1Turn ? p2 : p1)->getPosition());
-        playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
-        if(playerPlaying->getHealth()>playerPlaying->getPowerInUse())
+        playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));//Vise le joueur ennemi si il le voit
+        if(playerPlaying->getHealth()>playerPlaying->getPowerInUse())//Le joueur peut-il tirer?
         {
             playerPlaying->setIsAiming(false);
             mapManager.collisionAimCheck(*playerPlaying);
@@ -465,22 +464,8 @@ void SceneGame::IA_Aim() {
         } else
         {
             playerPlaying->setIsAiming(false);
-            changePlayerTurn();
+            changePlayerTurn();//Si il ne peut pas tirer, il passe
         }
     }
-/*
-    else//Dans l'autre cas le joueur tire autre part sur la map
-    {
-        sf::Vector2i *anotherPos=new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);
-        playerPlaying->toggleAiming();
-        playerPlaying->updateAimingLine(window.mapPixelToCoords(*anotherPos));
-        playerPlaying->setIsAiming(false);
-        mapManager.collisionAimCheck(*playerPlaying);
-        if(playerPlaying==p1)
-            std::cout<<"P1 Shot in another way"<<" Vie restante:"<<playerPlaying->getHealth()<<std::endl;
-        else
-            std::cout<<"P2 Shot in another way"<<" Vie restante:"<<playerPlaying->getHealth()<<std::endl;
-        changePlayerTurn();
-    }*/
     else changePlayerTurn();
 }
