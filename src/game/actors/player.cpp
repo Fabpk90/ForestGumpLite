@@ -127,7 +127,7 @@ void Player::updateAimingLine(sf::Vector2f position)
         aimingLineVertexArray[1].position = position;
 
         if(power >= 1 && power < PLAYER_MAX_POWER +1
-        && isAiming && health - power >= 1)
+        && isAiming && health - (int)power > 0)
         {
             powerInUse = (int)power;
             canShoot = true;

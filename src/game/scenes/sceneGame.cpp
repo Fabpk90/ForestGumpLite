@@ -209,6 +209,8 @@ void SceneGame::moveIA(sf::Vector2f vec) {
 
 void SceneGame::changePlayerTurn()
 {
+    playerPlaying->setIsAiming(false);
+
     if(isPlayer1Turn)
     {
         playerPlaying = p2;
