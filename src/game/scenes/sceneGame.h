@@ -40,7 +40,7 @@ private:
     bool checkPlayerSight();
 
     void checkForPlayerMovement();
-	void checkForPlayerTurning();
+	void checkForPlayerTurning(int AITurning = 0);
 
     void initHUD();
 

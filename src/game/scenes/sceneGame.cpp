@@ -138,7 +138,8 @@ void SceneGame::handleAITurn()
 {
     srand(time(NULL));
     int rng=rand()%5;
-
+	
+	checkForPlayerTurning(rng);
     switch(rng)
         {
             case 0: {
@@ -146,6 +147,7 @@ void SceneGame::handleAITurn()
                 break;
             }
             case 1: {//Deplacement Gauche
+								
                 while(playerPlaying->getMovementRemaining())
                 {
                     if(playerPlaying->getPosition().x-PIXEL_SIZE>=(-SCREEN_SIZE_WIDTH/2))
@@ -156,6 +158,7 @@ void SceneGame::handleAITurn()
                 break;
             }
             case 2:{//Deplacement Bas
+								
                 while(playerPlaying->getMovementRemaining())
                 {
                     if(playerPlaying->getPosition().y+PIXEL_SIZE<SCREEN_SIZE_HEIGHT/2)
@@ -166,6 +169,7 @@ void SceneGame::handleAITurn()
                 break;
             }
             case 3: {//Deplacement Droite
+								
                 while(playerPlaying->getMovementRemaining())
                 {
                     if(playerPlaying->getPosition().x+PIXEL_SIZE<SCREEN_SIZE_WIDTH/2)
@@ -176,6 +180,7 @@ void SceneGame::handleAITurn()
                 break;
             }
             case 4: {//Deplacement Haut
+
                 while(playerPlaying->getMovementRemaining())
                 {
                     if(playerPlaying->getPosition().y-PIXEL_SIZE>=(-SCREEN_SIZE_HEIGHT/2))
@@ -187,6 +192,7 @@ void SceneGame::handleAITurn()
             }
             default: break;
         }
+        
     window.clear(GameManager::Instance->getClearColor());
     window.draw(mapManager);
     window.draw(hud);
@@ -354,9 +360,9 @@ void SceneGame::validateAndMovePose(const sf::Vector2f &pos)
 }
 
 //Use ZQSD to change orientation
-void SceneGame::checkForPlayerTurning()
+void SceneGame::checkForPlayerTurning(int AITurning)
 {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || AITurning == 4)
 		{
 			playerPlaying->setOrientation(Player::UP);
 			//We change the origin of the sprite to compensate for the rotation
@@ -364,19 +370,19 @@ void SceneGame::checkForPlayerTurning()
 			playerPlaying->getSprite().setRotation(-90.f);
 			
 		}
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)  || AITurning == 3)
         {
 			playerPlaying->setOrientation(Player::RIGHT);
 			playerPlaying->getSprite().setOrigin(0,0);
 			playerPlaying->getSprite().setRotation(0.f);
 		}
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)  || AITurning == 2)
 		{
 			playerPlaying->setOrientation(Player::DOWN);
 			playerPlaying->getSprite().setOrigin(0,32);
 			playerPlaying->getSprite().setRotation(90.f);
 		}
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)  || AITurning == 1)
         {
 			playerPlaying->setOrientation(Player::LEFT);
 			playerPlaying->getSprite().setOrigin(32,32);
@@ -384,19 +390,22 @@ void SceneGame::checkForPlayerTurning()
 		}
 		
 	//After turning we check whether or not to draw the other player
-	if(checkPlayerSight())
-    {
-        if(isPlayer1Turn)
-            p2->setToBeDrawn(true);
-        else
-            p1->setToBeDrawn(true);
-    }
-    else
-    {
-		if(isPlayer1Turn)
-            p2->setToBeDrawn(false);
-        else
-            p1->setToBeDrawn(false);
+	if(AITurning == 0)
+	{
+		if(checkPlayerSight())
+		{
+			if(isPlayer1Turn)
+				p2->setToBeDrawn(true);
+			else
+				p1->setToBeDrawn(true);
+		}
+		else
+		{
+			if(isPlayer1Turn)
+				p2->setToBeDrawn(false);
+			else
+				p1->setToBeDrawn(false);
+		}
 	}
 }
 
