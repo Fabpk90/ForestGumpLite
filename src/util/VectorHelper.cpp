@@ -7,7 +7,6 @@
 
 float VectorHelper::getLength(float x, float y) {
     return sqrt((x*x) + (y*y));
-    //TODO: change to a more efficient square method
 }
 
 

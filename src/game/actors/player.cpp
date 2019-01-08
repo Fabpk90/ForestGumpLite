@@ -71,6 +71,7 @@ void Player::setOrientation(EDirection direction)
         aimAngleMax = orientation + 90;
     }
 
+    //this is needed in the scenario where the players are next to each other
     aimAngleMin -= 1;
     aimAngleMax += 1;
 }
@@ -126,8 +127,10 @@ void Player::updateAimingLine(sf::Vector2f position)
 
         aimingLineVertexArray[1].position = position;
 
-        if(power >= 1 && power < PLAYER_MAX_POWER +1
-        && isAiming && health - (int)power > 0)
+        if(power >= 1
+        && power < PLAYER_MAX_POWER + 1
+        && isAiming
+        && health - (int)power > 0)
         {
             powerInUse = (int)power;
             canShoot = true;

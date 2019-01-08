@@ -22,7 +22,7 @@ void SceneMainMenu::update()
             if(event.key.code == sf::Keyboard::Down) menu.MoveDown();
             if(event.key.code == sf::Keyboard::Return)
             {
-                gameModeSelected = menu.getItem();
+                gameModeSelected = menu.getSelectedItem();
             }
         }
         if (event.type == sf::Event::Closed)

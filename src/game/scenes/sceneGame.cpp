@@ -205,7 +205,7 @@ void SceneGame::handleAITurn()
 void SceneGame::moveIA(sf::Vector2f vec) {
     sf::Vector2f pos = playerPlaying->getPosition();
     pos += vec;
-    validateAndMovePose(pos);
+    validateAndMovePos(pos);
 }
 
 void SceneGame::changePlayerTurn()
@@ -341,11 +341,11 @@ void SceneGame::checkForPlayerMovement()
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         pos += sf::Vector2f(0, PIXEL_SIZE);
 
-    validateAndMovePose(pos);
+    validateAndMovePos(pos);
 
 }
 
-void SceneGame::validateAndMovePose(const sf::Vector2f &pos)
+void SceneGame::validateAndMovePos(const sf::Vector2f &pos)
 {
     if(pos != playerPlaying->getPosition() && mapManager.getIsPositionFree(pos))
     {
