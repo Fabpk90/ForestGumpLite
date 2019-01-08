@@ -145,6 +145,8 @@ bool Menu::askForMap()
 
             mapNum = std::stoi(buf) - 1;
 
+            if(mapNum == -2)
+                return false;
             if(mapNum < 0 || mapNum >= mapList.size())
             {
                 std::cout << "Ce n'est pas valide, retentez" << std::endl;

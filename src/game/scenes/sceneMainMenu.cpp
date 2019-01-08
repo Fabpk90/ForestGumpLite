@@ -58,6 +58,8 @@ void SceneMainMenu::checkGameMode()
                 path.append(".level");
                 isMapOk = true;
             }
+            else
+                gameModeSelected = -1;
         }
 
     switch (gameModeSelected)

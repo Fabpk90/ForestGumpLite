@@ -256,3 +256,8 @@ void Player::takeSelfDamage(int amount)
     health -= amount;
 }
 
+Player::~Player()
+{
+    std::cout << "player desctruct" << std::endl;
+}
+
