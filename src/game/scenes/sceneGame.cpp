@@ -28,6 +28,7 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     p2 = new Player(player2ImgPath, 10, false, hud);
 
     p1->setPosition(mapManager.getFreePosition());
+    //p1->setPosition(sf::Vector2f(0*PIXEL_SIZE,0*PIXEL_SIZE));
     p1->setOrientation(Player::UP);
     //Compensate the rotation
 	p1->getSprite().setOrigin(32,0);
@@ -36,6 +37,7 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     mapManager.addActor(p1);
 
     p2->setPosition(mapManager.getFreePosition());
+    //p2->setPosition(sf::Vector2f(-5*PIXEL_SIZE, 6*PIXEL_SIZE));
     p2->setOrientation(Player::DOWN);
     p2->getSprite().setOrigin(0,32);
 	p2->getSprite().setRotation(90.f);
@@ -82,17 +84,14 @@ void SceneGame::update()
 {
     if(isIAPlayer)
     {
-        handleAITurn();
+        //if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+            handleAITurn();
     }
     else
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if(event.type == sf::Event::KeyPressed
-            && sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-                changePlayerTurn();
-
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming()
@@ -117,7 +116,6 @@ void SceneGame::update()
             else if (event.type == sf::Event::Closed)
                 window.close();
 
-
         if(playerPlaying->getMovementRemaining() && !playerPlaying->getIsAiming())
             checkForPlayerMovement();
             
@@ -128,7 +126,6 @@ void SceneGame::update()
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         window.close();
-
 
     //draw stuff on the screen
     window.clear(GameManager::Instance->getClearColor());
@@ -153,6 +150,7 @@ void SceneGame::handleAITurn()
                 {
                     if(playerPlaying->getPosition().x-PIXEL_SIZE>=(-SCREEN_SIZE_WIDTH/2))
                         moveIA(sf::Vector2f(-PIXEL_SIZE, 0));
+                    playerPlaying->setMovementRemaining(0);
                 }
                 IA_Aim();
                 break;
@@ -162,6 +160,7 @@ void SceneGame::handleAITurn()
                 {
                     if(playerPlaying->getPosition().y+PIXEL_SIZE<=SCREEN_SIZE_HEIGHT/2)
                         moveIA(sf::Vector2f(0, PIXEL_SIZE));
+                    playerPlaying->setMovementRemaining(0);
                 }
                 IA_Aim();
                 break;
@@ -171,6 +170,7 @@ void SceneGame::handleAITurn()
                 {
                     if(playerPlaying->getPosition().x+PIXEL_SIZE<=SCREEN_SIZE_WIDTH/2)
                         moveIA(sf::Vector2f(PIXEL_SIZE, 0));
+                    playerPlaying->setMovementRemaining(0);
                 }
                 IA_Aim();
                 break;
@@ -180,12 +180,17 @@ void SceneGame::handleAITurn()
                 {
                     if(playerPlaying->getPosition().y-PIXEL_SIZE>=(-SCREEN_SIZE_HEIGHT/2))
                      moveIA(sf::Vector2f(0, -PIXEL_SIZE));
+                    playerPlaying->setMovementRemaining(0);
                 }
                 IA_Aim();
                 break;
             }
             default: break;
         }
+    window.clear(GameManager::Instance->getClearColor());
+    window.draw(mapManager);
+    window.draw(hud);
+    window.display();
 }
 
 void SceneGame::moveIA(sf::Vector2f vec) {
@@ -422,36 +427,39 @@ void SceneGame::updatePlayerHUD()
 
 SceneGame::~SceneGame()
 {
-    GameManager::Instance->getWindow().setView(
-            GameManager::Instance->getWindow().getDefaultView());
+    GameManager::Instance->getWindow().setView(GameManager::Instance->getWindow().getDefaultView());
 }
 
 void SceneGame::IA_Aim() {
-    Player* whoPlay=playerPlaying;
-
-    sf::Vector2i *playerPos = new sf::Vector2i((whoPlay == p1 ? p2 : p1)->getPosition());
-
-    if(checkPlayerSight())//Permet de savoir si le joueur voit l'autre joueur
+    if(checkPlayerSight())
     {
-        playerPlaying->toggleAiming();
-        playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
-        playerPlaying->setIsAiming(false);
-        mapManager.collisionAimCheck(*playerPlaying);
-        //Met à jour la vie des joueurs
-        if(playerPlaying==p1)
-        {
-            p2->takeDamage(p2->getPowerInUse());
-            std::cout<<"P1 Shot on P2"<<" Vie restante de l'autre joueur:"<<!playerPlaying->getHealth()<<std::endl;
-        }
+        if(isPlayer1Turn)
+            p2->setToBeDrawn(true);
         else
-        {
-            p2->takeDamage(p2->getPowerInUse());
-            std::cout<<"P2 Shot on P1"<<" Vie restante de l'autre joueur:"<<!playerPlaying->getHealth()<<std::endl;
-        }
-        changePlayerTurn();
-
+            p1->setToBeDrawn(true);
     }
 
+    if(p1->getToBeDrawn() && p2->getToBeDrawn())//Permet de savoir si le joueur voit l'autre joueur
+    {
+        playerPlaying->toggleAiming();
+        sf::Vector2i *playerPos = new sf::Vector2i((isPlayer1Turn ? p2 : p1)->getPosition());
+        playerPlaying->updateAimingLine(window.mapPixelToCoords(*playerPos));
+        if(playerPlaying->getHealth()>playerPlaying->getPowerInUse())
+        {
+            playerPlaying->setIsAiming(false);
+            mapManager.collisionAimCheck(*playerPlaying);
+            changePlayerTurn();
+            if(isPlayer1Turn)
+            {
+                std::cout<<"P1 Shot on P2"<<" Vie restante de P2:"<<p2->getHealth()<<std::endl;
+            }
+            else
+            {
+                std::cout<<"P2 Shot on P1"<<" Vie restante de P1:"<<p1->getHealth()<<std::endl;
+            }
+        } else changePlayerTurn();
+    }
+/*
     else//Dans l'autre cas le joueur tire autre part sur la map
     {
         sf::Vector2i *anotherPos=new sf::Vector2i((playerPlaying->getPosition().x)+2*PIXEL_SIZE,(playerPlaying->getPosition().y)+2*PIXEL_SIZE);
@@ -459,12 +467,11 @@ void SceneGame::IA_Aim() {
         playerPlaying->updateAimingLine(window.mapPixelToCoords(*anotherPos));
         playerPlaying->setIsAiming(false);
         mapManager.collisionAimCheck(*playerPlaying);
-        //mise à jour de la vie
-        playerPlaying->takeDamage(playerPlaying->getPowerInUse());
         if(playerPlaying==p1)
             std::cout<<"P1 Shot in another way"<<" Vie restante:"<<playerPlaying->getHealth()<<std::endl;
         else
             std::cout<<"P2 Shot in another way"<<" Vie restante:"<<playerPlaying->getHealth()<<std::endl;
         changePlayerTurn();
-    }
+    }*/
+    else changePlayerTurn();
 }
