@@ -155,10 +155,10 @@ void SceneGame::handleAITurn()
                 IA_Aim();
                 break;
             }
-            case 2:{//Deplacement Haut
+            case 2:{//Deplacement Bas
                 while(playerPlaying->getMovementRemaining())
                 {
-                    if(playerPlaying->getPosition().y+PIXEL_SIZE<=SCREEN_SIZE_HEIGHT/2)
+                    if(playerPlaying->getPosition().y+PIXEL_SIZE<SCREEN_SIZE_HEIGHT/2)
                         moveIA(sf::Vector2f(0, PIXEL_SIZE));
                     playerPlaying->setMovementRemaining(0);
                 }
@@ -168,14 +168,14 @@ void SceneGame::handleAITurn()
             case 3: {//Deplacement Droite
                 while(playerPlaying->getMovementRemaining())
                 {
-                    if(playerPlaying->getPosition().x+PIXEL_SIZE<=SCREEN_SIZE_WIDTH/2)
+                    if(playerPlaying->getPosition().x+PIXEL_SIZE<SCREEN_SIZE_WIDTH/2)
                         moveIA(sf::Vector2f(PIXEL_SIZE, 0));
                     playerPlaying->setMovementRemaining(0);
                 }
                 IA_Aim();
                 break;
             }
-            case 4: {//Deplacement Bas
+            case 4: {//Deplacement Haut
                 while(playerPlaying->getMovementRemaining())
                 {
                     if(playerPlaying->getPosition().y-PIXEL_SIZE>=(-SCREEN_SIZE_HEIGHT/2))
@@ -448,16 +448,20 @@ void SceneGame::IA_Aim() {
         {
             playerPlaying->setIsAiming(false);
             mapManager.collisionAimCheck(*playerPlaying);
-            changePlayerTurn();
             if(isPlayer1Turn)
             {
-                std::cout<<"P1 Shot on P2"<<" Vie restante de P2:"<<p2->getHealth()<<std::endl;
+                std::cout<<"P1 Shot on P2"<<std::endl;
             }
             else
             {
-                std::cout<<"P2 Shot on P1"<<" Vie restante de P1:"<<p1->getHealth()<<std::endl;
+                std::cout<<"P2 Shot on P1"<<std::endl;
             }
-        } else changePlayerTurn();
+            changePlayerTurn();
+        } else
+        {
+            playerPlaying->setIsAiming(false);
+            changePlayerTurn();
+        }
     }
 /*
     else//Dans l'autre cas le joueur tire autre part sur la map
