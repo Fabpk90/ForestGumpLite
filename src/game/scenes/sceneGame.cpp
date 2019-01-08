@@ -365,7 +365,6 @@ void SceneGame::checkForPlayerTurning(int AITurning)
 		{
 			playerPlaying->setOrientation(Player::UP);
 			
-			std::cout << playerPlaying->getPosition().x << std::endl;
 			playerPlaying->getSprite().setTextureRect(sf::IntRect(0,32,32,32));
 			
 		}
