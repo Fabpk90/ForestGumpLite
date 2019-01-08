@@ -1,7 +1,3 @@
-//
-// Created by fab on 10/12/2018.
-//
-
 #include "OrientedBoundingBox.h"
 
 void OrientedBoundingBox::ProjectOntoAxis(const sf::Vector2f &Axis, float &Min, float &Max)

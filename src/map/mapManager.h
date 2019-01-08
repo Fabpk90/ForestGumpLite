@@ -18,11 +18,10 @@ class MapManager : public sf::Drawable
 private:
     list<Actor*> actorList;
 
-    //used for drawing the net on the map
+    /// used for drawing the net on the map
     sf::VertexArray lineVertexPoints;
 
-    //TODO: long-term, add all the sprite somewhere and only reference them by the actor, to save up some mem
-
+    /// Loads the lines drawing the pixels
     void loadLines();
 
     bool drawLines;
@@ -30,7 +29,7 @@ private:
 public:
     ~MapManager() override;
 
-    explicit MapManager(const char *path);
+    MapManager(const char *path);
     MapManager();
 
     /// Loads the map into the manager
@@ -38,6 +37,8 @@ public:
     /// \return Whether or not the map has been successfully loaded
     bool loadMapFromFile(const char *path);
 
+    /// Gets a free position in the map
+    /// \return The free position, represented by a Vector2D
     sf::Vector2f getFreePosition();
 
     /// Adds an actor in the map
@@ -56,6 +57,9 @@ public:
 
     void setDrawLines(bool drawLines) { this->drawLines = drawLines; }
 
+    /// Checks if the given position is not occupied
+    /// \param pos The position to check for
+    /// \return whether the position is occupied
     bool getIsPositionFree(sf::Vector2f pos);
 };
 

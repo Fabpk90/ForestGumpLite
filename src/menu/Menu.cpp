@@ -122,7 +122,7 @@ void Menu::loadMapList()
 
 bool Menu::askForMap()
 {
-    if(mapList.size() == 0)
+    if(mapList.empty())
     {
         std::cout << "Aucune map n'est presente, passer par l'editeur avant" << std::endl;
         return false;
@@ -134,7 +134,6 @@ bool Menu::askForMap()
     {
         std::cout << i+1 <<" " << mapList[i] << std::endl;
     }
-
 
     while(mapNum == -1)
     {
@@ -172,5 +171,6 @@ bool Menu::askForMap()
         }
     }
 
+    return false;
 }
 

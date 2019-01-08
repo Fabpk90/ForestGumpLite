@@ -19,17 +19,17 @@ private:
 
     bool shouldBeDrawn;
 
-    //the power of the weapon
+    /// the power of the weapon
     int powerMax;
-    //power in use in this turn
+    /// power in use in this turn
     int powerInUse;
     bool isPlayer1;
 
     int orientation;
 
-    //For drawing the aiming line
+    ///For drawing the aiming line
     sf::VertexArray aimingLineVertexArray;
-
+    /// For drawing the circle of impact of the aim
     sf::CircleShape aimingCircle;
 
     bool canShoot;
@@ -42,11 +42,13 @@ private:
 
     HUDManager& hud;
 
-    //loads the lines in the vertex array, the position is by default the position of the player
+    /// Loads the lines in the vertex array, the position is by default the position of the player
     void loadAimingLine();
 
+    /// Updates the ui power of the preparing shot
     void updatePowerText(sf::Vector2f mousePosition, int power);
 
+    /// Updates the circle of damage
     void updateAimingCircle();
 
 public:
@@ -67,6 +69,7 @@ public:
     void onDie() override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    /// Updates the aiming line with the passed position as the tip of the aim
     void updateAimingLine(sf::Vector2f position);
 
     int getMaxHealth() { return  maxHealth; }
@@ -77,6 +80,9 @@ public:
     void setOrientation(EDirection direction);
     int getOrientation() { return orientation; }
 
+    /// Checks if the angle is in the field of view
+    /// \param angleAmount The angle to check
+    /// \return whether the angle is in the field of view
     bool isAngleValid(float angleAmount);
 
     void setIsAiming(bool aiming);

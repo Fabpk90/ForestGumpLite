@@ -16,27 +16,35 @@ private:
     sf::Font font;
     //handled from 0 -> upper text n -> lower
     sf::Text menuText[MENU_MAIN_ITEMS];
+
+    //the sprite and texture of the background
     sf::Sprite sprite;
     sf::Texture texture;
 
     bool isModeSelected;
+    /// which map is selected, to be used with mapList
     int mapSelected;
-
 
     std::vector<std::string> mapList;
 
+    /// Loads the list of map's name from the directory
     void loadMapList();
 
 public:
     Menu(float width, float height);
 
+    /// Moves up in the menu list
     void MoveUp();
+    /// Moves down in the menu list
     void MoveDown();
-    int getItem() {return itemSelected;}
+
+    int getSelectedItem() {return itemSelected;}
     std::string getStringMapSelected() { return mapList[mapSelected]; }
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    /// Asks the user to choose from the map list
+    /// \return if the user has chose(true) or if it wants to go back(false)
     bool askForMap();
 
     ~Menu();
