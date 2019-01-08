@@ -47,6 +47,7 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
 
     sightRectangle.setSize(sf::Vector2f(2, SCREEN_SIZE_WIDTH));
 
+    playerPlaying = p2;
     isPlayer1Turn = false;
     changePlayerTurn();
 }
@@ -370,26 +371,26 @@ void SceneGame::checkForPlayerTurning(int AITurning)
 		{
 			playerPlaying->setOrientation(Player::UP);
 			//We change the origin of the sprite to compensate for the rotation
-			playerPlaying->getSprite().setOrigin(32,0);
+			//playerPlaying->getSprite().setOrigin(32,0);
 			playerPlaying->getSprite().setRotation(-90.f);
 			
 		}
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)  || AITurning == 3)
         {
 			playerPlaying->setOrientation(Player::RIGHT);
-			playerPlaying->getSprite().setOrigin(0,0);
+			//playerPlaying->getSprite().setOrigin(0,0);
 			playerPlaying->getSprite().setRotation(0.f);
 		}
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)  || AITurning == 2)
 		{
 			playerPlaying->setOrientation(Player::DOWN);
-			playerPlaying->getSprite().setOrigin(0,32);
+			//playerPlaying->getSprite().setOrigin(0,32);
 			playerPlaying->getSprite().setRotation(90.f);
 		}
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)  || AITurning == 1)
         {
 			playerPlaying->setOrientation(Player::LEFT);
-			playerPlaying->getSprite().setOrigin(32,32);
+			//playerPlaying->getSprite().setOrigin(32,32);
 			playerPlaying->getSprite().setRotation(180.f);
 		}
 		
