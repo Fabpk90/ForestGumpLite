@@ -28,22 +28,16 @@ SceneGame::SceneGame(const char* mapPath, const char* player1ImgPath
     p2 = new Player(player2ImgPath, 10, false, hud);
 
     p1->setPosition(mapManager.getFreePosition());
-    //p1->setPosition(sf::Vector2f(0*PIXEL_SIZE,0*PIXEL_SIZE));
     p1->setOrientation(Player::UP);
-    //Compensate the rotation
-	p1->getSprite().setOrigin(32,0);
-	p1->getSprite().setRotation(-90.f);
+	p1->getSprite().setTextureRect(sf::IntRect(0,32,32,32));
 
     mapManager.addActor(p1);
 
     p2->setPosition(mapManager.getFreePosition());
-    //p2->setPosition(sf::Vector2f(-5*PIXEL_SIZE, 6*PIXEL_SIZE));
     p2->setOrientation(Player::DOWN);
-    p2->getSprite().setOrigin(0,32);
-	p2->getSprite().setRotation(90.f);
+    p2->getSprite().setTextureRect(sf::IntRect(32,0,32,32));
+    
     mapManager.addActor(p2);
-
-    //mapManager.setDrawLines(true);
 
     sightRectangle.setSize(sf::Vector2f(2, SCREEN_SIZE_WIDTH));
 
@@ -250,12 +244,12 @@ bool SceneGame::checkPlayerSight()
     sf::Vector2f endPos = otherPlayer.getPosition();
 
     //centering the pos to the center of the player sprite
-    startPos.x += playerPlaying->getSprite().getTexture()->getSize().x >> 1;
-    startPos.y += playerPlaying->getSprite().getTexture()->getSize().y >> 1;
+    startPos.x += (playerPlaying->getSprite().getTexture()->getSize().x >> 2);
+    startPos.y += (playerPlaying->getSprite().getTexture()->getSize().y >> 2);
 
     //centering the pos to the center of the other player sprite
-    endPos.x += otherPlayer.getSprite().getTexture()->getSize().x >> 1;
-    endPos.y += otherPlayer.getSprite().getTexture()->getSize().y >> 1;
+    endPos.x += (otherPlayer.getSprite().getTexture()->getSize().x >> 2);
+    endPos.y += (otherPlayer.getSprite().getTexture()->getSize().y >> 2);
 
     //normalizing end pos to compute angle
     endPos.x -= startPos.x;
@@ -370,28 +364,25 @@ void SceneGame::checkForPlayerTurning(int AITurning)
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || AITurning == 4)
 		{
 			playerPlaying->setOrientation(Player::UP);
-			//We change the origin of the sprite to compensate for the rotation
-			//playerPlaying->getSprite().setOrigin(32,0);
-			playerPlaying->getSprite().setRotation(-90.f);
+			
+			std::cout << playerPlaying->getPosition().x << std::endl;
+			playerPlaying->getSprite().setTextureRect(sf::IntRect(0,32,32,32));
 			
 		}
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)  || AITurning == 3)
         {
 			playerPlaying->setOrientation(Player::RIGHT);
-			//playerPlaying->getSprite().setOrigin(0,0);
-			playerPlaying->getSprite().setRotation(0.f);
+			playerPlaying->getSprite().setTextureRect(sf::IntRect(0,0,32,32));
 		}
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)  || AITurning == 2)
 		{
 			playerPlaying->setOrientation(Player::DOWN);
-			//playerPlaying->getSprite().setOrigin(0,32);
-			playerPlaying->getSprite().setRotation(90.f);
+			playerPlaying->getSprite().setTextureRect(sf::IntRect(32,0,32,32));
 		}
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)  || AITurning == 1)
         {
 			playerPlaying->setOrientation(Player::LEFT);
-			//playerPlaying->getSprite().setOrigin(32,32);
-			playerPlaying->getSprite().setRotation(180.f);
+			playerPlaying->getSprite().setTextureRect(sf::IntRect(32,32,32,32));
 		}
 		
 	//After turning we check whether or not to draw the other player

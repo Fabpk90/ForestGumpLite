@@ -99,8 +99,8 @@ void Player::updateAimingLine(sf::Vector2f position)
     sf::Vector2f pos = sprite.getPosition();
 
     //centering the pos to the center of the player sprite
-    pos.x += sprite.getTexture()->getSize().x >> 1;
-    pos.y += sprite.getTexture()->getSize().y >> 1;
+    pos.x += sprite.getTexture()->getSize().x >> 2;
+    pos.y += sprite.getTexture()->getSize().y >> 2;
 
     aimingLineVertexArray[0].position = pos;
 
