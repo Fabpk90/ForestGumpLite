@@ -124,11 +124,10 @@ void Player::updateAimingLine(sf::Vector2f position)
         float power = VectorHelper::getLength(aimingLineVertexArray[0].position - position)
                 / PIXEL_SIZE;
 
-
         aimingLineVertexArray[1].position = position;
 
         if(power >= 1 && power < PLAYER_MAX_POWER +1
-        && isAiming)
+        && isAiming && power - health >= 1)
         {
             powerInUse = (int)power;
             canShoot = true;
@@ -258,6 +257,5 @@ void Player::takeSelfDamage(int amount)
 
 Player::~Player()
 {
-    std::cout << "player desctruct" << std::endl;
 }
 

@@ -59,7 +59,7 @@ public:
     };
 
     Player(const char* path, int health, bool isPlayer1, HUDManager& hud);
-    ~Player();
+    ~Player() override;
 
     bool takeDamage(int amount) override;
     void takeSelfDamage(int amount);
