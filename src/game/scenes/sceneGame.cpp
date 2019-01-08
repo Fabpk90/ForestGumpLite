@@ -92,6 +92,8 @@ void SceneGame::update()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            if(event.type==sf::Event::KeyPressed && sf::Keyboard::isKeyPressed((sf::Keyboard::P))) changePlayerTurn();
+
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && playerPlaying->getIsAiming()
